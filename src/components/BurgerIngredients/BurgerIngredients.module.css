@@ -1,0 +1,19 @@
+.BurgerIngredients {
+  width: 100%;
+  max-width: 600px;
+  height: 100vh;
+  max-height: 912px;
+  overflow-y: auto;
+  border: 1px solid red;
+}
+
+.ingredientsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: auto;
+}
+
+#el::-webkit-scrollbar {
+  width: 4px;
+  background-color: #f9f9fd;
+}

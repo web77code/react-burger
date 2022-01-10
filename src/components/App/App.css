@@ -4,3 +4,10 @@
   min-width: 320px;
   margin: 0 auto;
 }
+
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
