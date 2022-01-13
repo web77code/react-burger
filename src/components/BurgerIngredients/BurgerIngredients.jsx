@@ -1,83 +1,50 @@
 import React from 'react';
-import { Tab, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngridientsElement from '../IngridientsElement/IngridientsElement';
+
 import styles from './BurgerIngredients.module.css';
 
 const BurgerIngredients = () => {
-  const stylesscroll = {
-    menuList: (base) => ({
-      ...base,
-  
-      "::-webkit-scrollbar": {
-        width: "4px",
-        height: "0px",
-      },
-      "::-webkit-scrollbar-track": {
-        background: "#f1f1f1"
-      },
-      "::-webkit-scrollbar-thumb": {
-        background: "#888"
-      },
-      "::-webkit-scrollbar-thumb:hover": {
-        background: "#555"
-      }
-    })
-  }
 
   const [current, setCurrent] = React.useState('one')
 
     return (
-      <section className={"mr-10 " + styles.BurgerIngredients} id="#el">
-        <h1>Соберите бургер</h1>
+      <section className={"mr-10 pt-10 " + styles.BurgerIngredients}>
+        <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
 
         <div style={{ display: 'flex' }}>
           <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-            One
+            Булки
           </Tab>
           <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-            Two
+            Соусы
           </Tab>
           <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-            Three
+            Начинки
           </Tab>
         </div>
 
-        <h2>Булки</h2>
-          <div className={styles.ingredientsContainer}>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-02.png" className={styles.image} alt="Краторная булка N-200i" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Краторная булка N-200i</h3>
-            </div>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-01.png" className={styles.image} alt="Флюоресцентная булка R2-D3" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Флюоресцентная булка R2-D3</h3>
-            </div>
+        <div className={"mt-10 " + styles.ingredientsContainer}>
+
+          <h2 className="text text_type_main-medium">Булки</h2>
+
+          <div className={"pt-6 pr-2 pb-10 pl-4 " + styles.ingredientsGroup}>
+            <IngridientsElement name="Краторная булка N-200i" price="20" image="https://code.s3.yandex.net/react/code/bun-02.png" />
+            <IngridientsElement name="Флюоресцентная булка R2-D3" price="20" image="https://code.s3.yandex.net/react/code/bun-01.png" />
           </div>
           
-        <h2>Соусы</h2> 
-          <div className={styles.ingredientsContainer}>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-02.png" className={styles.image} alt="Краторная булка N-200i" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Краторная булка N-200i</h3>
-            </div>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-01.png" className={styles.image} alt="Флюоресцентная булка R2-D3" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Флюоресцентная булка R2-D3</h3>
-            </div>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-02.png" className={styles.image} alt="Краторная булка N-200i" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Краторная булка N-200i</h3>
-            </div>
-            <div className="ingridient">
-              <img src="https://code.s3.yandex.net/react/code/bun-01.png" className={styles.image} alt="Флюоресцентная булка R2-D3" />
-              <div className={styles.price}>20</div>
-              <h3 className={styles.name}>Флюоресцентная булка R2-D3</h3>
-            </div>
+          <h2 className="text text_type_main-medium">Соусы</h2> 
+
+          <div className={"pt-6 pr-2 pb-10 pl-4 " + styles.ingredientsGroup}>
+            <IngridientsElement name="Краторная булка N-200i" price="20" image="https://code.s3.yandex.net/react/code/bun-02.png" />
+            <IngridientsElement name="Флюоресцентная булка R2-D3" price="20" image="https://code.s3.yandex.net/react/code/bun-01.png" />
+            <IngridientsElement name="Краторная булка N-200i" price="20" image="https://code.s3.yandex.net/react/code/bun-02.png" />
+            <IngridientsElement name="Флюоресцентная булка R2-D3" price="20" image="https://code.s3.yandex.net/react/code/bun-01.png" />
           </div>
+
+        </div>
+        
       </section>
     );
   
