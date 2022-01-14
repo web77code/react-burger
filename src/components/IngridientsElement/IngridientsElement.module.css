@@ -1,7 +1,30 @@
 .ingridient {
-  max-width: 272px;
+  width: 272px;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .image {
+  width: 240px;
+  height: 120px;
+  object-fit: cover;
+
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+}
+
+.price {
+  margin-right: 9px;
+}
+
+.name {
   width: 100%;
+  height: 100%;
+  max-height: 48px;
+  text-align: center;
 }
