@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsElement from '../IngridientsElement/IngridientsElement';
+import IngridientsElement from '../ingridients-element/ingridients-element';
 
-import styles from './BurgerIngredients.module.css';
+import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = () => {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './HeaderButton.module.css';
+import styles from './header-button.module.css';
 
 const HeaderButton = (props) => {
   let buttonTextStyle = "ml-2 text text_type_main-default";

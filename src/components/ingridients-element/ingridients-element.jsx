@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingridientStyles from './IngridientsElement.module.css';
+import ingridientStyles from './ingridients-element.module.css';
 
 class IngridientsElement extends React.Component {
   render () {
