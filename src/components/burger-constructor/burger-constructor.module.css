@@ -1,7 +1,7 @@
 .BurgerConstructor {
   width: 100%;
   max-width: 600px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   box-sizing: border-box;
   height: 100vh;
   max-height: 912px;
@@ -13,7 +13,7 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .priceContainer {
