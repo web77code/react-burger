@@ -1,7 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
 }
 
 .element {
@@ -10,5 +9,6 @@
   flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: center;
-  /* border: 1px solid red; */
+  width: calc(100% - 16px);
+  box-sizing: border-box;
 }

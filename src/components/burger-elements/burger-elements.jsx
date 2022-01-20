@@ -21,7 +21,7 @@ function BurgerElements(props) {
   return (
       <div className={styles.container}>
 
-        <div className={"mb-4 " + styles.element}>
+        <div className={"mb-4 pl-8 " + styles.element}>
             <ConstructorElement
               type='top'
               isLocked={fixedElements[0].isLocked}
@@ -33,7 +33,7 @@ function BurgerElements(props) {
 
         <DragAndDrop elements={movableElements} />
 
-        <div className={"mt-4 " + styles.element}>
+        <div className={"mt-4 pl-8 " + styles.element}>
             <ConstructorElement
               type='bottom'
               isLocked={fixedElements[1].isLocked}

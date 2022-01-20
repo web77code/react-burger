@@ -63,7 +63,7 @@ export const allIngridients = [
     fat: 244,
     carbohydrates: 33,
     calories: 420,
-    price: 1337,
+    price: 300,
     image: 'https://code.s3.yandex.net/react/code/meat-02.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/meat-02-large.png',
