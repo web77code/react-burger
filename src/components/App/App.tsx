@@ -1,16 +1,15 @@
-import React from 'react';
-
-import './app.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import styles from './app.module.css';
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
+    <div className={styles.app}>
       <AppHeader />
       
-      <main className="content">
+      <main className={styles.content}>
         <BurgerIngredients />
         <BurgerConstructor />
       </main>
