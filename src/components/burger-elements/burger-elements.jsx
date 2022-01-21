@@ -13,8 +13,17 @@ const BurgerElements = props => {
 
   const getData = id => allIngridients.find((el) => el._id === id);
 
-  const fixed = props.fixedElements.map(el => getData(el.id));
-  const mobility = props.mobilityElements.map(el => getData(el.id));
+  const fixed = props.fixedElements.map(el => {
+    const obj = getData(el.id);
+    obj.isLocked = true;
+    return obj;
+  });
+
+  const mobility = props.mobilityElements.map(el => {
+    const obj = getData(el.id);
+    obj.isLocked = false;
+    return obj;
+  });
 
   return (
     <div className={styles.container}>
@@ -22,7 +31,7 @@ const BurgerElements = props => {
         <ConstructorElement
           type="top"
           isLocked={fixed[0].isLocked}
-          text={fixed[0].name}
+          text={fixed[0].name + '(верх)'}
           price={fixed[0].price}
           thumbnail={fixed[0].image}
         />
@@ -34,7 +43,7 @@ const BurgerElements = props => {
         <ConstructorElement
           type="bottom"
           isLocked={fixed[1].isLocked}
-          text={fixed[1].name}
+          text={fixed[1].name + '(низ)'}
           price={fixed[1].price}
           thumbnail={fixed[1].image}
         />

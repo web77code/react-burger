@@ -53,11 +53,13 @@ const BurgerIngredients = () => {
               <h2 className="text text_type_main-medium">{basicTypes[el]}</h2>
               <div className={'pt-6 pr-2 pb-10 pl-4 ' + styles.ingredientsGroup}>
                 {ingredientsOneType.map((el, i) => {
+                  
                   let count = undefined;
                   if (i === 0) count = 1;
 
                   return (
                     <IngridientsElement
+                      key={el._id}
                       name={el.name}
                       price={el.price}
                       image={el.image}
