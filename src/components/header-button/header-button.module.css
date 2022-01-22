@@ -1,0 +1,6 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: 40px;
+}
