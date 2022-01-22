@@ -1,10 +1,10 @@
 import React from 'react';
-import { allIngridients } from '../../utils/data.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientsElement from '../ingridients-element/ingridients-element';
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = (props) => {
+
   const [current, setCurrent] = React.useState('one');
   const [types, setTypes] = React.useState([]);
   const [basicTypes] = React.useState({
@@ -14,12 +14,12 @@ const BurgerIngredients = () => {
   });
 
   React.useEffect(() => {
-    getTypes();
+    getTypes(); 
   }, []);
 
   const getTypes = () => {
     const arr = [];
-    allIngridients.forEach((el) => {
+    props.data.forEach((el) => {
       if (!arr.includes(el.type)) {
         arr.push(el.type);
       }
@@ -46,7 +46,7 @@ const BurgerIngredients = () => {
 
       <div className={'mt-10 ' + styles.ingredientsContainer}>
         {types.map((el, index) => {
-          const ingredientsOneType = allIngridients.filter((data) => data.type === el);
+          const ingredientsOneType = props.data.filter((data) => data.type === el);
 
           return (
             <li key={index}>

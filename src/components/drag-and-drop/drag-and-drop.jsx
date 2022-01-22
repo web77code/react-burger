@@ -5,7 +5,7 @@ import styles from './drag-and-drop.module.css';
 const DragAndDrop = props => {
 
   DragAndDrop.propTypes = {
-    elements: PropTypes.object
+    elements: PropTypes.array
   };
 
   return (

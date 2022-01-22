@@ -1,25 +1,31 @@
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { allIngridients } from '../../utils/data.js';
 import { constructorState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = () => {
+const BurgerConstructor = (props) => {
+  const ingridients = props.data;
+
   const getSum = () => {
     let sum = 0;
+
     constructorState.forEach((item) => {
-      sum += allIngridients.find((el) => el._id === item.id).price;
+      sum += ingridients.find((el) => el._id === item.id).price;
     });
 
     return sum;
   };
 
+  const fixedElements = constructorState
+    .filter((el) => el.isLocked)
+    .map((i) => ingridients.find((ingredient) => ingredient._id === i.id));
+  const mobilityElements = constructorState
+    .filter((el) => !el.isLocked)
+    .map((i) => ingridients.find((ingredient) => ingredient._id === i.id));
+
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
-      <BurgerElements
-        fixedElements={constructorState.filter((el) => el.isLocked)}
-        mobilityElements={constructorState.filter((el) => !el.isLocked)}
-      />
+      <BurgerElements fixedElements={fixedElements} mobilityElements={mobilityElements} />
 
       <div className={'mt-10 pr-4 ' + styles.orderSection}>
         <div className={'mr-10 ' + styles.priceContainer}>
