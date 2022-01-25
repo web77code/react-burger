@@ -1,5 +1,9 @@
 import React from 'react';
 import { apiConfig } from '../../utils/constants';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -35,6 +39,11 @@ const App = () => {
 
   return (
     <div className={styles.app}>
+      <ModalOverlay />
+      <Modal>
+        {/* <IngredientDetails /> */}
+        <OrderDetails />
+      </Modal>
       <AppHeader />
       {isLoading && <h2>Загрузка...</h2>}
       {hasError && <h2>Ошибка</h2>}
