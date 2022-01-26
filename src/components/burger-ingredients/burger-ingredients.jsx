@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientsElement from '../ingridients-element/ingridients-element';
 import styles from './burger-ingredients.module.css';
@@ -26,6 +27,11 @@ const BurgerIngredients = (props) => {
     });
 
     setTypes(arr);
+  };
+
+  BurgerIngredients.propTypes = {
+    data: PropTypes.array,
+    openPopupWindow: PropTypes.func,
   };
 
   return (
@@ -60,10 +66,12 @@ const BurgerIngredients = (props) => {
                   return (
                     <IngridientsElement
                       key={el._id}
+                      id={el._id}
                       name={el.name}
                       price={el.price}
                       image={el.image}
                       count={count}
+                      openPopupWindow={props.openPopupWindow}
                     />
                   );
                 })}

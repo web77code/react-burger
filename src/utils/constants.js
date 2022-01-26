@@ -1,6 +1,6 @@
-export const apiConfig = {
-  baseUrl: 'https://norma.nomoreparties.space/api/ingredients',
-  headers: {
+export const CONFIG = {
+  BASE_URL: 'https://norma.nomoreparties.space/api',
+  HEADERS: {
     'Content-Type': 'application/json'
   }
 }

@@ -1,10 +1,17 @@
+import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructorState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = (props) => {
+
   const ingridients = props.data;
+
+  BurgerConstructor.propTypes = {
+    data: PropTypes.array,
+    openPopupWindow: PropTypes.func,
+  };
 
   const getSum = () => {
     let sum = 0;
@@ -32,7 +39,7 @@ const BurgerConstructor = (props) => {
           <p className={'text text_type_digits-medium ' + styles.price}>{getSum()}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large"  onClick={(e) => props.openPopupWindow('',e)}>
           Оформить заказ
         </Button>
       </div>

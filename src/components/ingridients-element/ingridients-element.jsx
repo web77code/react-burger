@@ -5,14 +5,16 @@ import styles from './ingridients-element.module.css';
 const IngridientsElement = props => {
 
   IngridientsElement.propTypes = {
+    id: PropTypes.string,
     name: PropTypes.string,
     price: PropTypes.number,
     image: PropTypes.string,
-    count: PropTypes.number
+    count: PropTypes.number,
+    openPopupWindow: PropTypes.func,
   };
 
   return (
-    <div className={styles.ingridient}>
+    <div className={styles.ingridient} onClick={(e) => props.openPopupWindow(props.id,e)}>
       {props.count && <Counter count={props.count} size="default" />}
       <img src={props.image} className={'mb-1 ' + styles.image} alt={props.name} />
       <div className={'mb-1 ' + styles.priceContainer}>

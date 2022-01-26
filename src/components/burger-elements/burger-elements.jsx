@@ -4,6 +4,7 @@ import DragAndDrop from '../drag-and-drop/drag-and-drop';
 import styles from './burger-elements.module.css';
 
 const BurgerElements = (props) => {
+  
   BurgerElements.propTypes = {
     fixedElements: PropTypes.array,
     mobilityElements: PropTypes.array,

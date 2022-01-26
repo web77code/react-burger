@@ -2,9 +2,10 @@ import doneIconPath from '../../images/done.svg'
 import styles from './order-details.module.css';
 
 const OrderDetails = () => {
+
   return (
     <div className={styles.container + " mt-30 mb-30"}>
-      <h2 className="text text_type_digits-large mb-8">034536</h2>
+      <h2 className={styles.orderNumber + " text text_type_digits-large mb-8"}>034536</h2>
       <h3 className="text text_type_main-medium mb-15">идентификатор заказа</h3>
       <img  className="mb-15" src={doneIconPath} alt=""></img>
       <p className="text text_type_main-default mb-2">Ваш заказ начали готовить</p>

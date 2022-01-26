@@ -22,7 +22,7 @@
 }
 
 .item {
-  color: #8585AD;
+  color: var(--text-inactive-color);
   height: 56px;
   display: flex;
   flex-direction: column;
