@@ -4,3 +4,9 @@ export const CONFIG = {
     'Content-Type': 'application/json'
   }
 }
+
+export const BASIC_TYPES = {
+  bun: 'Булки',
+  main: 'Начинки',
+  sauce: 'Соусы'
+}

@@ -20,15 +20,13 @@ const Modal = (props) => {
 
   return ReactDOM.createPortal(
     (
-      <>
-      <div className={styles.modal}>
-        <ModalOverlay closePopupWindow={props.closePopupWindow} />
-        <div className={styles.container}>
-            <button className={styles.closeButton} onClick={props.closePopupWindow}></button>
-            {props.children}
-          </div>
-      </div>
-      </>
+    <div className={styles.modal}>
+      <ModalOverlay closePopupWindow={props.closePopupWindow} />
+      <div className={styles.container}>
+          <button className={styles.closeButton} onClick={props.closePopupWindow}></button>
+          {props.children}
+        </div>
+    </div>
     ),
     document.getElementById('react-modals')
   );
