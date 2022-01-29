@@ -26,3 +26,7 @@
   grid-row-gap: 32px;
   box-sizing: border-box;
 }
+
+li {
+  list-style: none;
+}
