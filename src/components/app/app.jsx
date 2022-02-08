@@ -42,7 +42,6 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setIngredients({
-          ...ingredients,
           hasError: !res.success,
           data: res.data,
           isLoading: false,
@@ -63,14 +62,38 @@ function App() {
 
   function handleOpenModal(id, e) {
     if (e.currentTarget.type === "submit") {
-      setModals({ 
-        visible: true, 
-        detailsModal: false, 
-        orderModal: true 
-      });
+      fetch(`${CONFIG.BASE_URL}/orders`, {
+        method: 'POST',
+        headers: CONFIG.HEADERS,
+        body: JSON.stringify({
+          "ingredients": id,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setModals({ 
+            visible: true, 
+            detailsModal: false, 
+            orderModal: true,
+            data: res.order.number,
+          });
+        })
+        .catch((err) => {
+          if (!err.json) {
+            console.error("Что-то пошло не так... :( ");
+          } else {
+            err.json().then((err) => {
+              console.error(err.message);
+            });
+          }
+        })
+        .finally(() => {
+          
+        });
+      
     } else {
       const { name, image_large, calories, proteins, fat, carbohydrates } =
-        data.find((el) => el._id === id);
+        ingredients.data.find((el) => el._id === id);
 
       setModals({
         visible: true,
@@ -107,20 +130,20 @@ function App() {
     }
   }
 
-  const { data, isLoading, hasError } = ingredients;
+  const { isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
       {modals.visible && (
         <Modal closePopupWindow={handleCloseModal}>
           {modals.detailsModal && <IngredientDetails data={modals.data} />}
-          {modals.orderModal && <OrderDetails />}
+          {modals.orderModal && <OrderDetails orderId={modals.data} />}
         </Modal>
       )}
       <AppHeader />
       {isLoading && <ShowLoading />}
       {hasError && <ErrorNotification />}
-      {!isLoading && !hasError && data.length && (
+      {!isLoading && !hasError && ingredients.data.length && (
         <main className={styles.content}>
           <IngredientsContext.Provider value={{ ingredients }}>
             <BurgerIngredients 
