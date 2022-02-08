@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BASIC_TYPES } from '../../utils/constants.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsElement from '../ingridients-element/ingridients-element';
-import { IngridientsContext } from '../../contexts/appContext';
+import IngredientsElement from '../ingredients-element/ingredients-element';
+import { IngredientsContext } from '../../contexts/appContext';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = (props) => {
@@ -11,17 +11,17 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
   const [types, setTypes] = React.useState([]);
 
-  const { ingridients } = React.useContext(IngridientsContext);
+  const { ingredients } = React.useContext(IngredientsContext);
 
   React.useEffect(() => {
     const arr = [];
-    ingridients.data.forEach((el) => {
+    ingredients.data.forEach((el) => {
       if (!arr.includes(el.type)) {
         arr.push(el.type);
       }
     });
     setTypes(arr);
-  }, [ingridients]);
+  }, [ingredients]);
 
   BurgerIngredients.propTypes = {
     openPopupWindow: PropTypes.func,
@@ -45,7 +45,7 @@ const BurgerIngredients = (props) => {
 
       <div className={'mt-10 ' + styles.ingredientsContainer}>
         {types.map((type, index) => {
-          const ingredientsOneType = ingridients.data.filter((data) => data.type === type);
+          const ingredientsOneType = ingredients.data.filter((data) => data.type === type);
 
           return (
             <li key={index}>
@@ -57,7 +57,7 @@ const BurgerIngredients = (props) => {
                   if (i === 0) count = 1;
 
                   return (
-                    <IngridientsElement
+                    <IngredientsElement
                       key={ingredient._id}
                       id={ingredient._id}
                       name={ingredient.name}

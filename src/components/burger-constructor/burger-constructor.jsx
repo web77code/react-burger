@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructorState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
-import { IngridientsContext } from '../../contexts/appContext';
+import { IngredientsContext } from '../../contexts/appContext';
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = ({ openPopupWindow}) => {
 
-  const { ingridients } = React.useContext(IngridientsContext);
+  const { ingredients } = React.useContext(IngredientsContext);
 
   BurgerConstructor.propTypes = {
     openPopupWindow: PropTypes.func,
@@ -18,7 +18,7 @@ const BurgerConstructor = ({ openPopupWindow}) => {
     let sum = 0;
 
     constructorState.forEach((item) => {
-      sum += ingridients.data.find((el) => el._id === item.id).price;
+      sum += ingredients.data.find((el) => el._id === item.id).price;
     });
 
     return sum;
@@ -26,10 +26,10 @@ const BurgerConstructor = ({ openPopupWindow}) => {
 
   const fixedElements = constructorState
     .filter((el) => el.isLocked)
-    .map((i) => ingridients.data.find((ingredient) => ingredient._id === i.id));
+    .map((i) => ingredients.data.find((ingredient) => ingredient._id === i.id));
   const mobilityElements = constructorState
     .filter((el) => !el.isLocked)
-    .map((i) => ingridients.data.find((ingredient) => ingredient._id === i.id));
+    .map((i) => ingredients.data.find((ingredient) => ingredient._id === i.id));
 
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>

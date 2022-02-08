@@ -8,11 +8,11 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import ShowLoading from "../show-loading/show-loading";
 import ErrorNotification from "../error-notification/error-notification";
-import { IngridientsContext } from "../../contexts/appContext";
+import { IngredientsContext } from "../../contexts/appContext";
 import styles from "./app.module.css";
 
 function App() {
-  const [ingridients, setIngridients] = React.useState({
+  const [ingredients, setIngredients] = React.useState({
     isLoading: false,
     hasError: false,
     data: [],
@@ -30,8 +30,8 @@ function App() {
   }, []);
 
   const getData = () => {
-    setIngridients({ 
-      ...ingridients, 
+    setIngredients({ 
+      ...ingredients, 
       hasError: false, 
       isLoading: true 
     });
@@ -41,15 +41,15 @@ function App() {
     })
       .then((res) => res.json())
       .then((res) => {
-        setIngridients({
-          ...ingridients,
+        setIngredients({
+          ...ingredients,
           hasError: !res.success,
           data: res.data,
           isLoading: false,
         });
       })
       .catch((err) => {
-        setIngridients({ ...ingridients, hasError: true, isLoading: false });
+        setIngredients({ ...ingredients, hasError: true, isLoading: false });
 
         if (!err.json) {
           console.error("Что-то пошло не так... :( ");
@@ -107,7 +107,7 @@ function App() {
     }
   }
 
-  const { data, isLoading, hasError } = ingridients;
+  const { data, isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
@@ -122,14 +122,14 @@ function App() {
       {hasError && <ErrorNotification />}
       {!isLoading && !hasError && data.length && (
         <main className={styles.content}>
-          <IngridientsContext.Provider value={{ ingridients }}>
+          <IngredientsContext.Provider value={{ ingredients }}>
             <BurgerIngredients 
               openPopupWindow={handleOpenModal} 
             />
             <BurgerConstructor 
               openPopupWindow={handleOpenModal} 
             />
-          </IngridientsContext.Provider>
+          </IngredientsContext.Provider>
         </main>
       )}
     </div>
