@@ -1,43 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { constructorState } from '../../utils/constructor-state.js';
+import { constructorDefaultState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
 import { IngredientsContext } from '../../contexts/appContext';
 import styles from './burger-constructor.module.css';
+
+function priceReducer(state,action) {
+  switch (action.type) {
+    case 'add':
+      return state += action.price;
+    case 'remove':
+      return state -= action.price;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 const BurgerConstructor = ({ openPopupWindow}) => {
 
   const { ingredients } = React.useContext(IngredientsContext);
 
+  const [state, setState] = React.useState({
+    bun: {},
+    burgerInsides: [],
+  });
+
+  const [burgerPrice, burgerPriceDispatcher] = React.useReducer(priceReducer, 0);
+
   BurgerConstructor.propTypes = {
     openPopupWindow: PropTypes.func,
   };
 
-  const getSum = () => {
-    let sum = 0;
+  React.useEffect(() => {
+    let bun = '';
+    const burgerInsides = [];
 
-    constructorState.forEach((item) => {
-      sum += ingredients.data.find((el) => el._id === item.id).price;
+    constructorDefaultState.forEach((ingredient) => {
+      let ingredientData = ingredients.data.find((el) => el._id === ingredient);
+
+      if(ingredientData.type === 'bun') {
+        if(bun === '') {
+          bun = ingredientData;
+          burgerPriceDispatcher({type: 'add', price: ingredientData.price*2});
+        } else {
+          burgerPriceDispatcher({type: 'remove', price: ingredientData.price*2});
+          bun = ingredientData;
+        }
+      } else {
+        burgerInsides.push(ingredientData);
+        burgerPriceDispatcher({type: 'add', price: ingredientData.price});
+      }
     });
 
-    return sum;
-  };
-
-  const fixedElements = constructorState
-    .filter((el) => el.isLocked)
-    .map((i) => ingredients.data.find((ingredient) => ingredient._id === i.id));
-  const mobilityElements = constructorState
-    .filter((el) => !el.isLocked)
-    .map((i) => ingredients.data.find((ingredient) => ingredient._id === i.id));
+    setState({bun, burgerInsides});
+  }, []);
 
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
-      <BurgerElements fixedElements={fixedElements} mobilityElements={mobilityElements} />
+      <BurgerElements fixedElements={state.bun} mobilityElements={state.burgerInsides} />
 
       <div className={'mt-10 pr-4 ' + styles.orderSection}>
         <div className={'mr-10 ' + styles.priceContainer}>
-          <p className={'text text_type_digits-medium ' + styles.price}>{getSum()}</p>
+          <p className={'text text_type_digits-medium ' + styles.price}>{burgerPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={(e) => openPopupWindow('',e)}>

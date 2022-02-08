@@ -1,12 +1,11 @@
-export const constructorState = [
-  { id: '60d3b41abdacab0026a733c6', isLocked: true },
-  { id: '60d3b41abdacab0026a733ce', isLocked: false },
-  { id: '60d3b41abdacab0026a733c9', isLocked: false },
-  { id: '60d3b41abdacab0026a733d1', isLocked: false },
-  { id: '60d3b41abdacab0026a733d0', isLocked: false },
-  { id: '60d3b41abdacab0026a733d0', isLocked: false },
-  { id: '60d3b41abdacab0026a733cd', isLocked: false },
-  { id: '60d3b41abdacab0026a733d2', isLocked: false },
-  { id: '60d3b41abdacab0026a733d2', isLocked: false },
-  { id: '60d3b41abdacab0026a733c6', isLocked: true },
+export const constructorDefaultState = [
+  '60d3b41abdacab0026a733c6',
+  '60d3b41abdacab0026a733ce',
+  '60d3b41abdacab0026a733c9',
+  '60d3b41abdacab0026a733d1',
+  '60d3b41abdacab0026a733d0',
+  '60d3b41abdacab0026a733d0',
+  '60d3b41abdacab0026a733cd',
+  '60d3b41abdacab0026a733d2',
+  '60d3b41abdacab0026a733d2',
 ];
