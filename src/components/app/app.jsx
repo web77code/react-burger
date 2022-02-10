@@ -20,7 +20,6 @@ function App() {
   });
 
   const [modals, setModals] = React.useState({
-    visible: false,
     detailsModal: false,
     orderModal: false,
     data: {},
@@ -74,8 +73,7 @@ function App() {
         return Promise.reject(res);
       })
       .then((res) => {
-        setModals({ 
-          visible: true, 
+        setModals({  
           detailsModal: false, 
           orderModal: true,
           data: res.order.number,
@@ -98,7 +96,6 @@ function App() {
       ingredients.data.find((el) => el._id === id);
 
     setModals({
-      visible: true,
       detailsModal: true,
       orderModal: false,
       data: { 
@@ -112,18 +109,27 @@ function App() {
     });
   }
   
-  const closeModal = () => setModals({ visible: false, detailsModal: false, orderModal: false, data: {} });
+  const closeModal = () => setModals({ detailsModal: false, orderModal: false, data: {} });
 
   const { isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
-      {modals.visible && (
+
+      {
+        modals.detailsModal && 
         <Modal closeModal={closeModal}>
-          {modals.detailsModal && <IngredientDetails data={modals.data} />}
-          {modals.orderModal && <OrderDetails orderId={modals.data} />}
+          <IngredientDetails data={modals.data} />
         </Modal>
-      )}
+      }
+            
+      {
+        modals.orderModal && 
+        <Modal closeModal={closeModal}>
+          <OrderDetails orderId={modals.data} />
+        </Modal>
+      }
+
       <AppHeader />
       {isLoading && <ShowLoading />}
       {hasError && <ErrorNotification />}
