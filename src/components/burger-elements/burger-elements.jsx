@@ -5,37 +5,6 @@ import styles from './burger-elements.module.css';
 
 const BurgerElements = (props) => {
   
-  BurgerElements.propTypes = {
-    fixedElements: PropTypes.shape({
-      __v: PropTypes.number,
-      _id: PropTypes.string,
-      calories: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      fat: PropTypes.number,
-      image: PropTypes.string,
-      image_large: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      proteins: PropTypes.number,
-      type: PropTypes.string,
-    }),
-    mobilityElements: PropTypes.arrayOf(PropTypes.shape({
-      __v: PropTypes.number,
-      _id: PropTypes.string,
-      calories: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      fat: PropTypes.number,
-      image: PropTypes.string,
-      image_large: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      proteins: PropTypes.number,
-      type: PropTypes.string,
-    })),
-  };
-
   return (
     <div className={styles.container}>
       <div className={'mb-4 pl-8 ' + styles.element}>
@@ -61,6 +30,37 @@ const BurgerElements = (props) => {
       </div>
     </div>
   );
+}
+
+BurgerElements.propTypes = {
+  fixedElements: PropTypes.shape({
+    __v: PropTypes.number,
+    _id: PropTypes.string,
+    calories: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    fat: PropTypes.number,
+    image: PropTypes.string,
+    image_large: PropTypes.string,
+    image_mobile: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    proteins: PropTypes.number,
+    type: PropTypes.string,
+  }),
+  mobilityElements: PropTypes.arrayOf(PropTypes.shape({
+    __v: PropTypes.number,
+    _id: PropTypes.string,
+    calories: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    fat: PropTypes.number,
+    image: PropTypes.string,
+    image_large: PropTypes.string,
+    image_mobile: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    proteins: PropTypes.number,
+    type: PropTypes.string,
+  })),
 };
 
 export default BurgerElements;

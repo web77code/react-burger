@@ -23,10 +23,6 @@ const BurgerIngredients = (props) => {
     setTypes(arr);
   }, [ingredients]);
 
-  BurgerIngredients.propTypes = {
-    openPopupWindow: PropTypes.func,
-  };
-
   return (
     <section className={'mr-10 pt-10 ' + styles.BurgerIngredients}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -75,6 +71,10 @@ const BurgerIngredients = (props) => {
       </div>
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  openPopupWindow: PropTypes.func,
 };
 
 export default BurgerIngredients;

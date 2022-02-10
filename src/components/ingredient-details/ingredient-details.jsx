@@ -3,17 +3,6 @@ import styles from './ingredient-details.module.css';
 
 const IngredientDetails = props => {
 
-  IngredientDetails.propTypes = {
-    data: PropTypes.shape({
-      name: PropTypes.string,
-      image_large: PropTypes.string,
-      calories: PropTypes.number,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-    }),
-  };
-
   return (
     <div className={styles.container + " mt-10 mr-10 mb-15 ml-10"}>
       <h2 className="text text_type_main-large">Детали ингредиента</h2>
@@ -44,5 +33,16 @@ const IngredientDetails = props => {
     </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    image_large: PropTypes.string,
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+  }),
+};
 
 export default IngredientDetails;

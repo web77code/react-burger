@@ -28,10 +28,6 @@ const BurgerConstructor = ({ openPopupWindow }) => {
 
   const [burgerPrice, burgerPriceDispatcher] = React.useReducer(priceReducer, 0);
 
-  BurgerConstructor.propTypes = {
-    openPopupWindow: PropTypes.func,
-  };
-
   React.useEffect(() => {
     let bun = '';
     const burgerInsides = [];
@@ -80,6 +76,10 @@ const BurgerConstructor = ({ openPopupWindow }) => {
       </div>
     </section>
   );
+}
+
+BurgerConstructor.propTypes = {
+  openPopupWindow: PropTypes.func,
 };
 
 export default BurgerConstructor;

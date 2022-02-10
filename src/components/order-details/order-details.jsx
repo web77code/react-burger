@@ -4,10 +4,6 @@ import styles from './order-details.module.css';
 
 const OrderDetails = ({ orderId }) => {
 
-  OrderDetails.propTypes = {
-    orderId: PropTypes.string,
-  };
-
   return (
     <div className={styles.container + " mt-30 mb-30"}>
       <h2 className={styles.orderNumber + " text text_type_digits-large mb-8"}>{orderId}</h2>
@@ -18,5 +14,9 @@ const OrderDetails = ({ orderId }) => {
     </div>
   );
 }
+
+OrderDetails.propTypes = {
+  orderId: PropTypes.string,
+};
 
 export default OrderDetails;

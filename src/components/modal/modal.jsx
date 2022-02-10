@@ -6,10 +6,6 @@ import styles from './modal.module.css';
 
 const Modal = (props) => {
 
-  Modal.propTypes = {
-    closePopupWindow: PropTypes.func,
-  };
-
   React.useEffect(()=>{
     document.addEventListener("keydown", props.closePopupWindow);
 
@@ -31,5 +27,9 @@ const Modal = (props) => {
     document.getElementById('react-modals')
   );
 }
+
+Modal.propTypes = {
+  closePopupWindow: PropTypes.func,
+};
 
 export default Modal;

@@ -6,11 +6,6 @@ const HeaderButton = props => {
 
   const [buttonStyle, setButtonstyle] = React.useState('ml-2 text text_type_main-default')
 
-  HeaderButton.propTypes = {
-    name: PropTypes.string,
-    inactive: PropTypes.bool
-  };
-
   React.useEffect(() => {
     if(props.inactive) setButtonstyle(buttonStyle + " text_color_inactive")
   }, []);
@@ -22,5 +17,10 @@ const HeaderButton = props => {
     </div>
   );
 }
+
+HeaderButton.propTypes = {
+  name: PropTypes.string,
+  inactive: PropTypes.bool
+};
 
 export default HeaderButton;

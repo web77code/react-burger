@@ -3,11 +3,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import styles from './drag-and-drop.module.css';
 
 const DragAndDrop = props => {
-
-  DragAndDrop.propTypes = {
-    elements: PropTypes.array
-  };
-
+  
   return (
     <div className={styles.container}>
       {
@@ -28,5 +24,9 @@ const DragAndDrop = props => {
     </div>
   );
 }
+
+DragAndDrop.propTypes = {
+  elements: PropTypes.array
+};
 
 export default DragAndDrop;
