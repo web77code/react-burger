@@ -12,6 +12,7 @@ import { IngredientsContext } from "../../services/appContext";
 import styles from "./app.module.css";
 
 function App() {
+
   const [ingredients, setIngredients] = React.useState({
     isLoading: false,
     hasError: false,
@@ -59,54 +60,58 @@ function App() {
       });
   };
 
-  function handleOpenModal(id, e) {
-    if (e.currentTarget.type === "submit") {
-      fetch(`${CONFIG.BASE_URL}/orders`, {
-        method: 'POST',
-        headers: CONFIG.HEADERS,
-        body: JSON.stringify({
-          "ingredients": id,
-        }),
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-          return Promise.reject(res);
-        })
-        .then((res) => {
-          setModals({ 
-            visible: true, 
-            detailsModal: false, 
-            orderModal: true,
-            data: res.order.number,
-          });
-        })
-        .catch((err) => {
-          if (!err.json) {
-            console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
-          } else {
-            console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
-          }
-        })
-    } else {
-      const { name, image_large, calories, proteins, fat, carbohydrates } =
-        ingredients.data.find((el) => el._id === id);
+  const showOrderDetail = burgerIngredients => {
 
-      setModals({
-        visible: true,
-        detailsModal: true,
-        orderModal: false,
-        data: { 
-          name, 
-          image_large, 
-          calories, 
-          proteins, 
-          fat, 
-          carbohydrates 
-        },
+    fetch(`${CONFIG.BASE_URL}/orders`, {
+      method: 'POST',
+      headers: CONFIG.HEADERS,
+      body: JSON.stringify({
+        "ingredients": burgerIngredients,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return Promise.reject(res);
+      })
+      .then((res) => {
+        setModals({ 
+          visible: true, 
+          detailsModal: false, 
+          orderModal: true,
+          data: res.order.number,
+        });
+      })
+      .catch((err) => {
+        if (!err.json) {
+          console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
+        } else {
+          console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
+        }
       });
-    }
   }
 
+  const showIngredientDetail = (e) => {
+
+    const id = e.target.parentElement.id;
+
+    const { name, image_large, calories, proteins, fat, carbohydrates } =
+      ingredients.data.find((el) => el._id === id);
+
+    setModals({
+      visible: true,
+      detailsModal: true,
+      orderModal: false,
+      data: { 
+        name, 
+        image_large, 
+        calories, 
+        proteins, 
+        fat, 
+        carbohydrates 
+      },
+    });
+  }
+  
   const closeModal = () => setModals({ visible: false, detailsModal: false, orderModal: false, data: {} });
 
   const { isLoading, hasError } = ingredients;
@@ -124,12 +129,12 @@ function App() {
       {hasError && <ErrorNotification />}
       {!isLoading && !hasError && ingredients.data.length && (
         <main className={styles.content}>
-          <IngredientsContext.Provider value={{ ingredients }}>
+          <IngredientsContext.Provider value={ingredients}>
             <BurgerIngredients 
-              openPopupWindow={handleOpenModal} 
+              openPopupWindow={showIngredientDetail} 
             />
             <BurgerConstructor 
-              openPopupWindow={handleOpenModal} 
+              openPopupWindow={showOrderDetail} 
             />
           </IngredientsContext.Provider>
         </main>

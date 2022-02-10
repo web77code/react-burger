@@ -19,7 +19,7 @@ function priceReducer(state,action) {
 
 const BurgerConstructor = ({ openPopupWindow }) => {
 
-  const { ingredients } = React.useContext(IngredientsContext);
+  const ingredients = React.useContext(IngredientsContext);
 
   const [state, setState] = React.useState({
     bun: {},
@@ -61,7 +61,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
           <p className={'text text_type_digits-medium ' + styles.price}>{burgerPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={(e) => {
+        <Button type="primary" size="large" onClick={() => {
           const currentBurger = [];
           currentBurger.push(state.bun._id);
           state.burgerInsides.forEach((el) => {
@@ -69,7 +69,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
           })
           currentBurger.push(state.bun._id);
 
-          openPopupWindow(currentBurger,e)
+          openPopupWindow(currentBurger)
         }}>
           Оформить заказ
         </Button>

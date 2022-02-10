@@ -11,7 +11,7 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
   const [types, setTypes] = React.useState([]);
 
-  const { ingredients } = React.useContext(IngredientsContext);
+  const ingredients = React.useContext(IngredientsContext);
 
   React.useEffect(() => {
     const arr = [];
