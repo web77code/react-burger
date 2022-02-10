@@ -39,7 +39,10 @@ function App() {
     fetch(`${CONFIG.BASE_URL}/ingredients`, {
       headers: CONFIG.HEADERS,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) return res.json();
+        return Promise.reject(res);
+      })
       .then((res) => {
         setIngredients({
           hasError: !res.success,
@@ -50,12 +53,8 @@ function App() {
       .catch((err) => {
         setIngredients({ ...ingredients, hasError: true, isLoading: false });
 
-        if (!err.json) {
-          console.error("Что-то пошло не так... :( ");
-        } else {
-          err.json().then((err) => {
-            console.error(err.message);
-          });
+        if (err.json) {
+          console.error(`Произошла ошибка при загрузке ингредиентов. Тип ошибки: ${err.status} ${err.statusText}`);
         }
       });
   };
@@ -69,7 +68,10 @@ function App() {
           "ingredients": id,
         }),
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.ok) return res.json();
+          return Promise.reject(res);
+        })
         .then((res) => {
           setModals({ 
             visible: true, 
@@ -80,17 +82,11 @@ function App() {
         })
         .catch((err) => {
           if (!err.json) {
-            console.error("Что-то пошло не так... :( ");
+            console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
           } else {
-            err.json().then((err) => {
-              console.error(err.message);
-            });
+            console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
           }
         })
-        .finally(() => {
-          
-        });
-      
     } else {
       const { name, image_large, calories, proteins, fat, carbohydrates } =
         ingredients.data.find((el) => el._id === id);
