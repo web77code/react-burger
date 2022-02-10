@@ -17,7 +17,6 @@
   align-items: center;
   margin-bottom: 16px;
   width: calc(100% - 8px);
-  /* border: 1px solid red; */
 }
 
 .element:last-child {

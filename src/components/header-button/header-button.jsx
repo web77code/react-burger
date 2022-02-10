@@ -21,6 +21,7 @@ const HeaderButton = props => {
 HeaderButton.propTypes = {
   name: PropTypes.string.isRequired,
   inactive: PropTypes.bool,
+  children: PropTypes.element.isRequired,
 };
 
 HeaderButton.defaultProps = {

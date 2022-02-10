@@ -6,17 +6,6 @@ import BurgerElements from '../burger-elements/burger-elements.jsx';
 import { IngredientsContext } from '../../services/appContext';
 import styles from './burger-constructor.module.css';
 
-function priceReducer(state,action) {
-  switch (action.type) {
-    case 'add':
-      return state += action.price;
-    case 'remove':
-      return state -= action.price;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
-
 const BurgerConstructor = ({ openPopupWindow }) => {
 
   const ingredients = React.useContext(IngredientsContext);
@@ -26,34 +15,36 @@ const BurgerConstructor = ({ openPopupWindow }) => {
     burgerInsides: [],
   });
 
-  const [burgerPrice, burgerPriceDispatcher] = React.useReducer(priceReducer, 0);
-
   React.useEffect(() => {
     let bun = '';
     const burgerInsides = [];
-    let price = 0;
 
     constructorDefaultState.forEach((ingredient) => {
       let ingredientData = ingredients.data.find((el) => el._id === ingredient);
 
       if(ingredientData.type === 'bun') {
-        if(bun === '') {
-          bun = ingredientData;
-          price += ingredientData.price*2;
-        } else {
-          price -= bun.price*2;
-          bun = ingredientData;
-          price += ingredientData.price*2;
-        }
+        bun = ingredientData;
       } else {
         burgerInsides.push(ingredientData);
-        price += ingredientData.price;
       }
     });
 
-    burgerPriceDispatcher({type: 'add', price: price});
     setState({bun, burgerInsides});
-  }, []);
+  }, [ingredients.data]);
+
+  const burgerPrice = React.useMemo(
+    () => {
+      let price = 0;
+
+      price += state.bun.price * 2;
+      state.burgerInsides.forEach((el) => {
+        price += el.price;
+      });
+
+      return price;
+    },
+    [state]
+  );
 
   const handleOrderButtonClick = () => {
     const currentBurger = [];
@@ -74,7 +65,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
 
       <div className={'mt-10 pr-4 ' + styles.orderSection}>
         <div className={'mr-10 ' + styles.priceContainer}>
-          <p className={'text text_type_digits-medium ' + styles.price}>{burgerPrice}</p>
+          <p className={'text text_type_digits-medium ' + styles.price}>{burgerPrice ? burgerPrice : '...'}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOrderButtonClick}>
