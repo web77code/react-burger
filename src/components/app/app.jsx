@@ -111,31 +111,14 @@ function App() {
     }
   }
 
-  function handleCloseModal(e) {
-    if (e.code) {
-      if (e.code === "Escape") {
-        setModals({ 
-          visible: false, 
-          detailsModal: false, 
-          orderModal: false 
-        });
-      }
-    } else {
-      e.stopPropagation();
-      setModals({ 
-        visible: false, 
-        detailsModal: false, 
-        orderModal: false 
-      });
-    }
-  }
+  const closeModal = () => setModals({ visible: false, detailsModal: false, orderModal: false, data: {} });
 
   const { isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
       {modals.visible && (
-        <Modal closePopupWindow={handleCloseModal}>
+        <Modal closeModal={closeModal}>
           {modals.detailsModal && <IngredientDetails data={modals.data} />}
           {modals.orderModal && <OrderDetails orderId={modals.data} />}
         </Modal>

@@ -7,19 +7,23 @@ import styles from './modal.module.css';
 const Modal = (props) => {
 
   React.useEffect(()=>{
-    document.addEventListener("keydown", props.closePopupWindow);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", props.closePopupWindow);
+      document.removeEventListener("keydown", handleKeyDown);
     }
   }, []);
+
+  const handleKeyDown = e => {
+    if(e.code === "Escape") props.closeModal();
+  }
 
   return ReactDOM.createPortal(
     (
     <div className={styles.modal}>
-      <ModalOverlay closePopupWindow={props.closePopupWindow} />
+      <ModalOverlay closeModal={props.closeModal} />
       <div className={styles.container}>
-          <button className={styles.closeButton} onClick={props.closePopupWindow}></button>
+          <button className={styles.closeButton} onClick={props.closeModal}></button>
           {props.children}
         </div>
     </div>
@@ -29,7 +33,7 @@ const Modal = (props) => {
 }
 
 Modal.propTypes = {
-  closePopupWindow: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default Modal;

@@ -4,12 +4,12 @@ import styles from './modal-overlay.module.css';
 const ModalOverlay = (props) => {
 
   return (
-    <div className={styles.overlay} onClick={props.closePopupWindow}></div>
+    <div className={styles.overlay} onClick={props.closeModal}></div>
   );
 }
 
 ModalOverlay.propTypes = {
-  closePopupWindow: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default ModalOverlay;
