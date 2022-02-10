@@ -40,8 +40,9 @@ const BurgerConstructor = ({ openPopupWindow }) => {
           bun = ingredientData;
           burgerPriceDispatcher({type: 'add', price: ingredientData.price*2});
         } else {
-          burgerPriceDispatcher({type: 'remove', price: ingredientData.price*2});
+          burgerPriceDispatcher({type: 'remove', price: bun.price*2});
           bun = ingredientData;
+          burgerPriceDispatcher({type: 'add', price: ingredientData.price*2});
         }
       } else {
         burgerInsides.push(ingredientData);
