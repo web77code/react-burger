@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { BASIC_TYPES } from '../../utils/constants.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsElement from '../ingredients-element/ingredients-element';
-import { IngredientsContext } from '../../contexts/appContext';
+import { IngredientsContext } from '../../services/appContext';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = (props) => {

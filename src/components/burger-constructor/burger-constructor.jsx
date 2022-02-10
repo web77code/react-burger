@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructorDefaultState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
-import { IngredientsContext } from '../../contexts/appContext';
+import { IngredientsContext } from '../../services/appContext';
 import styles from './burger-constructor.module.css';
 
 function priceReducer(state,action) {

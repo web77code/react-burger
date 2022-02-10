@@ -8,7 +8,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import ShowLoading from "../show-loading/show-loading";
 import ErrorNotification from "../error-notification/error-notification";
-import { IngredientsContext } from "../../contexts/appContext";
+import { IngredientsContext } from "../../services/appContext";
 import styles from "./app.module.css";
 
 function App() {
