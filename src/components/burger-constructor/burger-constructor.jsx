@@ -31,6 +31,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
   React.useEffect(() => {
     let bun = '';
     const burgerInsides = [];
+    let price = 0;
 
     constructorDefaultState.forEach((ingredient) => {
       let ingredientData = ingredients.data.find((el) => el._id === ingredient);
@@ -38,18 +39,19 @@ const BurgerConstructor = ({ openPopupWindow }) => {
       if(ingredientData.type === 'bun') {
         if(bun === '') {
           bun = ingredientData;
-          burgerPriceDispatcher({type: 'add', price: ingredientData.price*2});
+          price += ingredientData.price*2;
         } else {
-          burgerPriceDispatcher({type: 'remove', price: bun.price*2});
+          price -= bun.price*2;
           bun = ingredientData;
-          burgerPriceDispatcher({type: 'add', price: ingredientData.price*2});
+          price += ingredientData.price*2;
         }
       } else {
         burgerInsides.push(ingredientData);
-        burgerPriceDispatcher({type: 'add', price: ingredientData.price});
+        price += ingredientData.price;
       }
     });
 
+    burgerPriceDispatcher({type: 'add', price: price});
     setState({bun, burgerInsides});
   }, []);
 
@@ -84,7 +86,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
 }
 
 BurgerConstructor.propTypes = {
-  openPopupWindow: PropTypes.func,
+  openPopupWindow: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

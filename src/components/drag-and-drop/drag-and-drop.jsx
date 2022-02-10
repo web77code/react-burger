@@ -26,7 +26,7 @@ const DragAndDrop = props => {
 }
 
 DragAndDrop.propTypes = {
-  elements: PropTypes.array
+  elements: PropTypes.array,
 };
 
 export default DragAndDrop;

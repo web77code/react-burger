@@ -74,7 +74,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  openPopupWindow: PropTypes.func,
+  openPopupWindow: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

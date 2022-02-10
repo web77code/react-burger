@@ -6,7 +6,7 @@ const IngredientsElement = ({ id, name, price, image, count, openPopupWindow }) 
 
   return (
     <div className={styles.ingredient} id={id} onClick={(e) => openPopupWindow(e)}>
-      {count && <Counter count={count} size="default" />}
+      {(count > 0) && <Counter count={count} size="default" />}
       <img src={image} className={'mb-1 ' + styles.image} alt={name} />
       <div className={'mb-1 ' + styles.priceContainer}>
         <p className={'text text_type_digits-default ' + styles.price}>{price}</p>
@@ -18,12 +18,16 @@ const IngredientsElement = ({ id, name, price, image, count, openPopupWindow }) 
 }
 
 IngredientsElement.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
   count: PropTypes.number,
-  openPopupWindow: PropTypes.func,
+  openPopupWindow: PropTypes.func.isRequired,
+};
+
+IngredientsElement.defaultProps = {
+  count: 0,
 };
 
 export default IngredientsElement;
