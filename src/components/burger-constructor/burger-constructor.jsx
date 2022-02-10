@@ -52,6 +52,19 @@ const BurgerConstructor = ({ openPopupWindow }) => {
     setState({bun, burgerInsides});
   }, []);
 
+  const handleOrderButtonClick = () => {
+    const currentBurger = [];
+
+    currentBurger.push(state.bun._id);
+
+    state.burgerInsides.forEach((el) => {
+      currentBurger.push(el._id);
+    });
+    currentBurger.push(state.bun._id);
+
+    openPopupWindow(currentBurger);
+  }
+
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
       <BurgerElements fixedElements={state.bun} mobilityElements={state.burgerInsides} />
@@ -61,16 +74,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
           <p className={'text text_type_digits-medium ' + styles.price}>{burgerPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={() => {
-          const currentBurger = [];
-          currentBurger.push(state.bun._id);
-          state.burgerInsides.forEach((el) => {
-            currentBurger.push(el._id);
-          })
-          currentBurger.push(state.bun._id);
-
-          openPopupWindow(currentBurger)
-        }}>
+        <Button type="primary" size="large" onClick={handleOrderButtonClick}>
           Оформить заказ
         </Button>
       </div>
