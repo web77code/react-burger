@@ -6,9 +6,11 @@ import styles from './modal.module.css';
 
 const Modal = (props) => {
 
+  const { header, children, closeModal } = props;
+
   React.useEffect(() => {
     const handleKeyDown = e => {
-      if(e.code === "Escape") props.closeModal();
+      if(e.code === "Escape") closeModal();
     }
 
     document.addEventListener("keydown", handleKeyDown);
@@ -16,16 +18,19 @@ const Modal = (props) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     }
-  }, [props.closeModal]);
+  }, [closeModal]);
 
   return ReactDOM.createPortal(
     (
     <div className={styles.modal}>
-      <ModalOverlay closeModal={props.closeModal} />
-      <div className={styles.container}>
-          <button className={styles.closeButton} onClick={props.closeModal}></button>
-          {props.children}
+      <ModalOverlay closeModal={closeModal} />
+      <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
+        <div className={styles.modalHeader}>
+          {header && <h2 className="text text_type_main-large">{header}</h2>}
+          <button className={styles.closeButton} onClick={closeModal}></button>
         </div>
+        {children}
+      </div>
     </div>
     ),
     document.getElementById('react-modals')
@@ -33,7 +38,8 @@ const Modal = (props) => {
 }
 
 Modal.propTypes = {
-  children: PropTypes.node,
+  header: PropTypes.string,
+  children: PropTypes.node.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

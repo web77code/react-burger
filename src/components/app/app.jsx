@@ -118,7 +118,7 @@ function App() {
 
       {
         modals.detailsModal && 
-        <Modal closeModal={closeModal}>
+        <Modal closeModal={closeModal} header="Детали ингредиента" >
           <IngredientDetails data={modals.data} />
         </Modal>
       }
