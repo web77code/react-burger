@@ -7,16 +7,16 @@ import styles from './modal.module.css';
 const Modal = (props) => {
 
   React.useEffect(() => {
+    const handleKeyDown = e => {
+      if(e.code === "Escape") props.closeModal();
+    }
+
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     }
-  });
-
-  const handleKeyDown = e => {
-    if(e.code === "Escape") props.closeModal();
-  }
+  }, [props.closeModal]);
 
   return ReactDOM.createPortal(
     (
