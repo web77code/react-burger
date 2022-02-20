@@ -18,13 +18,16 @@
   justify-content: space-between;
   list-style: none;
   padding: 0;
+  margin: 0;
   width: 100%;
 }
 
 .item {
   color: var(--text-inactive-color);
   height: 56px;
+  min-width: 112px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }

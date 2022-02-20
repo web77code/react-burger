@@ -1,28 +1,28 @@
-import React from 'react';
-import { CONFIG } from '../../utils/constants';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-details/order-details';
-import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import ShowLoading from '../show-loading/show-loading';
-import ErrorNotification from '../error-notification/error-notification';
-import styles from './app.module.css';
+import React from "react";
+import { CONFIG } from "../../utils/constants";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import ShowLoading from "../show-loading/show-loading";
+import ErrorNotification from "../error-notification/error-notification";
+import { IngredientsContext } from "../../services/appContext";
+import styles from "./app.module.css";
 
 function App() {
 
-  const [state, setState] = React.useState({
+  const [ingredients, setIngredients] = React.useState({
     isLoading: false,
     hasError: false,
-    data: []
+    data: [],
   });
 
   const [modals, setModals] = React.useState({
-    visible: false,
     detailsModal: false,
     orderModal: false,
-    data: {}
+    data: {},
   });
 
   React.useEffect(() => {
@@ -30,69 +30,121 @@ function App() {
   }, []);
 
   const getData = () => {
-
-    setState({ ...state, hasError: false, isLoading: true });
+    setIngredients({ 
+      ...ingredients, 
+      hasError: false, 
+      isLoading: true 
+    });
 
     fetch(`${CONFIG.BASE_URL}/ingredients`, {
       headers: CONFIG.HEADERS,
-    }).then(res => res.json())
-      .then(res => {
-        setState({ ...state, hasError: !res.success, data: res.data, isLoading: false })
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return Promise.reject(res);
       })
-      .catch(err => {
-        setState({ ...state, hasError: true, isLoading: false });
+      .then((res) => {
+        setIngredients({
+          hasError: !res.success,
+          data: res.data,
+          isLoading: false,
+        });
+      })
+      .catch((err) => {
+        setIngredients({ ...ingredients, hasError: true, isLoading: false });
 
-        if (!err.json) {
-          console.error('Что-то пошло не так... :( ');
-        } else {
-          err.json().then((err) => {
-            console.error(err.message);
-          });
+        if (err.json) {
+          console.error(`Произошла ошибка при загрузке ингредиентов. Тип ошибки: ${err.status} ${err.statusText}`);
         }
       });
   };
 
-  function handleOpenModal(id, e) {
+  const showOrderDetail = burgerIngredients => {
 
-    if(e.currentTarget.type === "submit") {
-      setModals({visible: true, detailsModal: false, orderModal: true});
-    } else {
-      const { name, image_large, calories, proteins, fat, carbohydrates } = data.find((el) => el._id === id);
-      setModals({visible: true, detailsModal: true, orderModal: false, data: {name, image_large, calories, proteins, fat, carbohydrates} });
-    }
+    fetch(`${CONFIG.BASE_URL}/orders`, {
+      method: 'POST',
+      headers: CONFIG.HEADERS,
+      body: JSON.stringify({
+        "ingredients": burgerIngredients,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return Promise.reject(res);
+      })
+      .then((res) => {
+        setModals({  
+          detailsModal: false, 
+          orderModal: true,
+          data: res.order.number,
+        });
+      })
+      .catch((err) => {
+        if (!err.json) {
+          console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
+        } else {
+          console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
+        }
+      });
   }
 
-  function handleCloseModal(e) {
-    if(e.code) {
-      if(e.code === "Escape") {
-        setModals({visible: false, detailsModal: false, orderModal: false})
-      }
-    } else {
-      e.stopPropagation();
-      setModals({visible: false, detailsModal: false, orderModal: false});
-    }    
-  }
+  const showIngredientDetail = (e) => {
 
-  const { data, isLoading, hasError } = state;
+    const id = e.target.parentElement.id;
+
+    const { name, image_large, calories, proteins, fat, carbohydrates } =
+      ingredients.data.find((el) => el._id === id);
+
+    setModals({
+      detailsModal: true,
+      orderModal: false,
+      data: { 
+        name, 
+        image_large, 
+        calories, 
+        proteins, 
+        fat, 
+        carbohydrates 
+      },
+    });
+  }
+  
+  const closeModal = () => setModals({ detailsModal: false, orderModal: false, data: {} });
+
+  const { isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
-      {modals.visible && <Modal closePopupWindow={handleCloseModal}>
-        {modals.detailsModal && <IngredientDetails data={modals.data} />}
-        {modals.orderModal && <OrderDetails />}
-      </Modal>}
+
+      {
+        modals.detailsModal && 
+        <Modal closeModal={closeModal} header="Детали ингредиента" >
+          <IngredientDetails data={modals.data} />
+        </Modal>
+      }
+            
+      {
+        modals.orderModal && 
+        <Modal closeModal={closeModal}>
+          <OrderDetails orderId={modals.data} />
+        </Modal>
+      }
+
       <AppHeader />
       {isLoading && <ShowLoading />}
       {hasError && <ErrorNotification />}
-      {
-        !isLoading &&
-        !hasError &&
-        data.length &&
+      {!isLoading && !hasError && ingredients.data.length && (
         <main className={styles.content}>
-          <BurgerIngredients data={data} openPopupWindow={handleOpenModal} />
-          <BurgerConstructor data={data} openPopupWindow={handleOpenModal} />
+          <IngredientsContext.Provider value={ingredients}>
+            <BurgerIngredients 
+              openPopupWindow={showIngredientDetail} 
+            />
+            <BurgerConstructor 
+              openPopupWindow={showOrderDetail} 
+            />
+          </IngredientsContext.Provider>
         </main>
-      }
+      )}
     </div>
   );
 }

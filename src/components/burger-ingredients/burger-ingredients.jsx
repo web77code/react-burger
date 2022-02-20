@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BASIC_TYPES } from '../../utils/constants.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsElement from '../ingridients-element/ingridients-element';
+import IngredientsElement from '../ingredients-element/ingredients-element';
+import { IngredientsContext } from '../../services/appContext';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = (props) => {
@@ -10,33 +11,17 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
   const [types, setTypes] = React.useState([]);
 
+  const ingredients = React.useContext(IngredientsContext);
+
   React.useEffect(() => {
     const arr = [];
-    props.data.forEach((el) => {
+    ingredients.data.forEach((el) => {
       if (!arr.includes(el.type)) {
         arr.push(el.type);
       }
     });
     setTypes(arr);
-  }, [props.data]);
-
-  BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-      __v: PropTypes.number,
-      _id: PropTypes.string,
-      calories: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      fat: PropTypes.number,
-      image: PropTypes.string,
-      image_large: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      proteins: PropTypes.number,
-      type: PropTypes.string,
-    })),
-    openPopupWindow: PropTypes.func,
-  };
+  }, [ingredients]);
 
   return (
     <section className={'mr-10 pt-10 ' + styles.BurgerIngredients}>
@@ -56,7 +41,7 @@ const BurgerIngredients = (props) => {
 
       <div className={'mt-10 ' + styles.ingredientsContainer}>
         {types.map((type, index) => {
-          const ingredientsOneType = props.data.filter((data) => data.type === type);
+          const ingredientsOneType = ingredients.data.filter((data) => data.type === type);
 
           return (
             <li key={index}>
@@ -68,7 +53,7 @@ const BurgerIngredients = (props) => {
                   if (i === 0) count = 1;
 
                   return (
-                    <IngridientsElement
+                    <IngredientsElement
                       key={ingredient._id}
                       id={ingredient._id}
                       name={ingredient.name}
@@ -86,6 +71,10 @@ const BurgerIngredients = (props) => {
       </div>
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  openPopupWindow: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
