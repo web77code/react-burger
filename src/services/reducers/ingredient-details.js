@@ -4,6 +4,7 @@ import {
 } from '../actions/ingredient-details.js';
 
 const initialState = {
+  showPopup: false,
   name: '', 
   image_large: '', 
   calories: 0, 
@@ -17,6 +18,7 @@ export const ingredientDetailsPopupReducer = (state = initialState, action) => {
     case SET_INGREDIENT_DETAILS: {
       return {
         ...state,
+        showPopup: true,
         name: action.ingredient.name, 
         image_large: action.ingredient.image_large, 
         calories: action.ingredient.calories, 
@@ -28,6 +30,7 @@ export const ingredientDetailsPopupReducer = (state = initialState, action) => {
     case CLEAR_INGREDIENT_DETAILS: {
       return { 
         ...state, 
+        showPopup: false,
         name: '', 
         image_large: '', 
         calories: 0, 

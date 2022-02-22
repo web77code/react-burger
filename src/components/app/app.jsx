@@ -11,7 +11,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import ShowLoading from '../show-loading/show-loading';
 import ErrorNotification from '../error-notification/error-notification';
 
-import { SET_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
+import { SET_INGREDIENT_DETAILS, CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
 
 import styles from './app.module.css';
 
@@ -21,6 +21,8 @@ function App() {
   const ingredients = useSelector((state) => state.ingredients.data);
   const dataRequest = useSelector((state) => state.ingredients.dataRequest);
   const dataFailed = useSelector((state) => state.ingredients.dataFailed);
+
+  const showDetailsPopup = useSelector((state) => state.details.showPopup);
 
   const [modals, setModals] = React.useState({
     detailsModal: false,
@@ -70,6 +72,7 @@ function App() {
     dispatch({
       type: SET_INGREDIENT_DETAILS,
       ingredient: {
+        showPopup: true,
         name,
         image_large,
         calories,
@@ -78,26 +81,21 @@ function App() {
         carbohydrates,
       },
     });
-
-    setModals({
-      detailsModal: true,
-      orderModal: false,
-      data: {},
-    });
   };
 
-  const closeModal = () => setModals({ detailsModal: false, orderModal: false, data: {} });
+  const closeIngredientDetails = () => dispatch({type: CLEAR_INGREDIENT_DETAILS});
+  const closeOrderDetails = () => dispatch({type: CLEAR_INGREDIENT_DETAILS});
 
   return (
     <div className={styles.app}>
-      {modals.detailsModal && (
-        <Modal closeModal={closeModal} header="Детали ингредиента">
+      {showDetailsPopup && (
+        <Modal closeModal={closeIngredientDetails} header="Детали ингредиента">
           <IngredientDetails data={modals.data} />
         </Modal>
       )}
 
       {modals.orderModal && (
-        <Modal closeModal={closeModal}>
+        <Modal closeModal={closeOrderDetails}>
           <OrderDetails orderId={modals.data} />
         </Modal>
       )}

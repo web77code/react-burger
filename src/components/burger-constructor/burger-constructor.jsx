@@ -7,62 +7,45 @@ import BurgerElements from '../burger-elements/burger-elements.jsx';
 
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ openPopupWindow }) => {
+const BurgerConstructor = () => {
 
   const ingredients = useSelector(state => state.ingredients.data);
-
-  const [state, setState] = React.useState({
-    bun: {},
-    burgerInsides: [],
+  const { bun, items } = useSelector(state => state.construct);
+  const bunData = ingredients.find((el) => el._id === bun);
+  const itemsData = items.map((item) => {
+    return ingredients.find((el) => el._id === item.id);
   });
-
-  React.useEffect(() => {
-    let bun = '';
-    const burgerInsides = [];
-
-    constructorDefaultState.forEach((ingredient) => {
-      let ingredientData = ingredients.find((el) => el._id === ingredient);
-
-      if(ingredientData.type === 'bun') {
-        bun = ingredientData;
-      } else {
-        burgerInsides.push(ingredientData);
-      }
-    });
-
-    setState({bun, burgerInsides});
-  }, [ingredients]);
 
   const burgerPrice = React.useMemo(
     () => {
       let price = 0;
 
-      price += state.bun.price * 2;
-      state.burgerInsides.forEach((el) => {
+      price += bunData.price * 2;
+      itemsData.forEach((el) => {
         price += el.price;
       });
 
       return price;
     },
-    [state]
+    [bunData, itemsData]
   );
 
   const handleOrderButtonClick = () => {
-    const currentBurger = [];
+  //   const currentBurger = [];
 
-    currentBurger.push(state.bun._id);
+  //   currentBurger.push(state.bun._id);
 
-    state.burgerInsides.forEach((el) => {
-      currentBurger.push(el._id);
-    });
-    currentBurger.push(state.bun._id);
+  //   state.burgerInsides.forEach((el) => {
+  //     currentBurger.push(el._id);
+  //   });
+  //   currentBurger.push(state.bun._id);
 
-    openPopupWindow(currentBurger);
+  //   openPopupWindow(currentBurger);
   }
 
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
-      <BurgerElements fixedElements={state.bun} mobilityElements={state.burgerInsides} />
+      <BurgerElements />
 
       <div className={'mt-10 pr-4 ' + styles.orderSection}>
         <div className={'mr-10 ' + styles.priceContainer}>
@@ -76,9 +59,5 @@ const BurgerConstructor = ({ openPopupWindow }) => {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  openPopupWindow: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;
