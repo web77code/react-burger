@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
 import { BASIC_TYPES } from '../../utils/constants.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsElement from '../ingredients-element/ingredients-element';
-import { IngredientsContext } from '../../services/appContext';
+
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = (props) => {
@@ -11,11 +12,11 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
   const [types, setTypes] = React.useState([]);
 
-  const ingredients = React.useContext(IngredientsContext);
+  const ingredients = useSelector(state => state.ingredients.data);
 
   React.useEffect(() => {
     const arr = [];
-    ingredients.data.forEach((el) => {
+    ingredients.forEach((el) => {
       if (!arr.includes(el.type)) {
         arr.push(el.type);
       }
@@ -41,7 +42,7 @@ const BurgerIngredients = (props) => {
 
       <div className={'mt-10 ' + styles.ingredientsContainer}>
         {types.map((type, index) => {
-          const ingredientsOneType = ingredients.data.filter((data) => data.type === type);
+          const ingredientsOneType = ingredients.filter((data) => data.type === type);
 
           return (
             <li key={index}>

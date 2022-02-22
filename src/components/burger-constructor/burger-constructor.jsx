@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructorDefaultState } from '../../utils/constructor-state.js';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
-import { IngredientsContext } from '../../services/appContext';
+
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = ({ openPopupWindow }) => {
 
-  const ingredients = React.useContext(IngredientsContext);
+  const ingredients = useSelector(state => state.ingredients.data);
 
   const [state, setState] = React.useState({
     bun: {},
@@ -20,7 +21,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
     const burgerInsides = [];
 
     constructorDefaultState.forEach((ingredient) => {
-      let ingredientData = ingredients.data.find((el) => el._id === ingredient);
+      let ingredientData = ingredients.find((el) => el._id === ingredient);
 
       if(ingredientData.type === 'bun') {
         bun = ingredientData;
@@ -30,7 +31,7 @@ const BurgerConstructor = ({ openPopupWindow }) => {
     });
 
     setState({bun, burgerInsides});
-  }, [ingredients.data]);
+  }, [ingredients]);
 
   const burgerPrice = React.useMemo(
     () => {
