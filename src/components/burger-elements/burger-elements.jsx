@@ -6,12 +6,9 @@ import styles from './burger-elements.module.css';
 const BurgerElements = () => {
 
   const ingredients = useSelector(state => state.ingredients.data);
-  const { bun, items } = useSelector(state => state.construct);
+  const { bun } = useSelector(state => state.construct);
 
   const bunData = ingredients.find((el) => el._id === bun);
-  const itemsData = items.map((item) => {
-    return ingredients.find((el) => el._id === item.id);
-  });
 
   return (
     <div className={styles.container}>
@@ -25,7 +22,7 @@ const BurgerElements = () => {
         />
       </div>
 
-      <DragAndDrop elements={itemsData} />
+      <DragAndDrop />
 
       <div className={'mt-4 pl-8 ' + styles.element}>
         <ConstructorElement

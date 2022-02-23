@@ -1,3 +1,3 @@
-export const SET_DEFAULT_INGREDIENTS = 'SET_DEFAULT_INGREDIENTS';
-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+export const SET_BUN = 'SET_BUN';
+export const ADD_ITEM = 'ADD_ITEM';
+export const REMOVE_ITEM = 'REMOVE_ITEM';

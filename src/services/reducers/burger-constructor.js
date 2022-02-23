@@ -1,20 +1,28 @@
 import {
-  SET_DEFAULT_INGREDIENTS,
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
+  SET_BUN,
+  ADD_ITEM,
+  REMOVE_ITEM,
 } from '../actions/burger-constructor';
 
 const initialState = {
-  bun: '60d3b41abdacab0026a733c6',
-  items: [
-    { pos: 0, id: '60d3b41abdacab0026a733ce'},
-    { pos: 1, id: '60d3b41abdacab0026a733c9'},
-    { pos: 2, id: '60d3b41abdacab0026a733d1'},
-  ]
+  bun: '',
+  items: []
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_BUN: {
+      return {
+        ...state,
+        bun: action.payload
+      };
+    }
+    case ADD_ITEM: {
+      return {
+        ...state,
+        items: [...state.items, action.payload]
+      };
+    }
     default: {
       return state;
     }
