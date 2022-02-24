@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import BurgerElements from '../burger-elements/burger-elements.jsx';
-
 import { SET_BUN, ADD_ITEM } from '../../services/actions/burger-constructor';
+import { sendData } from '../../services/actions/order-details';
 import { defaultBurger } from '../../utils/constructor-state.js';
-
 import styles from './burger-constructor.module.css';
-
 
 const BurgerConstructor = () => {
 
@@ -25,43 +21,36 @@ const BurgerConstructor = () => {
         payload: defaultBurger.bun
       });
   
-      defaultBurger.items.forEach(item => {
+      defaultBurger.items.forEach((id) => {
         dispatch({
           type: ADD_ITEM,
-          payload: item
+          payload: id
         });
       });
     }
-  }, []);
+  }, [bun.length, items.length, dispatch]);
 
   const burgerPrice = React.useMemo(
     () => {
       let price = 0;
 
-      if(bun) {
-        price += ingredients.find((el) => el._id === bun).price * 2;
-      }
-
-      if(items) {
-        items.forEach((item) => {
-          price += ingredients.find((el) => el._id === item).price;
-        });
-      }
+      if(bun) price += ingredients.find((el) => el._id === bun).price * 2;
+      if(items) items.forEach((item) => price += ingredients.find((el) => el._id === item.id).price);
 
       return price;
     },
-    [bun, items]
+    [bun, items, ingredients]
   );
 
   const handleOrderButtonClick = () => {
-
+    const ingred = items.map(item => item.id);
+    dispatch(sendData([bun, ...ingred, bun]));
   }
 
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
       {
         bun.length > 0 && 
-        items.length > 0 && 
         <BurgerElements />
       }
 

@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getData } from '../../services/actions/burger-ingredients';
-
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import Modal from '../modal/modal';
+import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import ShowLoading from '../show-loading/show-loading';
 import ErrorNotification from '../error-notification/error-notification';
-
+import { getData } from '../../services/actions/burger-ingredients';
 import { SET_INGREDIENT_DETAILS, CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
+import { CLOSE_ORDER_POPUP } from '../../services/actions/order-details';
 
 import styles from './app.module.css';
 
@@ -19,48 +20,14 @@ function App() {
   const dispatch = useDispatch();
 
   const ingredients = useSelector((state) => state.ingredients.data);
-  const dataRequest = useSelector((state) => state.ingredients.dataRequest);
-  const dataFailed = useSelector((state) => state.ingredients.dataFailed);
+  const { dataRequest, dataFailed } = useSelector((state) => state.ingredients);
 
   const showDetailsPopup = useSelector((state) => state.details.showPopup);
-
-  const [modals, setModals] = React.useState({
-    detailsModal: false,
-    orderModal: false,
-    data: {},
-  });
+  const showOrderPopup = useSelector((state) => state.order.showPopup)
 
   useEffect(() => {
     if (!ingredients.length) dispatch(getData());
   }, [dispatch, ingredients]);
-
-  const showOrderDetail = (burgerIngredients) => {
-    // fetch(`${CONFIG.BASE_URL}/orders`, {
-    //   method: 'POST',
-    //   headers: CONFIG.HEADERS,
-    //   body: JSON.stringify({
-    //     "ingredients": burgerIngredients,
-    //   }),
-    // })
-    //   .then((res) => {
-    //     if (res.ok) return res.json();
-    //     return Promise.reject(res);
-    //   })
-    //   .then((res) => {
-    //     setModals({
-    //       detailsModal: false,
-    //       orderModal: true,
-    //       data: res.order.number,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     if (!err.json) {
-    //       console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
-    //     } else {
-    //       console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
-    //     }
-    //   });
-  };
 
   const showIngredientDetail = (e) => {
     const id = e.target.parentElement.id;
@@ -84,19 +51,19 @@ function App() {
   };
 
   const closeIngredientDetails = () => dispatch({type: CLEAR_INGREDIENT_DETAILS});
-  const closeOrderDetails = () => dispatch({type: CLEAR_INGREDIENT_DETAILS});
+  const closeOrderDetails = () => dispatch({type: CLOSE_ORDER_POPUP});
 
   return (
     <div className={styles.app}>
       {showDetailsPopup && (
         <Modal closeModal={closeIngredientDetails} header="Детали ингредиента">
-          <IngredientDetails data={modals.data} />
+          <IngredientDetails />
         </Modal>
       )}
 
-      {modals.orderModal && (
+      {showOrderPopup && (
         <Modal closeModal={closeOrderDetails}>
-          <OrderDetails orderId={modals.data} />
+          <OrderDetails />
         </Modal>
       )}
 
@@ -105,8 +72,10 @@ function App() {
       {dataFailed && <ErrorNotification />}
       {ingredients.length > 0 ? (
         <main className={styles.content}>
-          <BurgerIngredients openPopupWindow={showIngredientDetail} />
-          <BurgerConstructor openPopupWindow={showOrderDetail} />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openPopupWindow={showIngredientDetail} />
+            <BurgerConstructor />
+          </DndProvider>
         </main>
       ) : (
         <ErrorNotification />

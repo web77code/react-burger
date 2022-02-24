@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
-import PropTypes from 'prop-types';
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
-  //const { name, image_large, calories, proteins, fat, carbohydrates } = props.data;
   const { name, image_large, calories, proteins, fat, carbohydrates } = useSelector(state => state.details);
 
   return (
