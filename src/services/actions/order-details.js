@@ -1,4 +1,5 @@
 import { CONFIG } from '../../utils/constants';
+import { checkResponse, logErrorToConsole } from '../../utils/utils';
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
@@ -18,26 +19,18 @@ export function sendData(burger) {
         ingredients: burger,
       }),
     })
+      .then(checkResponse)
       .then((res) => {
-        if (res.ok) return res.json();
-        return Promise.reject(res);
+        dispatch({
+          type: SEND_ORDER_SUCCESS,
+          payload: res.order.number,
+        });
       })
-      .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: SEND_ORDER_SUCCESS,
-            payload: res.order.number,
-          });
-        } else {
-          dispatch({
-            type: SEND_ORDER_FAILED,
-          });
-        }
-      })
-      .catch(() => {
+      .catch((err) => {
         dispatch({
           type: SEND_ORDER_FAILED,
         });
+        logErrorToConsole(err);
       });
   };
 }

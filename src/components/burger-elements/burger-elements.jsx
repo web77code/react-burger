@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from 'react-dnd';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import FixedElement from '../fixed-element/fixed-element';
 import DragAndDrop from '../drag-and-drop/drag-and-drop';
+import StartPrompting from '../start-prompting/start-prompting';
 import { SET_BUN, ADD_ITEM } from '../../services/actions/burger-constructor';
 import styles from './burger-elements.module.css';
 
@@ -12,20 +13,21 @@ const BurgerElements = () => {
   const ingredients = useSelector(state => state.ingredients.data);
   const { bun, items } = useSelector(state => state.construct);
 
-  const bunData = ingredients.find((el) => el._id === bun);
-
-  const addBurgerIngredient = (id) => {
+  const addBurgerIngredient = id => {
     const itemType = ingredients.find((el) => el._id === id).type;
     
-    itemType === 'bun'
-      ? dispatch({
+    if(itemType === 'bun') {
+      dispatch({
         type: SET_BUN,
         payload: id
       })
-      : dispatch({
-        type: ADD_ITEM,
-        payload: id
-      });
+    } else {
+      if(bun.length > 0) 
+        dispatch({
+          type: ADD_ITEM, 
+          payload: id
+        });
+    }
   }
 
   const [, dropTarget] = useDrop({
@@ -40,27 +42,15 @@ const BurgerElements = () => {
 
   return (
     <div ref={dropTarget} className={styles.container}>
-      <div className={'mb-4 pl-8 ' + styles.element}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={bunData.name + ' (верх)'}
-          price={bunData.price}
-          thumbnail={bunData.image}
-        />
-      </div>
-
-      {items.length > 0 && <DragAndDrop />}
-
-      <div className={'mt-4 pl-8 ' + styles.element}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={bunData.name + ' (низ)'}
-          price={bunData.price}
-          thumbnail={bunData.image}
-        />
-      </div>
+      {
+        bun.length > 0 
+          ? <>
+              <FixedElement type="top" positionDescribe="верх" />
+              {items.length > 0 && <DragAndDrop />}
+              <FixedElement type="bottom" positionDescribe="низ" /> 
+            </>
+          : <StartPrompting />
+      }
     </div>
   );
 }

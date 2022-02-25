@@ -1,0 +1,9 @@
+.element {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: calc(100% - 16px);
+  box-sizing: border-box;
+}

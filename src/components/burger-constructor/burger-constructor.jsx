@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerElements from '../burger-elements/burger-elements.jsx';
-import { SET_BUN, ADD_ITEM } from '../../services/actions/burger-constructor';
 import { sendData } from '../../services/actions/order-details';
-import { defaultBurger } from '../../utils/constructor-state.js';
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
@@ -13,22 +11,6 @@ const BurgerConstructor = () => {
 
   const ingredients = useSelector(state => state.ingredients.data);
   const { bun, items } = useSelector(state => state.construct);
-
-  useEffect(() => {
-    if(bun.length === 0 && items.length === 0) {
-      dispatch({
-        type: SET_BUN,
-        payload: defaultBurger.bun
-      });
-  
-      defaultBurger.items.forEach((id) => {
-        dispatch({
-          type: ADD_ITEM,
-          payload: id
-        });
-      });
-    }
-  }, [bun.length, items.length, dispatch]);
 
   const burgerPrice = React.useMemo(
     () => {
@@ -49,10 +31,7 @@ const BurgerConstructor = () => {
 
   return (
     <section className={'pt-25 pl-4 pr-4 ' + styles.BurgerConstructor}>
-      {
-        bun.length > 0 && 
-        <BurgerElements />
-      }
+      <BurgerElements />
 
       <div className={'mt-10 pr-4 ' + styles.orderSection}>
         <div className={'mr-10 ' + styles.priceContainer}>

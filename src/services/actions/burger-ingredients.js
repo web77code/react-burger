@@ -1,35 +1,28 @@
-import { CONFIG } from "../../utils/constants";
+import { CONFIG } from '../../utils/constants';
+import { checkResponse, logErrorToConsole } from '../../utils/utils';
 
 export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_FAILED = 'GET_DATA_FAILED';
 
 export function getData() {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
-      type: GET_DATA_REQUEST
+      type: GET_DATA_REQUEST,
     });
-    fetch(`${CONFIG.BASE_URL}/ingredients`, {headers: CONFIG.HEADERS})
-      .then(res => {
-        if (res.ok) return res.json();
-        return Promise.reject(res);
-      })
+    fetch(`${CONFIG.BASE_URL}/ingredients`, { headers: CONFIG.HEADERS })
+      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: GET_DATA_SUCCESS,
-            payload: res.data
-          });
-        } else {
-          dispatch({
-            type: GET_DATA_FAILED
-          });
-        }
-      })
-      .catch(() => {
         dispatch({
-          type: GET_DATA_FAILED
+          type: GET_DATA_SUCCESS,
+          payload: res.data,
         });
+      })
+      .catch((err) => {
+        dispatch({
+          type: GET_DATA_FAILED,
+        });
+        logErrorToConsole(err);
       });
-  }
+  };
 }
