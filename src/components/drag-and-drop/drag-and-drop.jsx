@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import DndElement from '../dnd-element/dnd-element';
 import { REMOVE_ITEM, MOVE_ITEM } from '../../services/actions/burger-constructor';
 import styles from './drag-and-drop.module.css';
 
 const DragAndDrop = () => {
-  
   const dispatch = useDispatch();
 
   const ingredients = useSelector((state) => state.ingredients.data);
@@ -27,7 +27,7 @@ const DragAndDrop = () => {
       return {
         searchItem,
         index: searchItemIndex,
-      }
+      };
     },
     [items]
   );
@@ -45,14 +45,14 @@ const DragAndDrop = () => {
         payload: newSortItems,
       });
     },
-    [findCard, items,dispatch]
+    [findCard, items, dispatch]
   );
 
   const [, drop] = useDrop(() => ({ accept: 'currentBurger' }));
 
   return (
     <div className={styles.container} ref={drop}>
-      {items.map((item, index) => {
+      {items.map((item) => {
         const { name, price, image } = ingredients.find((el) => el._id === item.id);
 
         return (
@@ -60,7 +60,7 @@ const DragAndDrop = () => {
             name={name}
             price={price}
             image={image}
-            key={index}
+            key={uuidv4()}
             orderIndex={item.elementIndex}
             findCard={findCard}
             moveCard={moveCard}
