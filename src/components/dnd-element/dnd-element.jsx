@@ -3,6 +3,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import styles from './dnd-element.module.css';
 
 const DndElement = ({ name, price, image, uid, findCard, moveCard, onDelete }) => {
+  
   const originalIndex = findCard(uid).index;
 
   const [{ isDragging }, drag] = useDrag(

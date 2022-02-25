@@ -19,12 +19,12 @@ export const ingredientDetailsPopupReducer = (state = initialState, action) => {
       return {
         ...state,
         showPopup: true,
-        name: action.ingredient.name, 
-        image_large: action.ingredient.image_large, 
-        calories: action.ingredient.calories, 
-        proteins: action.ingredient.proteins, 
-        fat: action.ingredient.fat, 
-        carbohydrates: action.ingredient.carbohydrates
+        name: action.payload.name, 
+        image_large: action.payload.image_large, 
+        calories: action.payload.calories, 
+        proteins: action.payload.proteins, 
+        fat: action.payload.fat, 
+        carbohydrates: action.payload.carbohydrates
       };
     }
     case CLEAR_INGREDIENT_DETAILS: {

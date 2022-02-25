@@ -3,9 +3,8 @@ import { useDrop } from 'react-dnd';
 import FixedElement from '../fixed-element/fixed-element';
 import DragAndDrop from '../drag-and-drop/drag-and-drop';
 import StartPrompting from '../start-prompting/start-prompting';
-import { SET_BUN, ADD_ITEM } from '../../services/actions/burger-constructor';
+import { setBun, addItem } from '../../services/actions/burger-constructor';
 import styles from './burger-elements.module.css';
-import { v4 as uuidv4 } from 'uuid';
 
 const BurgerElements = () => {
 
@@ -15,19 +14,13 @@ const BurgerElements = () => {
   const { bun, items } = useSelector(state => state.construct);
 
   const addBurgerIngredient = id => {
-    const itemType = ingredients.find((el) => el._id === id).type;
-    const uid = uuidv4();
-    if(itemType === 'bun') {
-      dispatch({
-        type: SET_BUN,
-        payload: id
-      })
+    const { type } = ingredients.find((el) => el._id === id);
+
+    if(type === 'bun') {
+      dispatch(setBun(id));
     } else {
       if(bun.length > 0) 
-        dispatch({
-          type: ADD_ITEM, 
-          payload: { uid, id }
-        });
+        dispatch(addItem(id));
     }
   }
 

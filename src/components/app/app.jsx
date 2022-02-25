@@ -11,9 +11,12 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import ShowLoading from '../show-loading/show-loading';
 import ErrorNotification from '../error-notification/error-notification';
 import { getData } from '../../services/actions/burger-ingredients';
-import { SET_INGREDIENT_DETAILS, CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
-import { CLOSE_ORDER_POPUP } from '../../services/actions/order-details';
-
+import {
+  setIngredientsDetails,
+  clearIngredientsDetails,
+} from '../../services/actions/ingredient-details';
+import { clearConstructor } from '../../services/actions/burger-constructor';
+import { closeOrderPopup } from '../../services/actions/order-details';
 import styles from './app.module.css';
 
 function App() {
@@ -23,22 +26,19 @@ function App() {
   const { dataRequest, dataFailed } = useSelector((state) => state.ingredients);
 
   const showDetailsPopup = useSelector((state) => state.details.showPopup);
-  const showOrderPopup = useSelector((state) => state.order.showPopup)
+  const showOrderPopup = useSelector((state) => state.order.showPopup);
 
   useEffect(() => {
     if (!ingredients.length) dispatch(getData());
   }, [dispatch, ingredients]);
 
   const showIngredientDetail = (e) => {
-    const id = e.target.parentElement.id;
-
     const { name, image_large, calories, proteins, fat, carbohydrates } = ingredients.find(
-      (el) => el._id === id
+      (el) => el._id === e.target.parentElement.id
     );
 
-    dispatch({
-      type: SET_INGREDIENT_DETAILS,
-      ingredient: {
+    dispatch(
+      setIngredientsDetails({
         showPopup: true,
         name,
         image_large,
@@ -46,12 +46,15 @@ function App() {
         proteins,
         fat,
         carbohydrates,
-      },
-    });
+      })
+    );
   };
 
-  const closeIngredientDetails = () => dispatch({type: CLEAR_INGREDIENT_DETAILS});
-  const closeOrderDetails = () => dispatch({type: CLOSE_ORDER_POPUP});
+  const closeIngredientDetails = () => dispatch(clearIngredientsDetails());
+  const closeOrderDetails = () => {
+    dispatch(clearConstructor());
+    dispatch(closeOrderPopup());
+  }
 
   return (
     <div className={styles.app}>

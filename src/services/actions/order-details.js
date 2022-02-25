@@ -34,3 +34,9 @@ export function sendData(burger) {
       });
   };
 }
+
+export function closeOrderPopup() {
+  return { 
+    type: CLOSE_ORDER_POPUP
+  }
+}
