@@ -2,33 +2,33 @@ import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './dnd-element.module.css';
 
-const DndElement = ({ name, price, image, orderIndex, findCard, moveCard, onDelete }) => {
-  const originalIndex = findCard(orderIndex).index;
+const DndElement = ({ name, price, image, uid, findCard, moveCard, onDelete }) => {
+  const originalIndex = findCard(uid).index;
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: 'currentBurger',
-      item: { orderIndex, originalIndex },
+      item: { uid, originalIndex },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
-        const { orderIndex: ind, originalIndex } = item;
+        const { uid: ind, originalIndex } = item;
         const didDrop = monitor.didDrop();
         if (!didDrop) {
           moveCard(ind, originalIndex);
         }
       },
     }),
-    [orderIndex, originalIndex, moveCard]
+    [uid, originalIndex, moveCard]
   );
 
   const [, drop] = useDrop(
     () => ({
       accept: 'currentBurger',
-      hover({ orderIndex: draggedId }) {
-        if (draggedId !== orderIndex) {
-          const { index: overIndex } = findCard(orderIndex);
+      hover({ uid: draggedId }) {
+        if (draggedId !== uid) {
+          const { index: overIndex } = findCard(uid);
           moveCard(draggedId, overIndex);
         }
       },
@@ -39,7 +39,7 @@ const DndElement = ({ name, price, image, orderIndex, findCard, moveCard, onDele
   const opacity = isDragging ? 0 : 1;
 
   const handleClose = () => {
-    onDelete(orderIndex);
+    onDelete(uid);
   };
 
   return (

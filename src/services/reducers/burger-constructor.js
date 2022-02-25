@@ -19,19 +19,15 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case ADD_ITEM: {
-      const arraySortable = [...state.items].map((item, index) => {
-        return { elementIndex: index, id: item.id }
-      });
-      arraySortable.push({ elementIndex: [...state.items].length, id: action.payload });
       return {
         ...state,
-        items: arraySortable
+        items: [...state.items, action.payload]
       };
     }
     case REMOVE_ITEM: {
       return {
         ...state,
-        items: [...state.items].filter((item) => item.elementIndex !== action.payload)
+        items: [...state.items].filter((item) => item.uid !== action.payload)
       };
     }
     case MOVE_ITEM: {
