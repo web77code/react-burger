@@ -1,0 +1,18 @@
+.element {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  width: calc(100% - 8px);
+  cursor: move;
+}
+
+.element:last-child {
+  margin-bottom: 0;
+}
+
+.element svg {
+  min-width: 32px;
+}

@@ -1,149 +1,87 @@
-import React from "react";
-import { CONFIG } from "../../utils/constants";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import ShowLoading from "../show-loading/show-loading";
-import ErrorNotification from "../error-notification/error-notification";
-import { IngredientsContext } from "../../services/appContext";
-import styles from "./app.module.css";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import Modal from '../modal/modal';
+import AppHeader from '../app-header/app-header';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import ShowLoading from '../show-loading/show-loading';
+import ErrorNotification from '../error-notification/error-notification';
+import { getData } from '../../services/actions/burger-ingredients';
+import {
+  setIngredientsDetails,
+  clearIngredientsDetails,
+} from '../../services/actions/ingredient-details';
+import { clearConstructor } from '../../services/actions/burger-constructor';
+import { closeOrderPopup } from '../../services/actions/order-details';
+import styles from './app.module.css';
 
 function App() {
+  const dispatch = useDispatch();
 
-  const [ingredients, setIngredients] = React.useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+  const ingredients = useSelector((state) => state.ingredients.data);
+  const { dataRequest, dataFailed } = useSelector((state) => state.ingredients);
 
-  const [modals, setModals] = React.useState({
-    detailsModal: false,
-    orderModal: false,
-    data: {},
-  });
+  const showDetailsPopup = useSelector((state) => state.details.showPopup);
+  const showOrderPopup = useSelector((state) => state.order.showPopup);
 
-  React.useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = () => {
-    setIngredients({ 
-      ...ingredients, 
-      hasError: false, 
-      isLoading: true 
-    });
-
-    fetch(`${CONFIG.BASE_URL}/ingredients`, {
-      headers: CONFIG.HEADERS,
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        return Promise.reject(res);
-      })
-      .then((res) => {
-        setIngredients({
-          hasError: !res.success,
-          data: res.data,
-          isLoading: false,
-        });
-      })
-      .catch((err) => {
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-
-        if (err.json) {
-          console.error(`Произошла ошибка при загрузке ингредиентов. Тип ошибки: ${err.status} ${err.statusText}`);
-        }
-      });
-  };
-
-  const showOrderDetail = burgerIngredients => {
-
-    fetch(`${CONFIG.BASE_URL}/orders`, {
-      method: 'POST',
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify({
-        "ingredients": burgerIngredients,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        return Promise.reject(res);
-      })
-      .then((res) => {
-        setModals({  
-          detailsModal: false, 
-          orderModal: true,
-          data: res.order.number,
-        });
-      })
-      .catch((err) => {
-        if (!err.json) {
-          console.error("Произошла ошибка при создании заказа. :( Попробуйте еще раз. ");
-        } else {
-          console.error(`Произошла ошибка при создании заказа. Тип ошибки: ${err.status} ${err.statusText}`);
-        }
-      });
-  }
+  useEffect(() => {
+    if (!ingredients.length) dispatch(getData());
+  }, [dispatch, ingredients]);
 
   const showIngredientDetail = (e) => {
+    const { name, image_large, calories, proteins, fat, carbohydrates } = ingredients.find(
+      (el) => el._id === e.target.parentElement.id
+    );
 
-    const id = e.target.parentElement.id;
+    dispatch(
+      setIngredientsDetails({
+        showPopup: true,
+        name,
+        image_large,
+        calories,
+        proteins,
+        fat,
+        carbohydrates,
+      })
+    );
+  };
 
-    const { name, image_large, calories, proteins, fat, carbohydrates } =
-      ingredients.data.find((el) => el._id === id);
-
-    setModals({
-      detailsModal: true,
-      orderModal: false,
-      data: { 
-        name, 
-        image_large, 
-        calories, 
-        proteins, 
-        fat, 
-        carbohydrates 
-      },
-    });
+  const closeIngredientDetails = () => dispatch(clearIngredientsDetails());
+  const closeOrderDetails = () => {
+    dispatch(clearConstructor());
+    dispatch(closeOrderPopup());
   }
-  
-  const closeModal = () => setModals({ detailsModal: false, orderModal: false, data: {} });
-
-  const { isLoading, hasError } = ingredients;
 
   return (
     <div className={styles.app}>
+      {showDetailsPopup && (
+        <Modal closeModal={closeIngredientDetails} header="Детали ингредиента">
+          <IngredientDetails />
+        </Modal>
+      )}
 
-      {
-        modals.detailsModal && 
-        <Modal closeModal={closeModal} header="Детали ингредиента" >
-          <IngredientDetails data={modals.data} />
+      {showOrderPopup && (
+        <Modal closeModal={closeOrderDetails}>
+          <OrderDetails />
         </Modal>
-      }
-            
-      {
-        modals.orderModal && 
-        <Modal closeModal={closeModal}>
-          <OrderDetails orderId={modals.data} />
-        </Modal>
-      }
+      )}
 
       <AppHeader />
-      {isLoading && <ShowLoading />}
-      {hasError && <ErrorNotification />}
-      {!isLoading && !hasError && ingredients.data.length && (
+      {dataRequest && <ShowLoading />}
+      {dataFailed && <ErrorNotification />}
+      {ingredients.length > 0 ? (
         <main className={styles.content}>
-          <IngredientsContext.Provider value={ingredients}>
-            <BurgerIngredients 
-              openPopupWindow={showIngredientDetail} 
-            />
-            <BurgerConstructor 
-              openPopupWindow={showOrderDetail} 
-            />
-          </IngredientsContext.Provider>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openPopupWindow={showIngredientDetail} />
+            <BurgerConstructor />
+          </DndProvider>
         </main>
+      ) : (
+        <ErrorNotification />
       )}
     </div>
   );
