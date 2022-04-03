@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
-import { HomePage } from '../../pages';
+import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '../../pages';
 import styles from './app.module.css';
 
 function App() {
@@ -12,21 +12,18 @@ function App() {
           <Route path="/" exact={true}>
             <HomePage />
           </Route>
-          {/* <Route path="/login" exact={true}>
-            
+          <Route path="/login" exact={true}>
+            <LoginPage />
           </Route>
           <Route path="/register" exact={true}>
-            
+            <RegisterPage />
           </Route>
           <Route path="/forgot-password" exact={true}>
-            
+            <ForgotPasswordPage />
           </Route>
           <Route path="/reset-password" exact={true}>
-            
+            <ResetPasswordPage  />
           </Route>
-          <Route path="/profile" exact={true}>
-            
-          </Route> */}
         </Switch>
       </main>
       
