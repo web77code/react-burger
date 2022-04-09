@@ -40,7 +40,9 @@ const ResetPassword = () => {
           Сохранить
         </Button>
       </form>
-      <p className="mb-4 text text_type_main-default text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
+      <p className="mb-4 text text_type_main-default text_color_inactive">
+        Вспомнили пароль? <Link to="/login" className={styles.link}>Войти</Link>
+      </p>
     </div>
   );
 }

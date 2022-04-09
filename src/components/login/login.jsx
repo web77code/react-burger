@@ -40,8 +40,12 @@ const Login = () => {
           Войти
         </Button>
       </form>
-      <p className="mb-4 text text_type_main-default text_color_inactive">Вы — новый пользователь? <Link to="/register">Зарегистрироваться</Link></p>
-      <p className="text text_type_main-default text_color_inactive">Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link></p>
+      <p className="mb-4 text text_type_main-default text_color_inactive">
+        Вы — новый пользователь? <Link to="/register" className={styles.link}>Зарегистрироваться</Link>
+      </p>
+      <p className="text text_type_main-default text_color_inactive">
+        Забыли пароль? <Link to="/forgot-password" className={styles.link}>Восстановить пароль</Link>
+      </p>
     </div>
   );
 }
