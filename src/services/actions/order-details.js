@@ -12,7 +12,7 @@ export function sendData(burger) {
       type: SEND_ORDER_REQUEST,
     });
 
-    fetch(`${CONFIG.BASE_URL}/orders`, {
+    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.ORDERS}`, {
       method: 'POST',
       headers: CONFIG.HEADERS,
       body: JSON.stringify({

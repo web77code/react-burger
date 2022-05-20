@@ -6,33 +6,38 @@ import styles from './login.module.css';;
 
 const Login = () => {
 
-  const [value, setValue] = useState('');
-  const [pass, setPass] = useState('')
+  const [state, setState] = useState({
+    email: '',
+    password: ''
+  });
 
-  const onChange = e => {
-    setPass(e.target.value)
+  const handleSubmit = e => {
+
+  }
+
+  const handleChange = e => {
+    
   }
 
   return (
     <div className={styles.container}>
       <h1 className="mb-6 text text_type_main-medium">Вход</h1>
-      <form className={'mb-20 ' + styles.form}>
+      <form onSubmit={handleSubmit} className={'mb-20 ' + styles.form}>
         <div className={'mb-6 ' + styles.input}>
           <Input
             type={'email'}
             placeholder={'E-mail'}
-            onChange={onChange} 
-            value={value} 
+            onChange={handleChange} 
+            value={state.email} 
             error={false}
             errorText={"Ошибка"}
-            name={'name'}
-            size={"default"}
+            name={'email'}
           />
         </div>
         <div className={'mb-6 ' + styles.input}>
           <PasswordInput 
-            onChange={onChange} 
-            value={pass} 
+            onChange={handleChange} 
+            value={state.password} 
             name={'password'} 
           />
         </div>

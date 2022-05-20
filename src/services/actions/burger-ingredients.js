@@ -10,7 +10,7 @@ export function getData() {
     dispatch({
       type: GET_DATA_REQUEST,
     });
-    fetch(`${CONFIG.BASE_URL}/ingredients`, { headers: CONFIG.HEADERS })
+    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.INGREDIENTS}`, { headers: CONFIG.HEADERS })
       .then(checkResponse)
       .then((res) => {
         dispatch({
@@ -18,7 +18,7 @@ export function getData() {
           payload: res.data,
         });
       })
-      .catch((err) => {
+      .catch((err) => { 
         dispatch({
           type: GET_DATA_FAILED,
         });
