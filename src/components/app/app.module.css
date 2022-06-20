@@ -10,4 +10,5 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
+  margin-bottom: 40px;
 }
