@@ -24,6 +24,15 @@ function App() {
           <Route path="/reset-password" exact={true}>
             <ResetPasswordPage  />
           </Route>
+          {/* <ProtectedRoute path="/profile" exact={true}>
+            <ProfilePage  />
+          </ProtectedRoute>
+          <Route path="/ingredients/:id" exact={true}>
+            <IngredientPage  />
+          </Route> 
+          <Route>
+            <NotFound404 />
+          </Route>*/}
         </Switch>
       </main>
       
