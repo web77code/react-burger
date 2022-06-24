@@ -6,7 +6,10 @@ export const CONFIG = {
   END_POINTS: {
     INGREDIENTS: 'ingredients',
     ORDERS: 'orders',
-    REGISTER: 'auth/register',
+    register: 'auth/register',
+    login: 'auth/login',
+    logout: 'auth/logout',
+    token: 'auth/token',
   }
 }
 
