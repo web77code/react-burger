@@ -20,6 +20,7 @@ import { clearConstructor } from '../services/actions/burger-constructor';
 import { closeOrderPopup } from '../services/actions/order-details';
 
 const HomePage = () => {
+
   const dispatch = useDispatch();
 
   const ingredients = useSelector((state) => state.ingredients.data);
@@ -50,7 +51,9 @@ const HomePage = () => {
     );
   };
 
-  const closeIngredientDetails = () => dispatch(clearIngredientsDetails());
+  const closeIngredientDetails = () => {
+    dispatch(clearIngredientsDetails());
+  }
 
   const closeOrderDetails = () => {
     dispatch(clearConstructor());
@@ -73,13 +76,12 @@ const HomePage = () => {
 
       {dataRequest && <ShowLoading />}
       {dataFailed && <ErrorNotification />}
-      {ingredients.length > 0 ? (
+      
+      {ingredients.length && (
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients openPopupWindow={showIngredientDetail} />
           <BurgerConstructor />
         </DndProvider>
-      ) : (
-        <ErrorNotification />
       )}
     </>
   );
