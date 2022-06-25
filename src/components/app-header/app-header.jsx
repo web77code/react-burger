@@ -15,12 +15,12 @@ const AppHeader = () => {
         <nav className={styles.navigation}>
           <ul className={styles.list}>
             <li>
-              <HeaderButton name="Конструктор">
-                <BurgerIcon type="primary" />
+              <HeaderButton text="Конструктор" url="/">
+                <BurgerIcon type="secondary" />
               </HeaderButton>
             </li>
             <li className="ml-2">
-              <HeaderButton name="Лента заказов" inactive>
+              <HeaderButton text="Лента заказов" url="/all-orders">
                 <ListIcon type="secondary" />
               </HeaderButton>
             </li>
@@ -28,7 +28,7 @@ const AppHeader = () => {
         </nav>
         <Logo />
         <div className={styles.rightSide}>
-          <HeaderButton name="Личный кабинет" inactive>
+          <HeaderButton text="Личный кабинет" url="/profile">
             <ProfileIcon type="secondary" />
           </HeaderButton>
         </div>

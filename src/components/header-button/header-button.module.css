@@ -1,6 +1,11 @@
-.button {
+.linkContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   border-radius: 40px;
+  text-decoration: none;
+}
+
+.activePage {
+  color: #F2F2F3;
 }
