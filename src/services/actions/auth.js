@@ -1,5 +1,5 @@
 import { CONFIG } from "../../utils/constants";
-import { checkResponse, logErrorToConsole } from "../../utils/utils";
+import { checkResponse, logErrorToConsole, buildAuthObject } from "../../utils/utils";
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
 export const REGISTRTION_SUCCESSED = "REGISTRTION_SUCCESS";
@@ -27,13 +27,18 @@ export function sendRegistrationRequest(user) {
       .then(checkResponse)
       .then((res) => {
         if (res.success) {
+          const data = buildAuthObject(res);
+
           dispatch({
             type: REGISTRTION_SUCCESSED,
-            payload: {
-              user: res.user,
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-            },
+            payload: data,
+          });
+
+          localStorage.setItem("user", JSON.stringify(data));
+
+          dispatch({
+            type: LOGIN_SUCCESSED,
+            payload: data,
           });
         }
       })
@@ -59,12 +64,7 @@ export function sendLoginRequest(user) {
       .then(checkResponse)
       .then((res) => {
         if (res.success) {
-          const data = {
-            user: res.user,
-            accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
-          };
-
+          const data = buildAuthObject(res);
           localStorage.setItem("user", JSON.stringify(data));
 
           dispatch({
