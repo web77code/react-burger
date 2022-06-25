@@ -9,19 +9,12 @@ import {
 
 const data = JSON.parse(localStorage.getItem("user"));
 
-const initialState = data
-  ? {
-      isAuth: true,
-      data,
-      sendRequest: false,
-      requestFailed: false,
-    }
-  : {
-      isAuth: false,
-      data: {},
-      sendRequest: false,
-      requestFailed: false,
-    };
+const initialState = {
+  isAuth: data ? true : false,
+  data: data ? data : {},
+  sendRequest: false,
+  requestFailed: false,
+}
 
 export const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
