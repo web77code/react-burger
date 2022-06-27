@@ -28,3 +28,25 @@
 .active {
   color: #F2F2F3;
 }
+
+.formControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: #4C4CFF;
+  border: none;
+  box-sizing: border-box;
+  padding: 16px 8px;
+  margin-right: 20px;
+}
+
+.cancelButton:hover {
+  cursor: pointer;
+}
