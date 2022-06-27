@@ -5,6 +5,9 @@ import {
   SEND_LOGIN_REQUEST,
   LOGIN_SUCCESSED,
   LOGIN_FAILED,
+  SEND_LOGOUT_REQUEST,
+  LOGOUT_SUCCESSED,
+  LOGOUT_FAILED,
 } from "../actions/auth.js";
 
 const data = JSON.parse(localStorage.getItem("user"));
@@ -62,6 +65,30 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         sendRequest: false,
         isAuth: false,
+      };
+    }
+    case SEND_LOGOUT_REQUEST: {
+      return {
+        ...state,
+        sendRequest: true,
+      };
+    }
+    case LOGOUT_SUCCESSED: {
+      localStorage.removeItem("user");
+
+      return {
+        ...state,
+        isAuth: false,
+        data: initialState,
+        sendRequest: false,
+        requestFailed: false,
+      };
+    }
+    case LOGOUT_FAILED: {
+      return {
+        ...state,
+        sendRequest: false,
+        requestFailed: true,
       };
     }
     default: {

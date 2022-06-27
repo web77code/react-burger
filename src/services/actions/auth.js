@@ -10,7 +10,7 @@ export const LOGIN_SUCCESSED = "LOGIN_SUCCESSED";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const SEND_LOGOUT_REQUEST = "SEND_LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_SUCCESSED = "LOGOUT_SUCCESSED";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
 export function sendRegistrationRequest(user) {
@@ -76,6 +76,38 @@ export function sendLoginRequest(user) {
       .catch((err) => {
         dispatch({
           type: LOGIN_FAILED,
+        });
+        logErrorToConsole(err);
+      });
+  };
+}
+
+export function sendLogoutRequest() {
+  return function (dispatch) {
+    dispatch({
+      type: SEND_LOGOUT_REQUEST,
+    });
+
+    const data = {
+      token: JSON.parse(localStorage.getItem("user")).refreshToken,
+    }
+
+    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.logout}`, {
+      method: "POST",
+      headers: CONFIG.HEADERS,
+      body: JSON.stringify(data),
+    })
+      .then(checkResponse)
+      .then((res) => {
+        if (res.success) {
+          dispatch({
+            type: LOGOUT_SUCCESSED,
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: LOGOUT_FAILED,
         });
         logErrorToConsole(err);
       });
