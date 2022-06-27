@@ -1,10 +1,6 @@
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderButton from '../header-button/header-button';
+
 import styles from './app-header.module.css';
 
 const AppHeader = () => {
@@ -15,22 +11,28 @@ const AppHeader = () => {
         <nav className={styles.navigation}>
           <ul className={styles.list}>
             <li>
-              <HeaderButton text="Конструктор" url="/">
-                <BurgerIcon type="secondary" />
-              </HeaderButton>
+              <HeaderButton 
+                icon="BurgerIcon" 
+                text="Конструктор" 
+                url="/" 
+              />
             </li>
             <li className="ml-2">
-              <HeaderButton text="Лента заказов" url="/all-orders">
-                <ListIcon type="secondary" />
-              </HeaderButton>
+              <HeaderButton 
+                icon="ListIcon" 
+                text="Лента заказов" 
+                url="/all-orders" 
+              />
             </li>
           </ul>
         </nav>
         <Logo />
         <div className={styles.rightSide}>
-          <HeaderButton text="Личный кабинет" url="/profile">
-            <ProfileIcon type="secondary" />
-          </HeaderButton>
+          <HeaderButton 
+            icon="ProfileIcon" 
+            text="Личный кабинет" 
+            url="/profile" 
+          />
         </div>
       </div>
     </header>
