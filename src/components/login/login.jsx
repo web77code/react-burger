@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Input,
   PasswordInput,
@@ -13,8 +13,6 @@ import styles from "./login.module.css";
 
 const Login = () => {
   const dispatch = useDispatch();
-
-  const isAuth = useSelector((store) => store.auth.isAuth);
 
   const [state, setState] = useState({
     email: "",
@@ -32,55 +30,44 @@ const Login = () => {
   };
 
   return (
-    <>
-      {isAuth ? (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: { from: "/login" },
-          }}
-        />
-      ) : (
-        <div className={styles.container}>
-          <h1 className="mb-6 text text_type_main-medium">Вход</h1>
-          <form onSubmit={handleSubmit} className={"mb-20 " + styles.form}>
-            <div className={"mb-6 " + styles.input}>
-              <Input
-                type={"email"}
-                placeholder={"E-mail"}
-                onChange={handleChange}
-                value={state.email}
-                error={false}
-                errorText={"Ошибка"}
-                name={"email"}
-              />
-            </div>
-            <div className={"mb-6 " + styles.input}>
-              <PasswordInput
-                onChange={handleChange}
-                value={state.password}
-                name={"password"}
-              />
-            </div>
-            <Button type="primary" size="medium">
-              Войти
-            </Button>
-          </form>
-          <p className="mb-4 text text_type_main-default text_color_inactive">
-            Вы — новый пользователь?{" "}
-            <Link to="/register" className={styles.link}>
-              Зарегистрироваться
-            </Link>
-          </p>
-          <p className="text text_type_main-default text_color_inactive">
-            Забыли пароль?{" "}
-            <Link to="/forgot-password" className={styles.link}>
-              Восстановить пароль
-            </Link>
-          </p>
+    <div className={styles.container}>
+      <h1 className="mb-6 text text_type_main-medium">Вход</h1>
+      <form onSubmit={handleSubmit} className={"mb-20 " + styles.form}>
+        <div className={"mb-6 " + styles.input}>
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
+            onChange={handleChange}
+            value={state.email}
+            error={false}
+            errorText={"Ошибка"}
+            name={"email"}
+          />
         </div>
-      )}
-    </>
+        <div className={"mb-6 " + styles.input}>
+          <PasswordInput
+            onChange={handleChange}
+            value={state.password}
+            name={"password"}
+          />
+        </div>
+        <Button type="primary" size="medium">
+          Войти
+        </Button>
+      </form>
+      <p className="mb-4 text text_type_main-default text_color_inactive">
+        Вы — новый пользователь?{" "}
+        <Link to="/register" className={styles.link}>
+          Зарегистрироваться
+        </Link>
+      </p>
+      <p className="text text_type_main-default text_color_inactive">
+        Забыли пароль?{" "}
+        <Link to="/forgot-password" className={styles.link}>
+          Восстановить пароль
+        </Link>
+      </p>
+    </div>
   );
 };
 

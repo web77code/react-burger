@@ -1,6 +1,16 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ProtectedRoute } from '../protected-route';
+
 import AppHeader from '../app-header/app-header';
-import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage } from '../../pages';
+import { 
+  HomePage, 
+  LoginPage, 
+  RegisterPage, 
+  ForgotPasswordPage, 
+  ResetPasswordPage, 
+  ProfilePage 
+} from '../../pages';
+
 import styles from './app.module.css';
 
 function App() {
@@ -9,24 +19,54 @@ function App() {
       <AppHeader />
       <main className={styles.content}>
         <Switch>
-          <Route path="/" exact={true}>
+          <ProtectedRoute 
+            path="/" 
+            authOnly
+            exact
+          >
             <HomePage />
-          </Route>
-          <Route path="/login" exact={true}>
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/login"
+            anonymousOnly 
+            exact
+          >
             <LoginPage />
-          </Route>
-          <Route path="/register" exact={true}>
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/register" 
+            anonymousOnly
+            exact
+          >
             <RegisterPage />
-          </Route>
-          <Route path="/forgot-password" exact={true}>
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/forgot-password" 
+            anonymousOnly
+            exact
+          >
             <ForgotPasswordPage />
-          </Route>
-          <Route path="/reset-password" exact={true}>
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/reset-password" 
+            anonymousOnly
+            exact
+          >
             <ResetPasswordPage  />
-          </Route>
-          <Route path="/profile" exact={true}>
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/profile"
+            authOnly
+            exact
+          >
             <ProfilePage  />
-          </Route>
+          </ProtectedRoute>
+
           {/* <Route path="/ingredients/:id" exact={true}>
             <IngredientPage  />
           </Route> 
