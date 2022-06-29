@@ -1,4 +1,4 @@
-import HomePage from './home/home';
+import HomePage from './home';
 import LoginPage from './login';
 import RegistrationPage from './registration';
 import ForgotPasswordPage from './forgot-password';
