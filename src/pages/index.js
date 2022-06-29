@@ -1,8 +1,8 @@
-import HomePage from './home.jsx';
-import LoginPage from './login.jsx';
-import RegisterPage from './register.jsx';
-import ForgotPasswordPage from './forgot-password.jsx';
-import ResetPasswordPage from './reset-password.jsx';
-import ProfilePage from './profile.jsx';
+import HomePage from './home/home';
+import LoginPage from './login';
+import RegistrationPage from './registration';
+import ForgotPasswordPage from './forgot-password';
+import ResetPasswordPage from './reset-password';
+import ProfilePage from './profile';
 
-export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage };
+export { HomePage, LoginPage, RegistrationPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage };

@@ -3,23 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import Modal from '../components/modal/modal';
-import IngredientDetails from '../components/ingredient-details/ingredient-details';
-import OrderDetails from '../components/order-details/order-details';
-import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../components/burger-constructor/burger-constructor';
-import ShowLoading from '../components/show-loading/show-loading';
-import ErrorNotification from '../components/error-notification/error-notification';
+import Modal from '../../components/modal/modal';
+import IngredientDetails from '../../components/ingredient-details/ingredient-details';
+import OrderDetails from '../../components/order-details/order-details';
+import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+import ShowLoading from '../../components/show-loading/show-loading';
+import ErrorNotification from '../../components/error-notification/error-notification';
 
-import { getData } from '../services/actions/burger-ingredients';
+import { getData } from '../../services/actions/burger-ingredients';
 import {
   setIngredientsDetails,
   clearIngredientsDetails,
-} from '../services/actions/ingredient-details';
-import { clearConstructor } from '../services/actions/burger-constructor';
-import { closeOrderPopup } from '../services/actions/order-details';
+} from '../../services/actions/ingredient-details';
+import { clearConstructor } from '../../services/actions/burger-constructor';
+import { closeOrderPopup } from '../../services/actions/order-details';
 
-const HomePage = () => {
+const Home = () => {
 
   const dispatch = useDispatch();
 
@@ -87,4 +87,4 @@ const HomePage = () => {
   );
 }
 
-export default HomePage;
+export default Home;

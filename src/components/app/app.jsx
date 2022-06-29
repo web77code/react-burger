@@ -5,7 +5,7 @@ import AppHeader from '../app-header/app-header';
 import { 
   HomePage, 
   LoginPage, 
-  RegisterPage, 
+  RegistrationPage, 
   ForgotPasswordPage, 
   ResetPasswordPage, 
   ProfilePage 
@@ -40,7 +40,7 @@ function App() {
             anonymousOnly
             exact
           >
-            <RegisterPage />
+            <RegistrationPage />
           </ProtectedRoute>
 
           <ProtectedRoute 
