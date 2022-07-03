@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { CONFIG } from '../../utils/constants';
@@ -8,6 +8,8 @@ import { checkResponse, logErrorToConsole } from '../../utils/utils';
 import styles from './forgot-password.module.css';;
 
 const ForgotPassword = () => {
+
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
   const [response, setResponse] = useState(false);
@@ -42,7 +44,7 @@ const ForgotPassword = () => {
           <Redirect
             to={{
               pathname: '/reset-password',
-              state: { from: '/forget-password' }
+              state: { from: history.location.pathname }
             }}
           />
           ) : (
