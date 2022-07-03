@@ -57,3 +57,23 @@ export async function userLogout(data) {
   })
   return checkResponse(res);
 }
+
+export async function resetPasswordRequest(data) {
+  const res = await fetch('https://norma.nomoreparties.space/api/password-reset', {
+    method: 'POST',
+    headers: CONFIG.HEADERS,
+    body: JSON.stringify({
+      email: data,
+    }),
+  });
+  return checkResponse(res);
+}
+
+export async function updatePassword(data) {
+  const res = await fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+    method: 'POST',
+    headers: CONFIG.HEADERS,
+    body: JSON.stringify({...data}),
+  });
+  return checkResponse(res);
+}

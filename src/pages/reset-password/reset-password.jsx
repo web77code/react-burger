@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { CONFIG } from '../../utils/constants';
-import { checkResponse, logErrorToConsole } from '../../utils/utils';
+import { updatePassword } from '../../utils/api';
+import { logErrorToConsole } from '../../utils/utils';
 
 import styles from './reset-password.module.css';;
 
@@ -24,12 +24,7 @@ const ResetPassword = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
-      method: 'POST',
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify({...state}),
-    })
-      .then(checkResponse)
+    updatePassword(state)
       .then((res) => {
         if(res.success) setResponse(true);
       })
