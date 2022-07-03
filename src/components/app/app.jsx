@@ -8,7 +8,8 @@ import {
   RegistrationPage, 
   ForgotPasswordPage, 
   ResetPasswordPage, 
-  ProfilePage 
+  ProfilePage,
+  NotFoundPage
 } from '../../pages';
 
 import styles from './app.module.css';
@@ -20,8 +21,7 @@ function App() {
       <main className={styles.content}>
         <Switch>
           <ProtectedRoute 
-            path="/" 
-            authOnly
+            path="/"
             exact
           >
             <HomePage />
@@ -52,7 +52,8 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute 
-            path="/reset-password" 
+            path="/reset-password"
+            hasParrentPage="/forgot-password"
             anonymousOnly
             exact
           >
@@ -67,12 +68,9 @@ function App() {
             <ProfilePage  />
           </ProtectedRoute>
 
-          {/* <Route path="/ingredients/:id" exact={true}>
-            <IngredientPage  />
-          </Route> 
-          <Route>
-            <NotFound404 />
-          </Route>*/}
+          <Route path="*">
+            <NotFoundPage />
+          </Route>
         </Switch>
       </main>
     </Router>
