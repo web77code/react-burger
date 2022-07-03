@@ -1,5 +1,5 @@
-import { CONFIG } from "../../utils/constants";
-import { checkResponse, logErrorToConsole, buildAuthObject } from "../../utils/utils";
+import { logErrorToConsole, buildAuthObject } from "../../utils/utils";
+import { userRegistration, userLogin, userLogout } from '../../utils/api'
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
 export const REGISTRTION_SUCCESSED = "REGISTRTION_SUCCESS";
@@ -19,12 +19,7 @@ export function sendRegistrationRequest(user) {
       type: SEND_REGISTRTION_REQUEST,
     });
 
-    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.register}`, {
-      method: "POST",
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify(user),
-    })
-      .then(checkResponse)
+    userRegistration(user)
       .then((res) => {
         if (res.success) {
           const data = buildAuthObject(res);
@@ -56,12 +51,8 @@ export function sendLoginRequest(user) {
     dispatch({
       type: SEND_LOGIN_REQUEST,
     });
-    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.login}`, {
-      method: "POST",
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify(user),
-    })
-      .then(checkResponse)
+
+    userLogin(user)
       .then((res) => {
         if (res.success) {
           const data = buildAuthObject(res);
@@ -92,12 +83,7 @@ export function sendLogoutRequest() {
       token: JSON.parse(localStorage.getItem("user")).refreshToken,
     }
 
-    fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.logout}`, {
-      method: "POST",
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(checkResponse)
+    userLogout(data)
       .then((res) => {
         if (res.success) {
           dispatch({
