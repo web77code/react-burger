@@ -7,6 +7,21 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка ${res.status}`);
 }
 
+//API for orders
+
+export async function sendOrder(data) {
+  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.ORDERS}`, {
+    method: 'POST',
+    headers: CONFIG.HEADERS,
+    body: JSON.stringify({
+      ingredients: data,
+    }),
+  });
+  return checkResponse(res);
+}
+
+//API for users
+
 export async function userRegistration(data) {
   const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.register}`, {
     method: "POST",
