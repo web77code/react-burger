@@ -1,17 +1,16 @@
-import { CONFIG } from './constants';
+import { CONFIG } from "./constants";
 
 const checkResponse = (res) => {
-  if (res.ok) 
-    return res.json();
+  if (res.ok) return res.json();
 
   return Promise.reject(`Ошибка ${res.status}`);
-}
+};
 
 //API for ingredietns
 
 export async function getIngredients() {
-  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.INGREDIENTS}`, { 
-    headers: CONFIG.HEADERS 
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.ingredients}`, {
+    headers: CONFIG.headers,
   });
   return checkResponse(res);
 }
@@ -19,9 +18,9 @@ export async function getIngredients() {
 //API for orders
 
 export async function sendOrder(data) {
-  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.ORDERS}`, {
-    method: 'POST',
-    headers: CONFIG.HEADERS,
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.orders}`, {
+    method: "POST",
+    headers: CONFIG.headers,
     body: JSON.stringify({
       ingredients: data,
     }),
@@ -32,36 +31,36 @@ export async function sendOrder(data) {
 //API for users
 
 export async function userRegistration(data) {
-  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.register}`, {
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.register}`, {
     method: "POST",
-    headers: CONFIG.HEADERS,
+    headers: CONFIG.headers,
     body: JSON.stringify(data),
   });
   return checkResponse(res);
 }
 
 export async function userLogin(data) {
-  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.login}`, {
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.login}`, {
     method: "POST",
-    headers: CONFIG.HEADERS,
+    headers: CONFIG.headers,
     body: JSON.stringify(data),
   });
   return checkResponse(res);
 }
 
 export async function userLogout(data) {
-  const res = await fetch(`${CONFIG.BASE_URL}/${CONFIG.END_POINTS.logout}`, {
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.logout}`, {
     method: "POST",
-    headers: CONFIG.HEADERS,
+    headers: CONFIG.headers,
     body: JSON.stringify(data),
-  })
+  });
   return checkResponse(res);
 }
 
 export async function resetPasswordRequest(data) {
-  const res = await fetch('https://norma.nomoreparties.space/api/password-reset', {
-    method: 'POST',
-    headers: CONFIG.HEADERS,
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passForgot}`, {
+    method: "POST",
+    headers: CONFIG.headers,
     body: JSON.stringify({
       email: data,
     }),
@@ -70,10 +69,30 @@ export async function resetPasswordRequest(data) {
 }
 
 export async function updatePassword(data) {
-  const res = await fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
-    method: 'POST',
-    headers: CONFIG.HEADERS,
-    body: JSON.stringify({...data}),
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passReset}`, {
+    method: "POST",
+    headers: CONFIG.headers,
+    body: JSON.stringify({ ...data }),
+  });
+  return checkResponse(res);
+}
+
+export async function getUserData(token) {
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.user}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  });
+  return checkResponse(res);
+}
+
+export async function getNewToken(data) {
+  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.token}`, {
+    method: "POST",
+    headers: CONFIG.headers,
+    body: JSON.stringify(data),
   });
   return checkResponse(res);
 }
