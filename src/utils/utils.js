@@ -7,11 +7,3 @@ export const logErrorToConsole = (err) => {
     });
   }
 }
-
-export const buildAuthObject = (data) => {
-  return {
-    user: data.user,
-    accessToken: data.accessToken,
-    refreshToken: data.refreshToken,
-  };
-}
