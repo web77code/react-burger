@@ -13,17 +13,24 @@ import {
 import styles from "./profile.module.css";
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const { data } = useSelector((store) => store.auth);
 
-  const [state, setState] = useState({});
+  const dispatch = useDispatch();
+
+  const { data } = useSelector((store) => store.user);
+  const [ state, setState ] = useState({});
 
   useEffect(() => {
-    const { name, email } = data.user;
-    setState({ name, email });
+    if(data) {
+      const { name, email } = data;
+
+      setState({ 
+        name, 
+        email,
+      });
+    }
   }, [data]);
 
-  const onLogoutClick = (e) => {
+  const handleLogoutClick = (e) => {
     e.preventDefault();
     dispatch(sendLogoutRequest());
   };
@@ -63,7 +70,7 @@ const Profile = () => {
               className={
                 styles.link + " text text_type_main-medium text_color_inactive"
               }
-              onClick={onLogoutClick}
+              onClick={handleLogoutClick}
               to="/logout"
             >
               Выход
