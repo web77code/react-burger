@@ -1,11 +1,23 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: calc(100vh - 88px);
   max-width: 700px;
-  margin: 0 auto;
+  margin: 200px auto 0;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 480px;
+  height: 240px;
+  background-image: url('../../images/404error.png');
+  opacity: 0.3;
 }
 
 .link {
