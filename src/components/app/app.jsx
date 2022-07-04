@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import { ProtectedRoute } from '../protected-route';
+import { checkAuthUser } from '../../services/actions/auth';
 
 import AppHeader from '../app-header/app-header';
+
 import { 
   HomePage, 
   LoginPage, 
@@ -14,7 +19,17 @@ import {
 
 import styles from './app.module.css';
 
-function App() {
+const App = () => {
+
+  const dispatch = useDispatch();
+
+  const { isAuthChecked, sendRequest } = useSelector(store => store.user);
+
+  useEffect(() => {
+    if(!isAuthChecked && !sendRequest) 
+      dispatch(checkAuthUser());
+  }, [isAuthChecked, sendRequest, dispatch]);
+
   return (
     <Router>
       <AppHeader />

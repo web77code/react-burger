@@ -1,5 +1,12 @@
-import { logErrorToConsole, buildAuthObject } from "../../utils/utils";
-import { userRegistration, userLogin, userLogout } from '../../utils/api'
+import { logErrorToConsole } from "../../utils/utils";
+import { setCookie, getCookie, removeCookie } from "../../utils/cookies";
+import {
+  userRegistration,
+  userLogin,
+  userLogout,
+  getUserData,
+  getNewToken,
+} from "../../utils/api";
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
 export const REGISTRTION_SUCCESSED = "REGISTRTION_SUCCESS";
@@ -13,6 +20,12 @@ export const SEND_LOGOUT_REQUEST = "SEND_LOGOUT_REQUEST";
 export const LOGOUT_SUCCESSED = "LOGOUT_SUCCESSED";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
+export const CHECK_TOKEN_REQUEST = "CHECK_TOKEN_REQUEST";
+export const CHECK_TOKEN_SUCCESSED = "CHECK_TOKEN_SUCCESSED";
+export const CHECK_TOKEN_UNSUCCESSED = "CHECK_TOKEN_UNSUCCESSED";
+export const CHECK_TOKEN_FAILED = "CHECK_TOKEN_FAILED";
+export const CHECK_TOKEN_NOTOKEN = "CHECK_TOKEN_NOTOKEN";
+
 export function sendRegistrationRequest(user) {
   return function (dispatch) {
     dispatch({
@@ -22,18 +35,17 @@ export function sendRegistrationRequest(user) {
     userRegistration(user)
       .then((res) => {
         if (res.success) {
-          const data = buildAuthObject(res);
-
           dispatch({
             type: REGISTRTION_SUCCESSED,
-            payload: data,
+            payload: res.user,
           });
 
-          localStorage.setItem("user", JSON.stringify(data));
+          setCookie("token", res.accessToken.split("Bearer ")[1]);
+          localStorage.setItem("user", JSON.stringify(res.refreshToken));
 
           dispatch({
             type: LOGIN_SUCCESSED,
-            payload: data,
+            payload: res.user,
           });
         }
       })
@@ -55,12 +67,12 @@ export function sendLoginRequest(user) {
     userLogin(user)
       .then((res) => {
         if (res.success) {
-          const data = buildAuthObject(res);
-          localStorage.setItem("user", JSON.stringify(data));
+          setCookie("token", res.accessToken.split("Bearer ")[1]);
+          localStorage.setItem("user", JSON.stringify(res.refreshToken));
 
           dispatch({
             type: LOGIN_SUCCESSED,
-            payload: data,
+            payload: res.user,
           });
         }
       })
@@ -80,12 +92,15 @@ export function sendLogoutRequest() {
     });
 
     const data = {
-      token: JSON.parse(localStorage.getItem("user")).refreshToken,
-    }
+      token: JSON.parse(localStorage.getItem("user")),
+    };
 
     userLogout(data)
       .then((res) => {
         if (res.success) {
+          localStorage.removeItem("user");
+          removeCookie("token");
+
           dispatch({
             type: LOGOUT_SUCCESSED,
           });
@@ -97,5 +112,87 @@ export function sendLogoutRequest() {
         });
         logErrorToConsole(err);
       });
+  };
+}
+
+export function checkAuthUser() {
+  return function (dispatch) {
+    const accessToken = getCookie("token");
+
+    if (accessToken) {
+      dispatch({
+        type: CHECK_TOKEN_REQUEST,
+      });
+
+      getUserData("Bearer " + accessToken)
+        .then((res) => {
+          if (res.success) {
+            dispatch({
+              type: CHECK_TOKEN_SUCCESSED,
+              payload: res.user,
+            });
+          }
+        })
+        .catch((err) => {
+          if (err.indexOf("403")) {
+            const data = {
+              token: JSON.parse(localStorage.getItem("user")),
+            };
+
+            getNewToken(data)
+              .then((response) => {
+                if (response.success) {
+                  setCookie("token", response.accessToken.split("Bearer ")[1]);
+
+                  dispatch({
+                    type: CHECK_TOKEN_SUCCESSED,
+                    payload: response.user,
+                  });
+                }
+              })
+              .catch((response) => {
+                dispatch({
+                  type: CHECK_TOKEN_UNSUCCESSED,
+                });
+                logErrorToConsole(response);
+              });
+          } else {
+            dispatch({
+              type: CHECK_TOKEN_FAILED,
+            });
+            logErrorToConsole(err);
+          }
+        });
+    } else {
+      const token = JSON.parse(localStorage.getItem("user"));
+
+      if (token) {
+        const data = {
+          token: JSON.parse(localStorage.getItem("user")),
+        };
+
+        getNewToken(data)
+          .then((response) => {
+            if (response.success) {
+              setCookie("token", response.accessToken.split("Bearer ")[1]);
+
+              dispatch({
+                type: CHECK_TOKEN_SUCCESSED,
+                payload: response.user,
+              });
+            }
+          })
+          .catch((response) => {
+            dispatch({
+              type: CHECK_TOKEN_FAILED,
+            });
+            logErrorToConsole(response);
+          });
+      } else {
+        dispatch({
+          type: CHECK_TOKEN_NOTOKEN,
+        });
+      }
+    }
   };
 }

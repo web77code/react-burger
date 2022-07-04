@@ -8,13 +8,16 @@ import {
   SEND_LOGOUT_REQUEST,
   LOGOUT_SUCCESSED,
   LOGOUT_FAILED,
+  CHECK_TOKEN_REQUEST,
+  CHECK_TOKEN_SUCCESSED,
+  CHECK_TOKEN_UNSUCCESSED,
+  CHECK_TOKEN_FAILED,
+  CHECK_TOKEN_NOTOKEN,
 } from "../actions/auth.js";
 
-const data = JSON.parse(localStorage.getItem("user"));
-
 const initialState = {
-  isAuth: data ? true : false,
-  data: data ? data : {},
+  isAuthChecked: false,
+  data: null,
   sendRequest: false,
   requestFailed: false,
 }
@@ -27,12 +30,12 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         sendRequest: true,
+        requestFailed: false,
       };
     }
     case REGISTRTION_SUCCESSED: {
       return {
         ...state,
-        isAuth: true,
         data: payload,
         sendRequest: false,
         requestFailed: false,
@@ -40,21 +43,23 @@ export const authReducer = (state = initialState, action) => {
     }
     case REGISTRTION_FAILED: {
       return {
-        ...state,
+        isAuthChecked: false,
+        data: null,
         sendRequest: false,
-        isAuth: false,
+        requestFailed: true,
       };
     }
     case SEND_LOGIN_REQUEST: {
       return {
-        ...state,
+        isAuthChecked: false,
+        data: null,
         sendRequest: true,
+        requestFailed: false,
       };
     }
     case LOGIN_SUCCESSED: {
       return {
-        ...state,
-        isAuth: true,
+        isAuthChecked: true,
         data: payload,
         sendRequest: false,
         requestFailed: false,
@@ -62,9 +67,10 @@ export const authReducer = (state = initialState, action) => {
     }
     case LOGIN_FAILED: {
       return {
-        ...state,
+        isAuthChecked: false,
+        data: null,
         sendRequest: false,
-        isAuth: false,
+        requestFailed: true,
       };
     }
     case SEND_LOGOUT_REQUEST: {
@@ -74,14 +80,8 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT_SUCCESSED: {
-      localStorage.removeItem("user");
-
       return {
-        ...state,
-        isAuth: false,
-        data: initialState,
-        sendRequest: false,
-        requestFailed: false,
+        ...initialState,
       };
     }
     case LOGOUT_FAILED: {
@@ -89,6 +89,46 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         sendRequest: false,
         requestFailed: true,
+      };
+    }
+    case CHECK_TOKEN_REQUEST: {
+      return {
+        isAuthChecked: false,
+        data: null,
+        sendRequest: true,
+        requestFailed: false,
+      };
+    }
+    case CHECK_TOKEN_SUCCESSED: {
+      return {
+        isAuthChecked: true,
+        data: payload,
+        sendRequest: false,
+        requestFailed: false,
+      };
+    }
+    case CHECK_TOKEN_UNSUCCESSED: {
+      return {
+        isAuthChecked: true,
+        data: null,
+        sendRequest: false,
+        requestFailed: false,
+      };
+    }
+    case CHECK_TOKEN_FAILED: {
+      return {
+        isAuthChecked: true,
+        data: null,
+        sendRequest: false,
+        requestFailed: true,
+      };
+    }
+    case CHECK_TOKEN_NOTOKEN: {
+      return {
+        isAuthChecked: true,
+        data: null,
+        sendRequest: false,
+        requestFailed: false,
       };
     }
     default: {
