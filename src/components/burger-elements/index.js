@@ -1,3 +1,3 @@
 import BurgerElements from './burger-elements';
 
-export { BurgerElements };
+export default BurgerElements;

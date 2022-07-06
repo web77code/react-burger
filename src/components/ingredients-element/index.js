@@ -1,3 +1,3 @@
 import IngredientsElement from './ingredients-element';
 
-export { IngredientsElement };
+export default IngredientsElement;

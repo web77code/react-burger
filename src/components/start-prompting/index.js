@@ -1,3 +1,3 @@
 import StartPrompting from './start-prompting';
 
-export { StartPrompting };
+export default StartPrompting;

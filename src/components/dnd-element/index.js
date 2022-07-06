@@ -1,3 +1,3 @@
 import DndElement from './dnd-element';
 
-export { DndElement };
+export default DndElement;

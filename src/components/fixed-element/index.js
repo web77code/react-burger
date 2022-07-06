@@ -1,3 +1,3 @@
 import FixedElements from './fixed-element';
 
-export { FixedElements };
+export default FixedElements;

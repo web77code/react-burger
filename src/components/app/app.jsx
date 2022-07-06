@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 
-import { ProtectedRoute } from "../protected-route";
+import ProtectedRoute from "../protected-route";
 import { checkAuthUser } from "../../services/actions/auth";
 
 import AppHeader from "../app-header";

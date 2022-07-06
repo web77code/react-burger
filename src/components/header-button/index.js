@@ -1,3 +1,3 @@
 import HeaderButton from './header-button';
 
-export { HeaderButton };
+export default HeaderButton;
