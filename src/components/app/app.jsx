@@ -18,7 +18,8 @@ import {
   ForgotPasswordPage, 
   ResetPasswordPage, 
   ProfilePage,
-  NotFoundPage
+  NotFoundPage,
+  OrdersPage,
 } from '../../pages';
 
 import styles from './app.module.css';
@@ -99,6 +100,14 @@ const App = () => {
             exact
           >
             <ProfilePage  />
+          </ProtectedRoute>
+
+          <ProtectedRoute 
+            path="/profile/orders"
+            authOnly
+            exact
+          >
+            <OrdersPage  />
           </ProtectedRoute>
 
           <Route path="*">
