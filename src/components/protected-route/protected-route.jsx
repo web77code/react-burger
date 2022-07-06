@@ -9,7 +9,7 @@ const ProtectedRoute = ({
   ) => {
 
   const history = useHistory();
-  const { data } = useSelector((store) => store.user);
+  const { isAuthChecked, data } = useSelector((store) => store.user);
 
   if(hasParrentPage) {
     if(history.location.state) {
@@ -25,7 +25,7 @@ const ProtectedRoute = ({
     return <Redirect to="/" />
   }
 
-  if(authOnly && !data) {
+  if(authOnly && (isAuthChecked && !data)) {
     return <Redirect to="/login" />
   }
 
