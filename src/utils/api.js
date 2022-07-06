@@ -10,7 +10,9 @@ const checkResponse = (res) => {
 
 export async function getIngredients() {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.ingredients}`, {
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   return checkResponse(res);
 }
@@ -20,7 +22,9 @@ export async function getIngredients() {
 export async function sendOrder(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.orders}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       ingredients: data,
     }),
@@ -33,7 +37,9 @@ export async function sendOrder(data) {
 export async function userRegistration(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.register}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   return checkResponse(res);
@@ -42,7 +48,9 @@ export async function userRegistration(data) {
 export async function userLogin(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.login}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   return checkResponse(res);
@@ -51,7 +59,9 @@ export async function userLogin(data) {
 export async function userLogout(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.logout}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   return checkResponse(res);
@@ -60,7 +70,9 @@ export async function userLogout(data) {
 export async function resetPasswordRequest(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passForgot}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       email: data,
     }),
@@ -71,7 +83,9 @@ export async function resetPasswordRequest(data) {
 export async function updatePassword(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passReset}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ ...data }),
   });
   return checkResponse(res);
@@ -91,7 +105,9 @@ export async function getUserData(token) {
 export async function getNewToken(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.token}`, {
     method: "POST",
-    headers: CONFIG.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   return checkResponse(res);
