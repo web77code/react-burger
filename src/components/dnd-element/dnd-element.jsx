@@ -1,5 +1,7 @@
 import { useDrag, useDrop } from 'react-dnd';
+
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import styles from './dnd-element.module.css';
 
 const DndElement = ({ name, price, image, uid, findCard, moveCard, onDelete }) => {

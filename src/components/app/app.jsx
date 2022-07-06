@@ -5,9 +5,9 @@ import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
 import { checkAuthUser } from "../../services/actions/auth";
 
-import AppHeader from "../app-header/app-header";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
+import AppHeader from "../app-header";
+import IngredientDetails from "../ingredient-details";
+import Modal from "../modal";
 
 import {
   HomePage,

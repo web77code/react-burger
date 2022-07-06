@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
+
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import styles from './fixed-element.module.css';
 
 const FixedElements = ({ type, positionDescribe }) => {

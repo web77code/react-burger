@@ -1,9 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerElements from '../burger-elements/burger-elements.jsx';
+
 import { sendData } from '../../services/actions/order-details';
+
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import BurgerElements from '../burger-elements';
+
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {

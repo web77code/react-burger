@@ -1,9 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from 'react-dnd';
-import FixedElement from '../fixed-element/fixed-element';
-import DragAndDrop from '../drag-and-drop/drag-and-drop';
-import StartPrompting from '../start-prompting/start-prompting';
+
 import { setBun, addItem } from '../../services/actions/burger-constructor';
+
+import FixedElement from '../fixed-element';
+import DragAndDrop from '../drag-and-drop';
+import StartPrompting from '../start-prompting';
+
 import styles from './burger-elements.module.css';
 
 const BurgerElements = () => {

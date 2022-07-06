@@ -3,10 +3,12 @@ import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import styles from "./ingredients-element.module.css";
 
 const IngredientsElement = (props) => {

@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { BASIC_TYPES } from '../../utils/constants.js';
 
-import IngredientsElement from '../ingredients-element/ingredients-element';
+import IngredientsElement from '../ingredients-element';
 
 import styles from './burger-ingredients.module.css';
 
