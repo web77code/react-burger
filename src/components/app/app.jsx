@@ -1,55 +1,52 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 
-import { ProtectedRoute } from '../protected-route';
-import { checkAuthUser } from '../../services/actions/auth';
+import { ProtectedRoute } from "../protected-route";
+import { checkAuthUser } from "../../services/actions/auth";
 
-import AppHeader from '../app-header/app-header';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
+import AppHeader from "../app-header/app-header";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
 
-import { 
-  HomePage, 
-  LoginPage, 
-  RegistrationPage, 
-  ForgotPasswordPage, 
-  ResetPasswordPage, 
+import {
+  HomePage,
+  LoginPage,
+  RegistrationPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
   ProfilePage,
   NotFoundPage,
   OrdersPage,
-} from '../../pages';
+} from "../../pages";
 
-import styles from './app.module.css';
+import styles from "./app.module.css";
 
 const App = () => {
-
   const dispatch = useDispatch();
 
   const history = useHistory();
   const location = useLocation();
   const background = location.state?.background;
 
-  const { isAuthChecked, sendRequest } = useSelector(store => store.user);
+  const { isAuthChecked, sendRequest } = useSelector((store) => store.user);
 
   useEffect(() => {
-    if(!isAuthChecked && !sendRequest) 
+    if (!isAuthChecked && !sendRequest) {
       dispatch(checkAuthUser());
+    }
   }, [isAuthChecked, sendRequest, dispatch]);
 
   const closeIngredientDetails = () => {
     history.goBack();
-  }
+  };
 
   return (
     <>
       <AppHeader />
       <main className={styles.content}>
         <Switch location={background || location}>
-          <Route 
-            path="/"
-            exact
-          >
+          <Route path="/" exact>
             <HomePage />
           </Route>
 
@@ -58,53 +55,33 @@ const App = () => {
             children={<IngredientDetails header="Детали ингредиента" />}
           />
 
-          <ProtectedRoute 
-            path="/login"
-            anonymousOnly 
-            exact
-          >
+          <ProtectedRoute path="/login" anonymousOnly exact>
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute 
-            path="/register" 
-            anonymousOnly
-            exact
-          >
+          <ProtectedRoute path="/register" anonymousOnly exact>
             <RegistrationPage />
           </ProtectedRoute>
 
-          <ProtectedRoute 
-            path="/forgot-password" 
-            anonymousOnly
-            exact
-          >
+          <ProtectedRoute path="/forgot-password" anonymousOnly exact>
             <ForgotPasswordPage />
           </ProtectedRoute>
 
-          <ProtectedRoute 
+          <ProtectedRoute
             path="/reset-password"
             hasParrentPage="/forgot-password"
             anonymousOnly
             exact
           >
-            <ResetPasswordPage  />
+            <ResetPasswordPage />
           </ProtectedRoute>
 
-          <ProtectedRoute 
-            path="/profile"
-            authOnly
-            exact
-          >
-            <ProfilePage  />
+          <ProtectedRoute path="/profile" authOnly exact>
+            <ProfilePage />
           </ProtectedRoute>
 
-          <ProtectedRoute 
-            path="/profile/orders"
-            authOnly
-            exact
-          >
-            <OrdersPage  />
+          <ProtectedRoute path="/profile/orders" authOnly exact>
+            <OrdersPage />
           </ProtectedRoute>
 
           <Route path="*">
@@ -116,16 +93,18 @@ const App = () => {
           <Route
             path="/ingredients/:id"
             children={
-              <Modal closeModal={closeIngredientDetails} header="Детали ингредиента">
+              <Modal
+                closeModal={closeIngredientDetails}
+                header="Детали ингредиента"
+              >
                 <IngredientDetails />
               </Modal>
             }
-          />)
-        }
-        
+          />
+        )}
       </main>
     </>
   );
-}
+};
 
 export default App;
