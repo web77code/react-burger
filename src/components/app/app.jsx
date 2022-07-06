@@ -37,10 +37,6 @@ const App = () => {
     }
   }, [isAuthChecked, sendRequest, dispatch]);
 
-  const closeIngredientDetails = () => {
-    history.goBack();
-  };
-
   return (
     <>
       <AppHeader />
@@ -94,7 +90,7 @@ const App = () => {
             path="/ingredients/:id"
             children={
               <Modal
-                closeModal={closeIngredientDetails}
+                closeModal={() => history.goBack()}
                 header="Детали ингредиента"
               >
                 <IngredientDetails />
