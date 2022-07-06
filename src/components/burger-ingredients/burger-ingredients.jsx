@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import { useSelector } from "react-redux";
-import PropTypes from 'prop-types';
-import { BASIC_TYPES } from '../../utils/constants.js';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { BASIC_TYPES } from '../../utils/constants.js';
+
 import IngredientsElement from '../ingredients-element/ingredients-element';
+
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
 
   const [current, setCurrent] = React.useState('bun');
   const [types, setTypes] = React.useState([]);
@@ -84,7 +86,6 @@ const BurgerIngredients = (props) => {
                       name={ingredient.name}
                       price={ingredient.price}
                       image={ingredient.image}
-                      openPopupWindow={props.openPopupWindow}
                     />
                   );
                 })}
@@ -96,9 +97,5 @@ const BurgerIngredients = (props) => {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  openPopupWindow: PropTypes.func.isRequired,
-};
 
 export default BurgerIngredients;
