@@ -11,7 +11,6 @@ import ShowLoading from "../../components/show-loading/show-loading";
 import ErrorNotification from "../../components/error-notification/error-notification";
 
 import { getData } from "../../services/actions/burger-ingredients";
-import { setIngredientsDetails } from "../../services/actions/ingredient-details";
 import { clearConstructor } from "../../services/actions/burger-constructor";
 import { closeOrderPopup } from "../../services/actions/order-details";
 
@@ -26,23 +25,6 @@ const Home = () => {
   useEffect(() => {
     if (!ingredients.length) dispatch(getData());
   }, [dispatch, ingredients]);
-
-  const showIngredientDetail = (e) => {
-    const { name, image_large, calories, proteins, fat, carbohydrates } =
-      ingredients.find((el) => el._id === e.target.parentElement.id);
-
-    dispatch(
-      setIngredientsDetails({
-        showPopup: true,
-        name,
-        image_large,
-        calories,
-        proteins,
-        fat,
-        carbohydrates,
-      })
-    );
-  };
 
   const closeOrderDetails = () => {
     dispatch(clearConstructor());
@@ -62,7 +44,7 @@ const Home = () => {
 
       {ingredients.length && (
         <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients openPopupWindow={showIngredientDetail} />
+          <BurgerIngredients />
           <BurgerConstructor />
         </DndProvider>
       )}

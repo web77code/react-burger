@@ -9,8 +9,6 @@ import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 
-import { clearIngredientsDetails } from '../../services/actions/ingredient-details';
-
 import { 
   HomePage, 
   LoginPage, 
@@ -40,7 +38,6 @@ const App = () => {
   }, [isAuthChecked, sendRequest, dispatch]);
 
   const closeIngredientDetails = () => {
-    // dispatch(clearIngredientsDetails());
     history.goBack();
   }
 
