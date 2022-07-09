@@ -117,7 +117,24 @@ export async function getUserData() {
   return res;
 }
 
-export async function fetchWithRefresh(url, opts) {
+export async function updateUserData(data) {
+  console.log(JSON.stringify({ ...data }));
+  const res = await fetchWithRefresh(
+    `${CONFIG.baseUrl}/${CONFIG.points.user}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+      body: JSON.stringify({ ...data }),
+    }
+  );
+
+  return res;
+}
+
+async function fetchWithRefresh(url, opts) {
   if (!getCookie("token") && localStorage.getItem("refreshToken") === null) {
     return Promise.reject("401 Unauthorized");
   }
@@ -140,7 +157,8 @@ export async function fetchWithRefresh(url, opts) {
     const data = await checkResponse(res);
     return data;
   } catch (err) {
-    if (err.message === "jwt expired") {
+    const checkError = await err.json();
+    if (checkError.message === "jwt expired") {
       // Дублирование логики
       const refreshResult = await getNewToken();
 

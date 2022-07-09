@@ -5,6 +5,7 @@ import {
   userLogin,
   userLogout,
   getUserData,
+  updateUserData,
 } from "../../utils/api";
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
@@ -23,6 +24,10 @@ export const CHECK_TOKEN_REQUEST = "CHECK_TOKEN_REQUEST";
 export const CHECK_TOKEN_SUCCESSED = "CHECK_TOKEN_SUCCESSED";
 export const CHECK_TOKEN_UNSUCCESSED = "CHECK_TOKEN_UNSUCCESSED";
 export const CHECK_TOKEN_FAILED = "CHECK_TOKEN_FAILED";
+
+export const SEND_UPDATE_REQUEST = "SEND_UPDATE_REQUEST";
+export const UPDATE_SUCCESSED = "UPDATE_SUCCESSED";
+export const UPDATE_FAILED = "UPDATE_FAILED";
 
 export function sendRegistrationRequest(user) {
   return function (dispatch) {
@@ -137,6 +142,28 @@ export function checkAuthUser() {
           });
           logErrorToConsole(err);
         }
+      });
+  };
+}
+
+export function updateUserInfo(data) {
+  return function (dispatch) {
+    dispatch({
+      type: SEND_UPDATE_REQUEST,
+    });
+
+    updateUserData(data)
+      .then((res) => {
+        dispatch({
+          type: UPDATE_SUCCESSED,
+          payload: res.user,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: UPDATE_FAILED,
+        });
+        logErrorToConsole(err);
       });
   };
 }

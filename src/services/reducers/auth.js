@@ -12,6 +12,9 @@ import {
   CHECK_TOKEN_SUCCESSED,
   CHECK_TOKEN_UNSUCCESSED,
   CHECK_TOKEN_FAILED,
+  SEND_UPDATE_REQUEST,
+  UPDATE_SUCCESSED,
+  UPDATE_FAILED,
 } from "../actions/auth.js";
 
 const initialState = {
@@ -92,8 +95,7 @@ export const authReducer = (state = initialState, action) => {
     }
     case CHECK_TOKEN_REQUEST: {
       return {
-        isAuthChecked: false,
-        data: null,
+        ...state,
         sendRequest: true,
         requestFailed: false,
       };
@@ -116,8 +118,29 @@ export const authReducer = (state = initialState, action) => {
     }
     case CHECK_TOKEN_FAILED: {
       return {
+        ...state,
+        sendRequest: false,
+        requestFailed: true,
+      };
+    }
+    case SEND_UPDATE_REQUEST: {
+      return {
+        ...state,
+        sendRequest: true,
+        requestFailed: false,
+      };
+    }
+    case UPDATE_SUCCESSED: {
+      return {
         isAuthChecked: true,
-        data: null,
+        data: payload,
+        sendRequest: false,
+        requestFailed: false,
+      };
+    }
+    case UPDATE_FAILED: {
+      return {
+        ...state,
         sendRequest: false,
         requestFailed: true,
       };
