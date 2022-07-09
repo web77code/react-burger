@@ -1,11 +1,10 @@
 import { logErrorToConsole } from "../../utils/utils";
-import { setCookie, getCookie, removeCookie } from "../../utils/cookies";
+import { setCookie, removeCookie } from "../../utils/cookies";
 import {
   userRegistration,
   userLogin,
   userLogout,
   getUserData,
-  getNewToken,
 } from "../../utils/api";
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
@@ -24,7 +23,6 @@ export const CHECK_TOKEN_REQUEST = "CHECK_TOKEN_REQUEST";
 export const CHECK_TOKEN_SUCCESSED = "CHECK_TOKEN_SUCCESSED";
 export const CHECK_TOKEN_UNSUCCESSED = "CHECK_TOKEN_UNSUCCESSED";
 export const CHECK_TOKEN_FAILED = "CHECK_TOKEN_FAILED";
-export const CHECK_TOKEN_NOTOKEN = "CHECK_TOKEN_NOTOKEN";
 
 export function sendRegistrationRequest(user) {
   return function (dispatch) {
@@ -41,7 +39,7 @@ export function sendRegistrationRequest(user) {
           });
 
           setCookie("token", res.accessToken.split("Bearer ")[1]);
-          localStorage.setItem("user", JSON.stringify(res.refreshToken));
+          localStorage.setItem("refreshToken", res.refreshToken);
 
           dispatch({
             type: LOGIN_SUCCESSED,
@@ -68,7 +66,7 @@ export function sendLoginRequest(user) {
       .then((res) => {
         if (res.success) {
           setCookie("token", res.accessToken.split("Bearer ")[1]);
-          localStorage.setItem("user", JSON.stringify(res.refreshToken));
+          localStorage.setItem("refreshToken", res.refreshToken);
 
           dispatch({
             type: LOGIN_SUCCESSED,
@@ -92,13 +90,13 @@ export function sendLogoutRequest() {
     });
 
     const data = {
-      token: JSON.parse(localStorage.getItem("user")),
+      token: localStorage.getItem("refreshToken"),
     };
 
     userLogout(data)
       .then((res) => {
         if (res.success) {
-          localStorage.removeItem("user");
+          localStorage.removeItem("refreshToken");
           removeCookie("token");
 
           dispatch({
@@ -117,82 +115,28 @@ export function sendLogoutRequest() {
 
 export function checkAuthUser() {
   return function (dispatch) {
-    const accessToken = getCookie("token");
+    dispatch({
+      type: CHECK_TOKEN_REQUEST,
+    });
 
-    if (accessToken) {
-      dispatch({
-        type: CHECK_TOKEN_REQUEST,
-      });
-
-      getUserData("Bearer " + accessToken)
-        .then((res) => {
-          if (res.success) {
-            dispatch({
-              type: CHECK_TOKEN_SUCCESSED,
-              payload: res.user,
-            });
-          }
-        })
-        .catch((err) => {
-          if (err.indexOf("403")) {
-            const data = {
-              token: JSON.parse(localStorage.getItem("user")),
-            };
-
-            getNewToken(data)
-              .then((response) => {
-                if (response.success) {
-                  setCookie("token", response.accessToken.split("Bearer ")[1]);
-
-                  dispatch({
-                    type: CHECK_TOKEN_SUCCESSED,
-                    payload: response.user,
-                  });
-                }
-              })
-              .catch((response) => {
-                dispatch({
-                  type: CHECK_TOKEN_UNSUCCESSED,
-                });
-                logErrorToConsole(response);
-              });
-          } else {
-            dispatch({
-              type: CHECK_TOKEN_FAILED,
-            });
-            logErrorToConsole(err);
-          }
-        });
-    } else {
-      const token = JSON.parse(localStorage.getItem("user"));
-
-      if (token) {
-        const data = {
-          token: JSON.parse(localStorage.getItem("user")),
-        };
-
-        getNewToken(data)
-          .then((response) => {
-            if (response.success) {
-              setCookie("token", response.accessToken.split("Bearer ")[1]);
-
-              dispatch({
-                type: CHECK_TOKEN_SUCCESSED,
-                payload: response.user,
-              });
-            }
-          })
-          .catch((response) => {
-            dispatch({
-              type: CHECK_TOKEN_FAILED,
-            });
-            logErrorToConsole(response);
-          });
-      } else {
+    getUserData()
+      .then((res) => {
         dispatch({
-          type: CHECK_TOKEN_NOTOKEN,
+          type: CHECK_TOKEN_SUCCESSED,
+          payload: res.user,
         });
-      }
-    }
+      })
+      .catch((err) => {
+        if (err === "401 Unauthorized") {
+          dispatch({
+            type: CHECK_TOKEN_UNSUCCESSED,
+          });
+        } else {
+          dispatch({
+            type: CHECK_TOKEN_FAILED,
+          });
+          logErrorToConsole(err);
+        }
+      });
   };
 }

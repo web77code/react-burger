@@ -12,7 +12,6 @@ import {
   CHECK_TOKEN_SUCCESSED,
   CHECK_TOKEN_UNSUCCESSED,
   CHECK_TOKEN_FAILED,
-  CHECK_TOKEN_NOTOKEN,
 } from "../actions/auth.js";
 
 const initialState = {
@@ -20,7 +19,7 @@ const initialState = {
   data: null,
   sendRequest: false,
   requestFailed: false,
-}
+};
 
 export const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -121,14 +120,6 @@ export const authReducer = (state = initialState, action) => {
         data: null,
         sendRequest: false,
         requestFailed: true,
-      };
-    }
-    case CHECK_TOKEN_NOTOKEN: {
-      return {
-        isAuthChecked: true,
-        data: null,
-        sendRequest: false,
-        requestFailed: false,
       };
     }
     default: {
