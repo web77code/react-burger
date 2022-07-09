@@ -118,7 +118,6 @@ export async function getUserData() {
 }
 
 export async function updateUserData(data) {
-  console.log(JSON.stringify({ ...data }));
   const res = await fetchWithRefresh(
     `${CONFIG.baseUrl}/${CONFIG.points.user}`,
     {
