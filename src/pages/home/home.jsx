@@ -7,7 +7,7 @@ import Modal from "../../components/modal/modal";
 import OrderDetails from "../../components/order-details/order-details";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
-import ShowLoading from "../../components/show-loading/show-loading";
+import AnimatedLoader from "../../components/animated-loader";
 import ErrorNotification from "../../components/error-notification/error-notification";
 
 import { getData } from "../../services/actions/burger-ingredients";
@@ -39,7 +39,7 @@ const Home = () => {
         </Modal>
       )}
 
-      {dataRequest && <ShowLoading />}
+      {dataRequest && <AnimatedLoader />}
       {dataFailed && <ErrorNotification />}
 
       {ingredients.length && (

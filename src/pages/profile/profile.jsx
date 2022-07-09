@@ -1,15 +1,23 @@
+import { useSelector } from "react-redux";
+
 import ProfileSidebar from "../../components/profile-sidebar";
 import ProfileForm from "../../components/profile-form";
+import AnimatedLoader from "../../components/animated-loader";
 
 import styles from "./profile.module.css";
 
 const Profile = () => {
+  const { sendRequest } = useSelector((store) => store.user);
 
   return (
-    <div className={"mt-30 " + styles.container}>
-      <ProfileSidebar description="В этом разделе вы можете изменить свои персональные данные" />
-      <ProfileForm />
-    </div>
+    <>
+      {sendRequest && <AnimatedLoader />}
+
+      <div className={"mt-30 " + styles.container}>
+        <ProfileSidebar description="В этом разделе вы можете изменить свои персональные данные" />
+        <ProfileForm />
+      </div>
+    </>
   );
 };
 
