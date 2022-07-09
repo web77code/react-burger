@@ -31,16 +31,21 @@ export async function getIngredients() {
 //API for orders
 
 export async function sendOrder(data) {
-  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.orders}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ingredients: data,
-    }),
-  });
-  return checkResponse(res);
+  const res = await fetchWithRefresh(
+    `${CONFIG.baseUrl}/${CONFIG.points.orders}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+      body: JSON.stringify({
+        ingredients: data,
+      }),
+    }
+  );
+
+  return res;
 }
 
 //API for users
