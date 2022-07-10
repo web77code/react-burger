@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import { sendLogoutRequest } from "../../services/actions/auth";
 
@@ -58,6 +59,10 @@ const ProfileSidebar = ({ description }) => {
       </p>
     </div>
   );
+};
+
+ProfileSidebar.propTypes = {
+  description: PropTypes.string.isRequired,
 };
 
 export default ProfileSidebar;
