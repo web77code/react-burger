@@ -37,7 +37,7 @@ export const authReducer = (state = initialState, action) => {
     }
     case REGISTRTION_SUCCESSED: {
       return {
-        ...state,
+        isAuthChecked: true,
         data: payload,
         sendRequest: false,
         requestFailed: false,

@@ -45,11 +45,6 @@ export function sendRegistrationRequest(user) {
 
           setCookie("token", res.accessToken.split("Bearer ")[1]);
           localStorage.setItem("refreshToken", res.refreshToken);
-
-          dispatch({
-            type: LOGIN_SUCCESSED,
-            payload: res.user,
-          });
         }
       })
       .catch((err) => {
