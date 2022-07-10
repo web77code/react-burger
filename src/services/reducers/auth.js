@@ -118,7 +118,8 @@ export const authReducer = (state = initialState, action) => {
     }
     case CHECK_TOKEN_FAILED: {
       return {
-        ...state,
+        isAuthChecked: true,
+        data: null,
         sendRequest: false,
         requestFailed: true,
       };
