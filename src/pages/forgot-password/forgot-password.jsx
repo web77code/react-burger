@@ -8,6 +8,8 @@ import {
 import { resetUserPassword } from "../../utils/api";
 import { logErrorToConsole } from "../../utils/utils";
 
+import AnimatedLoader from "../../components/animated-loader";
+
 import styles from "./forgot-password.module.css";
 
 const ForgotPassword = () => {
@@ -15,6 +17,7 @@ const ForgotPassword = () => {
 
   const [email, setEmail] = useState("");
   const [response, setResponse] = useState(false);
+  const [process, setProcess] = useState(false);
 
   const onChange = (e) => {
     setEmail(e.target.value);
@@ -24,18 +27,25 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (email.length > 6) {
+      setProcess(true);
+
       resetUserPassword(email)
         .then((res) => {
           if (res.success) setResponse(true);
         })
         .catch((err) => {
           logErrorToConsole(err);
-        });
+        })
+        .finally(() => {
+          setProcess(false);
+        })
     }
   };
 
   return (
     <>
+      {process && <AnimatedLoader />}
+
       {response ? (
         <Redirect
           to={{
