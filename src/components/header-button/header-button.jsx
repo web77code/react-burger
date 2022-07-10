@@ -8,14 +8,19 @@ import styles from "./header-button.module.css";
 
 const HeaderButton = (props) => {
 
-  const { icon, text, url } = props;
+  const { icon, text, url, exact } = props;
 
   const location = useLocation();
 
   const getIcon = useCallback(
     () => {
-      const iconType = location.pathname === url ? 'primary' : 'secondary';
-    
+      let iconType = undefined;
+      if(exact) {
+        iconType = location.pathname === url ? 'primary' : 'secondary';
+      } else {
+        iconType = location.pathname.includes(url) ? 'primary' : 'secondary';
+      }
+      
       switch(icon) {
         case 'BurgerIcon': 
           return <BurgerIcon type={iconType} />;
@@ -27,7 +32,7 @@ const HeaderButton = (props) => {
           return undefined;
       }
     },
-    [icon, location.pathname, url],
+    [icon, location.pathname, url, exact],
   );
 
   const iconItem = getIcon(icon);
@@ -40,7 +45,7 @@ const HeaderButton = (props) => {
         " pt-4 pr-5 pb-4 pl-5 text text_type_main-default text_color_inactive"
       }
       activeClassName={styles.activePage}
-      exact
+      exact={exact}
     >
       {iconItem}
       <span className="ml-2">{text}</span>
@@ -52,6 +57,7 @@ HeaderButton.propTypes = {
   icon: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  exact: PropTypes.bool.isRequired,
 };
 
 export default HeaderButton;

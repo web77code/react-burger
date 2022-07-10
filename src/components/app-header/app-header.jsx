@@ -16,6 +16,7 @@ const AppHeader = () => {
                 icon="BurgerIcon" 
                 text="Конструктор" 
                 url="/" 
+                exact
               />
             </li>
             <li className="ml-2">
@@ -23,6 +24,7 @@ const AppHeader = () => {
                 icon="ListIcon" 
                 text="Лента заказов" 
                 url="/all-orders" 
+                exact
               />
             </li>
           </ul>
