@@ -13,26 +13,6 @@ export async function getIngredients() {
   return checkResponse(res);
 }
 
-//API for orders
-
-export async function sendOrder(data) {
-  const res = await fetchWithRefresh(
-    `${CONFIG.baseUrl}/${CONFIG.points.orders}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getCookie("token")}`,
-      },
-      body: JSON.stringify({
-        ingredients: data,
-      }),
-    }
-  );
-
-  return res;
-}
-
 //API for users
 
 export async function createUserAccount(data) {
@@ -117,6 +97,26 @@ export async function updateUserData(data) {
         Authorization: `Bearer ${getCookie("token")}`,
       },
       body: JSON.stringify({ ...data }),
+    }
+  );
+
+  return res;
+}
+
+//API for orders
+
+export async function sendOrder(data) {
+  const res = await fetchWithRefresh(
+    `${CONFIG.baseUrl}/${CONFIG.points.orders}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+      body: JSON.stringify({
+        ingredients: data,
+      }),
     }
   );
 
