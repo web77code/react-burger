@@ -1,5 +1,5 @@
-import { CONFIG } from '../../utils/constants';
-import { checkResponse, logErrorToConsole } from '../../utils/utils';
+import { sendOrder } from '../../utils/api';
+import { logErrorToConsole } from '../../utils/utils';
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
@@ -12,14 +12,7 @@ export function sendData(burger) {
       type: SEND_ORDER_REQUEST,
     });
 
-    fetch(`${CONFIG.BASE_URL}/orders`, {
-      method: 'POST',
-      headers: CONFIG.HEADERS,
-      body: JSON.stringify({
-        ingredients: burger,
-      }),
-    })
-      .then(checkResponse)
+    sendOrder(burger)
       .then((res) => {
         dispatch({
           type: SEND_ORDER_SUCCESS,

@@ -1,0 +1,47 @@
+.form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > div,
+.form > div > div,
+.form > div > div > div {
+  width: 100%;
+  cursor: default;
+}
+
+.form input {
+  cursor: default;
+}
+
+.form label:hover {
+  cursor: default;
+}
+
+.formControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  opacity: 0;
+}
+
+.showForm {
+  opacity: 1;
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: #4C4CFF;
+  border: none;
+  box-sizing: border-box;
+  padding: 16px 8px;
+  margin-right: 20px;
+}
+
+.cancelButton:hover {
+  cursor: pointer;
+}

@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import DndElement from '../dnd-element/dnd-element';
+
 import { removeItem, moveItem } from '../../services/actions/burger-constructor';
+
+import DndElement from '../dnd-element';
+
 import styles from './drag-and-drop.module.css';
 
 const DragAndDrop = () => {

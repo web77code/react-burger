@@ -1,31 +1,63 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './header-button.module.css';
+import { useCallback } from "react";
+import PropTypes from "prop-types";
+import { NavLink, useLocation } from "react-router-dom";
 
-const HeaderButton = props => {
+import { BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-  const [buttonStyle, setButtonstyle] = React.useState('ml-2 text text_type_main-default')
+import styles from "./header-button.module.css";
 
-  React.useEffect(() => {
-    if(props.inactive) setButtonstyle(buttonStyle + " text_color_inactive")
-  }, []);
+const HeaderButton = (props) => {
+
+  const { icon, text, url, exact } = props;
+
+  const location = useLocation();
+
+  const getIcon = useCallback(
+    () => {
+      let iconType = undefined;
+      if(exact) {
+        iconType = location.pathname === url ? 'primary' : 'secondary';
+      } else {
+        iconType = location.pathname.includes(url) ? 'primary' : 'secondary';
+      }
+      
+      switch(icon) {
+        case 'BurgerIcon': 
+          return <BurgerIcon type={iconType} />;
+        case 'ListIcon': 
+          return <ListIcon type={iconType} />;
+        case 'ProfileIcon': 
+          return <ProfileIcon type={iconType} />;
+        default:
+          return undefined;
+      }
+    },
+    [icon, location.pathname, url, exact],
+  );
+
+  const iconItem = getIcon(icon);
 
   return (
-    <div className={styles.button + " pt-4 pr-5 pb-4 pl-5"}>
-      {props.children}
-      <p className={buttonStyle}>{props.name}</p>
-    </div>
+    <NavLink
+      to={url}
+      className={
+        styles.linkContainer +
+        " pt-4 pr-5 pb-4 pl-5 text text_type_main-default text_color_inactive"
+      }
+      activeClassName={styles.activePage}
+      exact={exact}
+    >
+      {iconItem}
+      <span className="ml-2">{text}</span>
+    </NavLink>
   );
-}
-
-HeaderButton.propTypes = {
-  name: PropTypes.string.isRequired,
-  inactive: PropTypes.bool,
-  children: PropTypes.element.isRequired,
 };
 
-HeaderButton.defaultProps = {
-  inactive: false,
+HeaderButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  exact: PropTypes.bool,
 };
 
 export default HeaderButton;
