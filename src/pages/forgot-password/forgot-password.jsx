@@ -31,7 +31,10 @@ const ForgotPassword = () => {
 
       resetUserPassword(email)
         .then((res) => {
-          if (res.success) setResponse(true);
+          if (res.success) {
+            setProcess(false);
+            setResponse(true);
+          }
         })
         .catch((err) => {
           logErrorToConsole(err);
