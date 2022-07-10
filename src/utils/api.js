@@ -1,21 +1,6 @@
 import { CONFIG } from "./constants";
-import { getCookie, setCookie } from "./cookies";
-
-const checkResponse = (res) => (res.ok ? res.json() : Promise.reject(res));
-
-async function getNewToken() {
-  const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.token}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("refreshToken"),
-    }),
-  });
-
-  return checkResponse(res);
-}
+import { getCookie } from "./cookies";
+import { checkResponse, fetchWithRefresh } from "./api-utils";
 
 //API for ingredietns
 
@@ -50,7 +35,7 @@ export async function sendOrder(data) {
 
 //API for users
 
-export async function userRegistration(data) {
+export async function createUserAccount(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.register}`, {
     method: "POST",
     headers: {
@@ -61,7 +46,7 @@ export async function userRegistration(data) {
   return checkResponse(res);
 }
 
-export async function userLogin(data) {
+export async function loginToAccount(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.login}`, {
     method: "POST",
     headers: {
@@ -72,7 +57,7 @@ export async function userLogin(data) {
   return checkResponse(res);
 }
 
-export async function userLogout(data) {
+export async function logoutFromAccount(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.logout}`, {
     method: "POST",
     headers: {
@@ -83,7 +68,7 @@ export async function userLogout(data) {
   return checkResponse(res);
 }
 
-export async function resetPasswordRequest(data) {
+export async function resetUserPassword(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passForgot}`, {
     method: "POST",
     headers: {
@@ -96,7 +81,7 @@ export async function resetPasswordRequest(data) {
   return checkResponse(res);
 }
 
-export async function updatePassword(data) {
+export async function updateUserPassword(data) {
   const res = await fetch(`${CONFIG.baseUrl}/${CONFIG.points.passReset}`, {
     method: "POST",
     headers: {
@@ -136,51 +121,4 @@ export async function updateUserData(data) {
   );
 
   return res;
-}
-
-async function fetchWithRefresh(url, opts) {
-  if (!getCookie("token") && localStorage.getItem("refreshToken") === null) {
-    return Promise.reject("401 Unauthorized");
-  }
-
-  if (!getCookie("token")) {
-    const refreshResult = await getNewToken();
-
-    if (!refreshResult.success) {
-      return Promise.reject(refreshResult);
-    }
-
-    localStorage.setItem("refreshToken", refreshResult.refreshToken);
-    setCookie("token", refreshResult.accessToken.split("Bearer ")[1]);
-    // Спорная логика, подумать как переделать красивее
-    opts.headers.Authorization = refreshResult.accessToken;
-  }
-
-  try {
-    const res = await fetch(url, opts);
-    const data = await checkResponse(res);
-    return data;
-  } catch (err) {
-    const checkError = await err.json();
-    if (checkError.message === "jwt expired") {
-      // Дублирование логики
-      const refreshResult = await getNewToken();
-
-      if (!refreshResult.success) {
-        return Promise.reject(refreshResult);
-      }
-
-      localStorage.setItem("refreshToken", refreshResult.refreshToken);
-      setCookie("token", refreshResult.accessToken.split("Bearer ")[1]);
-
-      // Спорная логика, подумать как переделать красивее
-      opts.headers.Authorization = refreshResult.accessToken;
-      const res = await fetch(url, opts);
-      const data = await checkResponse(res);
-
-      return data;
-    } else {
-      return Promise.reject(err);
-    }
-  }
 }

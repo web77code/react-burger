@@ -1,9 +1,9 @@
 import { logErrorToConsole } from "../../utils/utils";
 import { setCookie, removeCookie } from "../../utils/cookies";
 import {
-  userRegistration,
-  userLogin,
-  userLogout,
+  createUserAccount,
+  loginToAccount,
+  logoutFromAccount,
   getUserData,
   updateUserData,
 } from "../../utils/api";
@@ -35,7 +35,7 @@ export function sendRegistrationRequest(user) {
       type: SEND_REGISTRTION_REQUEST,
     });
 
-    userRegistration(user)
+    createUserAccount(user)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -62,7 +62,7 @@ export function sendLoginRequest(user) {
       type: SEND_LOGIN_REQUEST,
     });
 
-    userLogin(user)
+    loginToAccount(user)
       .then((res) => {
         if (res.success) {
           setCookie("token", res.accessToken.split("Bearer ")[1]);
@@ -93,7 +93,7 @@ export function sendLogoutRequest() {
       token: localStorage.getItem("refreshToken"),
     };
 
-    userLogout(data)
+    logoutFromAccount(data)
       .then((res) => {
         if (res.success) {
           localStorage.removeItem("refreshToken");

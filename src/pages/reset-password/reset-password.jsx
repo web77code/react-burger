@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { updatePassword } from '../../utils/api';
+import { updateUserPassword } from '../../utils/api';
 import { logErrorToConsole } from '../../utils/utils';
 
 import styles from './reset-password.module.css';;
@@ -24,7 +24,7 @@ const ResetPassword = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    updatePassword(state)
+    updateUserPassword(state)
       .then((res) => {
         if(res.success) setResponse(true);
       })

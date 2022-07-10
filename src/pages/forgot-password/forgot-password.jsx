@@ -5,7 +5,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { resetPasswordRequest } from "../../utils/api";
+import { resetUserPassword } from "../../utils/api";
 import { logErrorToConsole } from "../../utils/utils";
 
 import styles from "./forgot-password.module.css";
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (email.length > 6) {
-      resetPasswordRequest(email)
+      resetUserPassword(email)
         .then((res) => {
           if (res.success) setResponse(true);
         })
