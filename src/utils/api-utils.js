@@ -1,49 +1,55 @@
 import { CONFIG } from "./constants";
 import { getCookie, setCookie } from "./cookies";
 
-export const checkResponse = (res) => (res.ok ? res.json() : Promise.reject(res));
+export const checkResponse = (res) =>
+  res.ok ? res.json() : Promise.reject(res);
 
 export async function fetchWithRefresh(url, opts) {
   if (!getCookie("token") && localStorage.getItem("refreshToken") === null) {
     return Promise.reject("401 Unauthorized");
   }
 
-  if (!getCookie("token")) {
-    const refreshResult = await getNewToken();
-
-    if (!refreshResult.success) {
-      return Promise.reject(refreshResult);
+  try {
+    if (!getCookie("token")) {
+      throw new Error("accessToken is empty");
     }
 
-    localStorage.setItem("refreshToken", refreshResult.refreshToken);
-    setCookie("token", refreshResult.accessToken.split("Bearer ")[1]);
-    // Спорная логика, подумать как переделать красивее
-    opts.headers.Authorization = refreshResult.accessToken;
-  }
-
-  try {
     const res = await fetch(url, opts);
     const data = await checkResponse(res);
     return data;
   } catch (err) {
-    const checkError = await err.json();
-    if (checkError.message === "jwt expired") {
-      // Дублирование логики
-      const refreshResult = await getNewToken();
+    let errorResponse;
 
-      if (!refreshResult.success) {
-        return Promise.reject(refreshResult);
+    if (!err.json) {
+      errorResponse = {
+        message: err.message,
+      };
+    } else {
+      errorResponse = await err.json();
+    }
+
+    if (
+      errorResponse.message === "jwt expired" ||
+      errorResponse.message === "accessToken is empty"
+    ) {
+      const renewTokens = await getNewToken();
+
+      if (!renewTokens.success) {
+        return Promise.reject(renewTokens);
+      } else {
+        localStorage.setItem("refreshToken", renewTokens.refreshToken);
+        setCookie("token", renewTokens.accessToken.split("Bearer ")[1]);
+
+        const res = await fetch(url, {
+          ...opts,
+          headers: {
+            ...opts.headers,
+            Authorization: renewTokens.accessToken,
+          },
+        });
+        const data = await checkResponse(res);
+        return data;
       }
-
-      localStorage.setItem("refreshToken", refreshResult.refreshToken);
-      setCookie("token", refreshResult.accessToken.split("Bearer ")[1]);
-
-      // Спорная логика, подумать как переделать красивее
-      opts.headers.Authorization = refreshResult.accessToken;
-      const res = await fetch(url, opts);
-      const data = await checkResponse(res);
-
-      return data;
     } else {
       return Promise.reject(err);
     }
