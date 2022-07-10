@@ -5,7 +5,9 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 
 import styles from './fixed-element.module.css';
 
-const FixedElements = ({ type, positionDescribe }) => {
+const FixedElements = (props) => {
+
+  const { type, positionDescribe } = props;
 
   const ingredients = useSelector(state => state.ingredients.data);
   const { bun: bunId } = useSelector(state => state.construct);
