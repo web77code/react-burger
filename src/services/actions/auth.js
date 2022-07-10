@@ -1,12 +1,6 @@
+import * as api from "../../utils/api";
 import { logErrorToConsole } from "../../utils/utils";
 import { setCookie, removeCookie } from "../../utils/cookies";
-import {
-  createUserAccount,
-  loginToAccount,
-  logoutFromAccount,
-  getUserData,
-  updateUserData,
-} from "../../utils/api";
 
 export const SEND_REGISTRTION_REQUEST = "SEND_REGISTRTION_REQUEST";
 export const REGISTRTION_SUCCESSED = "REGISTRTION_SUCCESS";
@@ -35,7 +29,7 @@ export function sendRegistrationRequest(user) {
       type: SEND_REGISTRTION_REQUEST,
     });
 
-    createUserAccount(user)
+    api.createUserAccount(user)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -62,7 +56,7 @@ export function sendLoginRequest(user) {
       type: SEND_LOGIN_REQUEST,
     });
 
-    loginToAccount(user)
+    api.loginToAccount(user)
       .then((res) => {
         if (res.success) {
           setCookie("token", res.accessToken.split("Bearer ")[1]);
@@ -93,7 +87,7 @@ export function sendLogoutRequest() {
       token: localStorage.getItem("refreshToken"),
     };
 
-    logoutFromAccount(data)
+    api.logoutFromAccount(data)
       .then((res) => {
         if (res.success) {
           localStorage.removeItem("refreshToken");
@@ -119,7 +113,7 @@ export function checkAuthUser() {
       type: CHECK_TOKEN_REQUEST,
     });
 
-    getUserData()
+    api.getUserData()
       .then((res) => {
         dispatch({
           type: CHECK_TOKEN_SUCCESSED,
@@ -147,7 +141,7 @@ export function updateUserInfo(data) {
       type: SEND_UPDATE_REQUEST,
     });
 
-    updateUserData(data)
+    api.updateUserData(data)
       .then((res) => {
         dispatch({
           type: UPDATE_SUCCESSED,
