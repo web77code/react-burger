@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import { getData } from '../../services/actions/burger-ingredients';
@@ -10,13 +10,14 @@ import styles from './ingredient-details.module.css';
 const IngredientDetails = ({header}) => {
 
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  
   const { id } = useParams();
   const ingredients = useSelector((state) => state.ingredients.data);
   const [ state, setState ] = useState(null);
-  
+
   useEffect(() => {
-    if(ingredients.length === 0) {
+    if(!ingredients.length && !location.state) {
       dispatch(getData());
     }
   }, []);
