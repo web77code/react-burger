@@ -1,15 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerElements from '../burger-elements/burger-elements.jsx';
+import { useHistory } from 'react-router-dom';
+
 import { sendData } from '../../services/actions/order-details';
+
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import BurgerElements from '../burger-elements';
+
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const ingredients = useSelector((state) => state.ingredients.data);
   const { bun, items } = useSelector((state) => state.construct);
+  const user = useSelector((state) => state.user);
 
   const burgerPrice = React.useMemo(() => {
     let price = 0;
@@ -22,8 +29,12 @@ const BurgerConstructor = () => {
   }, [bun, items, ingredients]);
 
   const handleOrderButtonClick = () => {
-    const ingred = items.map((item) => item.id);
-    dispatch(sendData([bun, ...ingred, bun]));
+    if(user?.data) {
+      const ingred = items.map((item) => item.id);
+      dispatch(sendData([bun, ...ingred, bun]));
+    } else {
+      history.push('/login');
+    }
   };
 
   return (

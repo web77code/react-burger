@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux';
+
 import doneIconPath from '../../images/done.svg';
+
 import styles from './order-details.module.css';
 
 const OrderDetails = () => {

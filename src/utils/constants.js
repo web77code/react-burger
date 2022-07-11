@@ -1,7 +1,15 @@
 export const CONFIG = {
-  BASE_URL: 'https://norma.nomoreparties.space/api',
-  HEADERS: {
-    'Content-Type': 'application/json'
+  baseUrl: 'https://norma.nomoreparties.space/api',
+  points: {
+    ingredients: 'ingredients',
+    orders: 'orders',
+    register: 'auth/register',
+    login: 'auth/login',
+    logout: 'auth/logout',
+    token: 'auth/token',
+    user: 'auth/user',    
+    passForgot: 'password-reset',
+    passReset: 'password-reset/reset',
   }
 }
 

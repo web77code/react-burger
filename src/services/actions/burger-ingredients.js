@@ -1,5 +1,5 @@
-import { CONFIG } from '../../utils/constants';
-import { checkResponse, logErrorToConsole } from '../../utils/utils';
+import { getIngredients } from '../../utils/api';
+import { logErrorToConsole } from '../../utils/utils';
 
 export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
@@ -10,15 +10,15 @@ export function getData() {
     dispatch({
       type: GET_DATA_REQUEST,
     });
-    fetch(`${CONFIG.BASE_URL}/ingredients`, { headers: CONFIG.HEADERS })
-      .then(checkResponse)
+    
+    getIngredients()
       .then((res) => {
         dispatch({
           type: GET_DATA_SUCCESS,
           payload: res.data,
         });
       })
-      .catch((err) => {
+      .catch((err) => { 
         dispatch({
           type: GET_DATA_FAILED,
         });

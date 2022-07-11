@@ -1,13 +1,13 @@
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import HeaderButton from '../header-button/header-button';
-import styles from './app-header.module.css';
+import { Link, useLocation } from "react-router-dom";
+
+import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
+
+import HeaderButton from "../header-button";
+
+import styles from "./app-header.module.css";
 
 const AppHeader = () => {
+  const location = useLocation();
 
   return (
     <header className={styles.header}>
@@ -15,22 +15,36 @@ const AppHeader = () => {
         <nav className={styles.navigation}>
           <ul className={styles.list}>
             <li>
-              <HeaderButton name="Конструктор">
-                <BurgerIcon type="primary" />
-              </HeaderButton>
+              <HeaderButton
+                icon="BurgerIcon"
+                text="Конструктор"
+                url="/"
+                exact
+              />
             </li>
             <li className="ml-2">
-              <HeaderButton name="Лента заказов" inactive>
-                <ListIcon type="secondary" />
-              </HeaderButton>
+              <HeaderButton
+                icon="ListIcon"
+                text="Лента заказов"
+                url="/all-orders"
+                exact
+              />
             </li>
           </ul>
         </nav>
-        <Logo />
+        {location.pathname !== "/" ? (
+          <Link to="/">
+            <Logo />
+          </Link>
+        ) : (
+          <Logo />
+        )}
         <div className={styles.rightSide}>
-          <HeaderButton name="Личный кабинет" inactive>
-            <ProfileIcon type="secondary" />
-          </HeaderButton>
+          <HeaderButton
+            icon="ProfileIcon"
+            text="Личный кабинет"
+            url="/profile"
+          />
         </div>
       </div>
     </header>

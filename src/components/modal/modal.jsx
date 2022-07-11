@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import ModalOverlay from '../modal-overlay/modal-overlay';
+
+import ModalOverlay from '../modal-overlay';
+
 import styles from './modal.module.css';
 
 const Modal = (props) => {
