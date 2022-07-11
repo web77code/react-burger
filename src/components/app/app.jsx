@@ -15,6 +15,7 @@ import {
   RegistrationPage,
   ForgotPasswordPage,
   ResetPasswordPage,
+  OrderFeedPage,
   ProfilePage,
   NotFoundPage,
   OrdersPage,
@@ -71,6 +72,10 @@ const App = () => {
           >
             <ResetPasswordPage />
           </ProtectedRoute>
+
+          <Route path="/feed">
+            <OrderFeedPage />
+          </Route>
 
           <ProtectedRoute path="/profile" authOnly exact>
             <ProfilePage />
