@@ -1,3 +1,20 @@
+.section {
+  /* display: flex;
+  flex-flow: row nowrap; */
+  width: 100%;
+  max-width: 1240px;
+  /* gap: 60px; */
+}
+
 .container {
-  
+  display: flex;
+  flex-flow: row nowrap;
+  /* width: 100%;
+  max-width: 1240px; */
+  gap: 60px;
+}
+
+.title {
+  padding: 40px 0 20px;
+  box-sizing: border-box;
 }

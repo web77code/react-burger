@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  max-width: 608px;
+  height: calc(100vh - 188px);
+  overflow: hidden;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-color: #8585AD #2F2F37 ;
+  scrollbar-width: thin;
+  position: relative;
+}

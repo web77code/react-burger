@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 36px;
+}
+
+.column {
+  width: 100%;
+}
+
+.column__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 313px;
+}
+
+.column_type_done li {
+  color: #00CCCC;
+}
