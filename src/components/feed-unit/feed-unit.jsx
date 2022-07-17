@@ -4,18 +4,16 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 import styles from "./feed-unit.module.css";
 
-const FeedUnit = () => {
+const FeedUnit = (props) => {
   return (
     <li className={styles.item + " p-6"}>
       <div className={styles.details}>
-        <p className="text text_type_digits-default">#034535</p>
+        <p className="text text_type_digits-default">#{props.number}</p>
         <p className="text text_type_main-default text_color_inactive">
-          Сегодня, 16:20 i-GMT+3
+          {props.updatedAt}
         </p>
       </div>
-      <h2 className="text text_type_main-medium">
-        Death Star Starship Main бургер
-      </h2>
+      <h2 className="text text_type_main-medium">{props.name}</h2>
       <div className={styles.content}>
         <div className={styles.ingredients}>
           <img src={inredientpreview} alt="" />
@@ -24,7 +22,9 @@ const FeedUnit = () => {
           <img src={inredientpreview} alt="" />
           <img src={inredientpreview} alt="" />
         </div>
-        <span className="text text_type_digits-default mr-2 ml-6">480</span>
+        <span className="text text_type_digits-default mr-2 ml-6">
+          {props.price}
+        </span>
         <CurrencyIcon type="primary" />
       </div>
     </li>
