@@ -18,3 +18,8 @@ export const BASIC_TYPES = {
   main: 'Начинки',
   sauce: 'Соусы'
 }
+
+export const WS_URL = {
+  feed: 'wss://norma.nomoreparties.space/orders/all',
+  personalFeed: 'wss://norma.nomoreparties.space/orders',
+}
