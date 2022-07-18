@@ -27,6 +27,15 @@ const FeedList = () => {
     return res;
   };
 
+  const getPreviewsList = (orderIngredients) => {
+    const res = orderIngredients.map((item) => {
+      const current = ingredientsList.find((el) => el._id === item);
+      return current.image_mobile;
+    })
+
+    return res;
+  }
+
   return (
     <div className={styles.container}>
       <ul className={styles.list}>
@@ -34,6 +43,8 @@ const FeedList = () => {
           ingredientsList.length > 0 &&
           orders.map(({ _id, ingredients, name, number, updatedAt }) => {
             const price = getPrice(ingredients);
+            const previews = getPreviewsList(ingredients);
+
             return (
               <FeedUnit
                 key={_id}
@@ -42,6 +53,7 @@ const FeedList = () => {
                 number={number}
                 price={price}
                 updatedAt={updatedAt}
+                previews={previews}
               />
             );
           })}

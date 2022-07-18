@@ -25,6 +25,7 @@
 .ingredients {
   margin-right: auto;
   font-size: 0;
+  display: inline-flex;
 }
 
 .ingredients img:not(:first-of-type) {

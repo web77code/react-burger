@@ -1,13 +1,11 @@
 import styledDate from '../../utils/date';
 
-import inredientpreview from "../../images/ingredient-preview.png";
-
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./feed-unit.module.css";
 
 const FeedUnit = (props) => {
-  const { number, updatedAt, name, price } = props;
+  const { number, updatedAt, name, price, previews } = props;
   const styledUpdateAt = styledDate(updatedAt);
 
   return (
@@ -21,11 +19,9 @@ const FeedUnit = (props) => {
       <h2 className="text text_type_main-medium">{name}</h2>
       <div className={styles.content}>
         <div className={styles.ingredients}>
-          <img src={inredientpreview} alt="" />
-          <img src={inredientpreview} alt="" />
-          <img src={inredientpreview} alt="" />
-          <img src={inredientpreview} alt="" />
-          <img src={inredientpreview} alt="" />
+          {previews.map((item, index) => {
+            return <img key={index} src={item} alt="" />;
+          })}
         </div>
         <span className="text text_type_digits-default mr-2 ml-6">
           {price}
