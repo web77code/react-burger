@@ -15,11 +15,12 @@ const OrderFeed = () => {
   const dispatch = useDispatch();
 
   const isFetching = useSelector((store) => store.feed.isFetching);
-  const feed = useSelector((store) => store.feed);
-  const fetchingFailed = feed.error;
+  const orders = useSelector((store) => store.feed.orders);
+  const fetchingFailed = useSelector((store) => store.feed.error);
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -32,7 +33,7 @@ const OrderFeed = () => {
           Лента заказов
         </h1>
         <div className={styles.container}>
-          {feed?.data?.success ? (
+          {orders.length > 0 ? (
             <>
               <FeedList />
               <Stats />

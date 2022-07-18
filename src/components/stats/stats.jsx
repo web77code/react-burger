@@ -7,24 +7,24 @@ import OrdersCompleted from "../orders-completed";
 import styles from "./stats.module.css";
 
 const Stats = () => {
-  const data = useSelector((store) => store.feed.data);
+  const { orders, total, totalToday } = useSelector((store) => store.feed);
 
   const [completeOrders, setCompleteOrders] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
 
   useEffect(() => {
-    if (data?.orders) {
-      const completeOrders = data.orders.filter((item, index) => {
+    if (orders.length) {
+      const completeOrders = orders.filter((item, index) => {
         return item.status === "done" && index < 20;
       });
       setCompleteOrders(completeOrders);
 
-      const pendingOrders = data.orders.filter((item, index) => {
+      const pendingOrders = orders.filter((item, index) => {
         return item.status === "pending" && index < 20;
       });
       setPendingOrders(pendingOrders);
     }
-  }, [data]);
+  }, [orders]);
 
   return (
     <div className={styles.container}>
@@ -32,8 +32,8 @@ const Stats = () => {
         completeOrders={completeOrders}
         pendingOrders={pendingOrders}
       />
-      <OrdersCompleted period="ever" count={data?.total} />
-      <OrdersCompleted period="today" count={data?.totalToday} />
+      <OrdersCompleted period="ever" count={total} />
+      <OrdersCompleted period="today" count={totalToday} />
     </div>
   );
 };
