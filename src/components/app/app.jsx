@@ -7,6 +7,7 @@ import { checkAuthUser } from "../../services/actions/auth";
 
 import AppHeader from "../app-header";
 import IngredientDetails from "../ingredient-details";
+import FeedDetails from '../feed-details';
 import Modal from "../modal";
 
 import {
@@ -52,6 +53,15 @@ const App = () => {
             children={<IngredientDetails header="Детали ингредиента" />}
           />
 
+          <Route path="/feed" exact>
+            <OrderFeedPage />
+          </Route>
+
+          <Route
+            path="/feed/:id"
+            children={<FeedDetails />}
+          />
+
           <ProtectedRoute path="/login" anonymousOnly exact>
             <LoginPage />
           </ProtectedRoute>
@@ -72,10 +82,6 @@ const App = () => {
           >
             <ResetPasswordPage />
           </ProtectedRoute>
-
-          <Route path="/feed">
-            <OrderFeedPage />
-          </Route>
 
           <ProtectedRoute path="/profile" authOnly exact>
             <ProfilePage />
@@ -99,6 +105,19 @@ const App = () => {
                 header="Детали ингредиента"
               >
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+        )}
+
+        {background && (
+          <Route
+            path="/feed/:id"
+            children={
+              <Modal
+                closeModal={() => history.goBack()}
+              >
+                <FeedDetails />
               </Modal>
             }
           />

@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+.item:hover {
+  cursor: pointer;
+}
+
 .details {
   display: flex;
   flex-flow: row nowrap;
