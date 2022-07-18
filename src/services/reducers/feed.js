@@ -10,7 +10,9 @@ const initialState = {
   wsUrl: '',
   isFetching: false,
   wsConnected: false,
-  data: null,
+  orders: [],
+  total: undefined,
+  totalToday: undefined,
   error: undefined,
 };
 
@@ -50,10 +52,17 @@ export const feedReducer = (state = initialState, action) => {
       };
     }
     case WS_GET_ORDERS: {
+      const { orders, total, totalToday } = JSON.parse(payload);
+      const filteredOrders = orders.filter((item) => {
+        return item.ingredients.every((el) => el !== null);
+      });
+
       return {
         ...state,
         error: undefined,
-        data: JSON.parse(payload),
+        orders: filteredOrders,
+        total,
+        totalToday,
       };
     }
     default:
