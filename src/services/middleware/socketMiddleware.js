@@ -13,10 +13,10 @@ const socketMiddleware = (wsUrl) => {
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { type } = action;
+      const { type, payload } = action;
 
       if (type === WS_CONNECTION_START) {
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(payload);
         dispatch({ type: WS_CONNECTION_FETCHING });
       }
 
