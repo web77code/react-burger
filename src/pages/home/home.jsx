@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
-import Modal from "../../components/modal/modal";
-import OrderDetails from "../../components/order-details/order-details";
-import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
+import Modal from "../../components/modal";
+import OrderDetails from "../../components/order-details";
+import BurgerIngredients from "../../components/burger-ingredients";
+import BurgerConstructor from "../../components/burger-constructor";
 import AnimatedLoader from "../../components/animated-loader";
-import ErrorNotification from "../../components/error-notification/error-notification";
+import ErrorNotification from "../../components/error-notification";
 
 import { getData } from "../../services/actions/burger-ingredients";
 import { clearConstructor } from "../../services/actions/burger-constructor";
