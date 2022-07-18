@@ -24,15 +24,26 @@
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: center;
+  gap: 24px;
 }
 
 .ingredients {
   margin-right: auto;
   font-size: 0;
   display: inline-flex;
+  /* width: 100%; */
+  max-width: 304px;
+  overflow: hidden;
 }
 
 .ingredients img:not(:first-of-type) {
   position: relative;
   left: -16px;
+}
+
+.price {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 208px;
 }

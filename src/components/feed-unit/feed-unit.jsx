@@ -33,8 +33,10 @@ const FeedUnit = (props) => {
             return <img key={index} src={item} alt="" />;
           })}
         </div>
-        <span className="text text_type_digits-default mr-2 ml-6">{price}</span>
-        <CurrencyIcon type="primary" />
+        <div className={styles.price}>
+          <span className="text text_type_digits-default mr-2 ml-6">{price}</span>
+          <CurrencyIcon type="primary" />
+        </div>
       </div>
     </li>
   );
