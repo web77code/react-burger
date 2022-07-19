@@ -1,19 +1,26 @@
-  export default function styledDate (data) {
-    const orderDate = new Date(data);
-    const now = new Date();
+export default function styledDate(data) {
+  const orderDate = new Date(data);
+  const currentDate = new Date();
 
-    let day = 'Сегодня';
+  let day;
+  const dayDelay = Math.abs(currentDate.getDay() - orderDate.getDay());
 
-    let distance = now.getTime() - orderDate.getTime();
-    let dayDelay = Math.floor(distance / 86400000);
-
-    let orderHour = orderDate.getHours();
-    let orderMonutes = orderDate.getMinutes();
-    let orderTimezone = -(orderDate.getTimezoneOffset()) / 60;
-
-    let res = `${day}, ${orderHour}:${orderMonutes} i-GMT+${orderTimezone}`;
-    
-    // console.log({data, orderDate, now, distance, dayDelay, res});
-
-    return res;
+  switch (dayDelay) {
+    case 0:
+      day = "Сегодня";
+      break;
+    case 1:
+      day = "Вчера";
+      break;
+    default:
+      day = `${dayDelay} дня назад`;
   }
+
+  const orderTimezone = -orderDate.getTimezoneOffset() / 60;
+  const orderTime = orderDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return `${day}, ${orderTime} i-GMT+${orderTimezone}`;
+}
