@@ -1,20 +1,40 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import styledDate from "../../utils/date";
+import { WS_URL } from "../../utils/constants";
+
+import { WS_CONNECTION_START } from "../../services/actions/orders";
+import { getData } from "../../services/actions/burger-ingredients";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import FeedImage from "../feed-image";
 
 import styles from "./feed-details.module.css";
 
-const FeedDetails = () => {
+const FeedDetails = ({ header }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
   const { id } = useParams();
   const { orders } = useSelector((store) => store.feed);
   const ingredientsList = useSelector((store) => store.ingredients.data);
   const [state, setState] = useState(null);
+
+  useEffect(() => {
+    if (!location.state) {
+      dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!ingredientsList.length && !location.state) {
+      dispatch(getData());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const getPrice = (orderIngredients) => {
@@ -43,7 +63,7 @@ const FeedDetails = () => {
       return res;
     };
 
-    if (orders.length) {
+    if (orders.length && ingredientsList.length) {
       const currentOrder = orders.find((item) => item._id === id);
 
       if (currentOrder) {
@@ -64,10 +84,12 @@ const FeedDetails = () => {
         });
       }
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orders, ingredientsList]);
 
   return (
     <div className={styles.container}>
+      {header && <h2 className="mt-30 text text_type_main-large">{header}</h2>}
       {state && (
         <>
           <p className="text text_type_digits-default mb-10">#{state.number}</p>
