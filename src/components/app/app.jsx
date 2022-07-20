@@ -18,8 +18,8 @@ import {
   ResetPasswordPage,
   OrderFeedPage,
   ProfilePage,
+  ProfileOrdersPage,
   NotFoundPage,
-  OrdersPage,
 } from "../../pages";
 
 import styles from "./app.module.css";
@@ -88,7 +88,7 @@ const App = () => {
           </ProtectedRoute>
 
           <ProtectedRoute path="/profile/orders" authOnly exact>
-            <OrdersPage />
+            <ProfileOrdersPage />
           </ProtectedRoute>
 
           <Route path="*">

@@ -1,9 +1,8 @@
 import ProfileSidebar from "../../components/profile-sidebar";
 
-import styles from "./orders.module.css";
+import styles from "./profile-orders.module.css";
 
-const Orders = () => {
-
+const ProfileOrders = () => {
   return (
     <div className={"mt-30 " + styles.container}>
       <ProfileSidebar description="В этом разделе вы можете посмотреть свою историю заказов" />
@@ -12,4 +11,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default ProfileOrders;
