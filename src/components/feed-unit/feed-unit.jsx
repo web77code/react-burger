@@ -10,6 +10,7 @@ import styles from "./feed-unit.module.css";
 const FeedUnit = (props) => {
   const location = useLocation();
   const history = useHistory();
+  const { pathname } = location;
 
   const { id, number, updatedAt, name, price, previews } = props;
 
@@ -20,7 +21,7 @@ const FeedUnit = (props) => {
   return (
     <li
       className={styles.item + " p-6"}
-      onClick={() => history.push(`/feed/${id}`, { background: location })}
+      onClick={() => history.push(`${pathname}/${id}`, { background: location })}
     >
       <div className={styles.details}>
         <p className="text text_type_digits-default">#{number}</p>
