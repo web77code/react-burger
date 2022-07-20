@@ -91,6 +91,11 @@ const App = () => {
             <ProfileOrdersPage />
           </ProtectedRoute>
 
+          <ProtectedRoute
+            path="/profile/orders/:id"
+            children={<FeedDetails header="Детали заказа" />}
+          />
+
           <Route path="*">
             <NotFoundPage />
           </Route>
@@ -114,7 +119,27 @@ const App = () => {
           <Route
             path="/feed/:id"
             children={
-              <Modal closeModal={() => history.goBack()} header="Детали заказа">
+              <Modal 
+                closeModal={() => history.goBack()} 
+                header="Детали заказа"
+              >
+                <FeedDetails />
+              </Modal>
+            }
+          />
+        )}
+
+        {/* 
+        * Переделать с учетом того, что только авторизованный пользовтаель имеет доступ!! 
+        */}
+        {background && (
+          <Route
+            path="/profile/orders/:id"
+            children={
+              <Modal 
+                closeModal={() => history.goBack()} 
+                header="Детали заказа"
+              >
                 <FeedDetails />
               </Modal>
             }
