@@ -1,13 +1,13 @@
 .container {
   width: 100%;
-  max-width: 608px;
   height: calc(100vh - 188px);
   overflow: hidden;
 }
 
 .list {
   list-style: none;
-  padding: 0;
+  padding: 0 8px 0 0;
+  box-sizing: border-box;  
   margin: 0;
   display: flex;
   flex-direction: column;
