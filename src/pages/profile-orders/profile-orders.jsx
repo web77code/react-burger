@@ -7,7 +7,7 @@ import { WS_URL } from "../../utils/constants";
 import { WS_CONNECTION_START } from "../../services/actions/orders";
 
 import ProfileSidebar from "../../components/profile-sidebar";
-import FeedList from "../../components/feed-list";
+import ProfileFeed from "../../components/profile-feed";
 
 import styles from "./profile-orders.module.css";
 
@@ -27,7 +27,7 @@ const ProfileOrders = () => {
   return (
     <div className={"mt-30 " + styles.container}>
       <ProfileSidebar description="В этом разделе вы можете посмотреть свою историю заказов" />
-      {orders.length > 0 && <FeedList />}
+      {orders.length > 0 && <ProfileFeed />}
     </div>
   );
 };
