@@ -41,7 +41,7 @@ const ProfileFeed = () => {
       <ul className={styles.list}>
         {orders.length > 0 &&
           ingredientsList.length > 0 &&
-          orders.map(({ _id, ingredients, name, number, updatedAt }) => {
+          orders.map(({ _id, ingredients, name, number, updatedAt, status }) => {
             const price = getPrice(ingredients);
             const previews = getPreviewsList(ingredients);
 
@@ -54,6 +54,7 @@ const ProfileFeed = () => {
                 price={price}
                 updatedAt={updatedAt}
                 previews={previews}
+                status={status}
               />
             );
           })}
