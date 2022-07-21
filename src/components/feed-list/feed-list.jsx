@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getData } from "../../services/actions/burger-ingredients";
+import { calculateOrderCost } from '../../utils/helpers';
 
 import FeedUnit from "../feed-unit";
 
@@ -16,16 +17,6 @@ const FeedList = () => {
   useEffect(() => {
     if (!ingredientsList.length) dispatch(getData());
   }, [ingredientsList, dispatch]);
-
-  const getPrice = (orderIngredients) => {
-    const res = orderIngredients.reduce((prev, item) => {
-      const currentIngredient = ingredientsList.find((el) => el._id === item);
-
-      return prev + currentIngredient.price;
-    }, 0);
-
-    return res;
-  };
 
   const getPreviewsList = (orderIngredients) => {
     const res = orderIngredients.map((item) => {
@@ -42,7 +33,7 @@ const FeedList = () => {
         {orders.length > 0 &&
           ingredientsList.length > 0 &&
           orders.map(({ _id, ingredients, name, number, updatedAt }) => {
-            const price = getPrice(ingredients);
+            const price = calculateOrderCost(ingredients,ingredientsList);
             const previews = getPreviewsList(ingredients);
 
             return (

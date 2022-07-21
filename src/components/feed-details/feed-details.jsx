@@ -7,6 +7,7 @@ import { WS_URL } from "../../utils/constants";
 
 import { WS_CONNECTION_START } from "../../services/actions/orders";
 import { getData } from "../../services/actions/burger-ingredients";
+import { calculateOrderCost } from '../../utils/helpers';
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedImage from "../feed-image";
@@ -22,56 +23,41 @@ const FeedDetails = ({ header }) => {
   const ingredientsList = useSelector((store) => store.ingredients.data);
   const [state, setState] = useState(null);
 
+  const getIngredientsList = (ingredients) => {
+    const res = ingredients.map((item) => {
+      const current = ingredientsList.find((el) => el._id === item);
+
+      return {
+        id: current._id,
+        name: current.name,
+        image: current.image_mobile,
+        count: 1,
+        price: current.price,
+      };
+    });
+
+    return res;
+  };
+
   useEffect(() => {
     if (!location.state) {
       dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+
+      if (!ingredientsList.length) {
+        dispatch(getData());
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!ingredientsList.length && !location.state) {
-      dispatch(getData());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const getPrice = (orderIngredients) => {
-      const res = orderIngredients.reduce((prev, item) => {
-        const currentIngredient = ingredientsList.find((el) => el._id === item);
-
-        return prev + currentIngredient.price;
-      }, 0);
-
-      return res;
-    };
-
-    const getIngredientsList = (ingredients) => {
-      const res = ingredients.map((item) => {
-        const current = ingredientsList.find((el) => el._id === item);
-
-        return {
-          id: current._id,
-          name: current.name,
-          image: current.image_mobile,
-          count: 1,
-          price: current.price,
-        };
-      });
-
-      return res;
-    };
-
     if (orders.length && ingredientsList.length) {
       const currentOrder = orders.find((item) => item._id === id);
 
       if (currentOrder) {
-        const number = currentOrder.number;
-        const name = currentOrder.name;
-        const status = currentOrder.status;
+        const { number, name, status } = currentOrder;
         const updateAt = styledDate(currentOrder.updatedAt);
-        const price = getPrice(currentOrder.ingredients);
+        const price = calculateOrderCost(currentOrder.ingredients,ingredientsList);
         const ingredients = getIngredientsList(currentOrder.ingredients);
 
         setState({
