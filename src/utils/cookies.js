@@ -1,4 +1,4 @@
-const setCookie = (name, value) => document.cookie = `${name}=${value}`;
+const setCookie = (name, value) => document.cookie = `${name}=${value}; path=/`;
 
 const getCookie = (name) => {
   const matches = document.cookie.match(
