@@ -11,7 +11,6 @@ import AnimatedLoader from "../../components/animated-loader";
 import ErrorNotification from "../../components/error-notification";
 
 import { getData } from "../../services/actions/burger-ingredients";
-import { clearConstructor } from "../../services/actions/burger-constructor";
 import { closeOrderPopup } from "../../services/actions/order-details";
 
 const Home = () => {
@@ -27,7 +26,6 @@ const Home = () => {
   }, [dispatch, ingredients]);
 
   const closeOrderDetails = () => {
-    dispatch(clearConstructor());
     dispatch(closeOrderPopup());
   };
 

@@ -1,4 +1,5 @@
 import { sendOrder } from '../../utils/api';
+import { clearConstructor } from './burger-constructor';
 import { logErrorToConsole } from '../../utils/utils';
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST';
@@ -18,6 +19,7 @@ export function sendData(burger) {
           type: SEND_ORDER_SUCCESS,
           payload: res.order.number,
         });
+        dispatch(clearConstructor());
       })
       .catch((err) => {
         dispatch({
