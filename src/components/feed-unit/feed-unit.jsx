@@ -12,7 +12,7 @@ const FeedUnit = (props) => {
   const history = useHistory();
   const { pathname } = location;
 
-  const { id, number, updatedAt, name, price, previews } = props;
+  const { id, number, updatedAt, name, price, previews, status } = props;
 
   const styledUpdateAt = styledDate(updatedAt);
   const previewsList = previews.slice(0, 6);
@@ -21,7 +21,9 @@ const FeedUnit = (props) => {
   return (
     <li
       className={styles.item + " p-6"}
-      onClick={() => history.push(`${pathname}/${id}`, { background: location })}
+      onClick={() =>
+        history.push(`${pathname}/${id}`, { background: location })
+      }
     >
       <div className={styles.details}>
         <p className="text text_type_digits-default">#{number}</p>
@@ -29,7 +31,10 @@ const FeedUnit = (props) => {
           {styledUpdateAt}
         </p>
       </div>
-      <h2 className="text text_type_main-medium">{name}</h2>
+      <div>
+        <h2 className="text text_type_main-medium">{name}</h2>
+        {status && <p className="mt-2 text text_type_main-default">{status}</p>}
+      </div>
       <div className={styles.content}>
         <div className={styles.ingredients}>
           {previewsList.map((item, index) => {
