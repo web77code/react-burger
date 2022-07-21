@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import { getCookie } from "../../utils/cookies";
 import styledDate from "../../utils/date";
 import { WS_URL } from "../../utils/constants";
 
@@ -15,9 +16,10 @@ import FeedImage from "../feed-image";
 
 import styles from "./feed-details.module.css";
 
-const FeedDetails = ({ header }) => {
+const FeedDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const match = useRouteMatch("/feed/:id");
 
   const { id } = useParams();
   const { orders } = useSelector((store) => store.feed);
@@ -42,8 +44,15 @@ const FeedDetails = ({ header }) => {
 
   useEffect(() => {
     if (!location.state) {
-      dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
-
+      if(match) {
+        dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+      } else {
+        const accessToken = getCookie("token");
+        const wsUrl = `${WS_URL.personalFeed}?token=${accessToken}`;
+    
+        dispatch({ type: WS_CONNECTION_START, payload: wsUrl });
+      }
+      
       if (!ingredientsList.length) {
         dispatch(getData());
       }
@@ -76,7 +85,6 @@ const FeedDetails = ({ header }) => {
 
   return (
     <div className={styles.container}>
-      {header && <h2 className="mt-30 text text_type_main-large">{header}</h2>}
       {state && (
         <>
           <p className="text text_type_digits-default mb-10">#{state.number}</p>

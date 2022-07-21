@@ -57,10 +57,7 @@ const App = () => {
             <OrderFeedPage />
           </Route>
 
-          <Route
-            path="/feed/:id"
-            children={<FeedDetails header="Детали заказа" />}
-          />
+          <Route path="/feed/:id" children={<FeedDetails />} />
 
           <ProtectedRoute path="/login" anonymousOnly exact>
             <LoginPage />
@@ -93,7 +90,9 @@ const App = () => {
 
           <ProtectedRoute
             path="/profile/orders/:id"
-            children={<FeedDetails header="Детали заказа" />}
+            children={<FeedDetails />}
+            authOnly
+            exact
           />
 
           <Route path="*">
@@ -119,27 +118,18 @@ const App = () => {
           <Route
             path="/feed/:id"
             children={
-              <Modal 
-                closeModal={() => history.goBack()} 
-                header="Детали заказа"
-              >
+              <Modal closeModal={() => history.goBack()}>
                 <FeedDetails />
               </Modal>
             }
           />
         )}
 
-        {/* 
-        * Переделать с учетом того, что только авторизованный пользовтаель имеет доступ!! 
-        */}
         {background && (
           <Route
             path="/profile/orders/:id"
             children={
-              <Modal 
-                closeModal={() => history.goBack()} 
-                header="Детали заказа"
-              >
+              <Modal closeModal={() => history.goBack()}>
                 <FeedDetails />
               </Modal>
             }

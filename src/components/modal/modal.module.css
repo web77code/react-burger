@@ -31,7 +31,9 @@
 }
 
 .closeButton {
-  margin-left: auto;
+  position: absolute;
+  top: 47px;
+  right: 37px;
   width: 24px;
   height: 24px;
   background-image: url(../../images/close-icon.svg);
