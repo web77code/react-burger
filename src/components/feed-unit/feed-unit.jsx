@@ -1,6 +1,7 @@
 import { useHistory, useLocation } from "react-router-dom";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import FeedStatus from "../feed-status";
 import FeedImage from "../feed-image";
 
 import styledDate from "../../utils/date";
@@ -33,7 +34,11 @@ const FeedUnit = (props) => {
       </div>
       <div>
         <h2 className="text text_type_main-medium">{name}</h2>
-        {status && <p className="mt-2 text text_type_main-default">{status}</p>}
+        {status && (
+          <div className="mt-2">
+            <FeedStatus status={status} />
+          </div>
+        )}
       </div>
       <div className={styles.content}>
         <div className={styles.ingredients}>

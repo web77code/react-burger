@@ -10,6 +10,7 @@ import { getData } from "../../services/actions/burger-ingredients";
 import { calculateOrderCost } from '../../utils/helpers';
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import FeedStatus from "../feed-status";
 import FeedImage from "../feed-image";
 
 import styles from "./feed-details.module.css";
@@ -80,7 +81,9 @@ const FeedDetails = ({ header }) => {
         <>
           <p className="text text_type_digits-default mb-10">#{state.number}</p>
           <h2 className="text text_type_main-medium mb-3">{state.name}</h2>
-          <p className="text text_type_main-default mb-15">{state.status}</p>
+          <div className="mb-15">
+            <FeedStatus status={state.status} />
+          </div>
           <h3 className="text text_type_main-medium mb-6">Состав:</h3>
           <div className={styles.ingredients + " mb-10"}>
             <ul className={styles.list}>
