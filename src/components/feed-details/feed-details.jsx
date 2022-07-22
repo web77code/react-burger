@@ -6,7 +6,7 @@ import { getCookie } from "../../utils/cookies";
 import styledDate from "../../utils/date";
 import { WS_URL } from "../../utils/constants";
 
-import { WS_CONNECTION_START } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT } from "../../services/actions/orders";
 import { getData } from "../../services/actions/burger-ingredients";
 import { calculateOrderCost } from '../../utils/helpers';
 
@@ -45,12 +45,12 @@ const FeedDetails = () => {
   useEffect(() => {
     if (!location.state) {
       if(match) {
-        dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+        dispatch({ type: WS_CONNECTION_INIT, payload: WS_URL.feed });
       } else {
         const accessToken = getCookie("token");
         const wsUrl = `${WS_URL.personalFeed}?token=${accessToken}`;
     
-        dispatch({ type: WS_CONNECTION_START, payload: wsUrl });
+        dispatch({ type: WS_CONNECTION_INIT, payload: wsUrl });
       }
       
       if (!ingredientsList.length) {

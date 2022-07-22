@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "../../utils/cookies";
 
 import { WS_URL } from "../../utils/constants";
-import { WS_CONNECTION_START } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT } from "../../services/actions/orders";
 
 import ProfileSidebar from "../../components/profile-sidebar";
 import ProfileFeed from "../../components/profile-feed";
@@ -15,20 +15,20 @@ import styles from "./profile-orders.module.css";
 const ProfileOrders = () => {
   const dispatch = useDispatch();
 
-  const orders = useSelector((store) => store.feed.orders);
+  const { isFetching, orders } = useSelector((store) => store.feed);
   const { sendRequest } = useSelector((store) => store.user);
 
   useEffect(() => {
     const accessToken = getCookie("token");
     const wsUrl = `${WS_URL.personalFeed}?token=${accessToken}`;
 
-    dispatch({ type: WS_CONNECTION_START, payload: wsUrl });
+    dispatch({ type: WS_CONNECTION_INIT, payload: wsUrl });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      {sendRequest && <AnimatedLoader />}
+      {(sendRequest || isFetching) && <AnimatedLoader />}
 
       <div className={"mt-30 " + styles.container}>
         <ProfileSidebar description="В этом разделе вы можете посмотреть свою историю заказов" />

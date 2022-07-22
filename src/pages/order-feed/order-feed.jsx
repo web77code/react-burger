@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { WS_URL } from "../../utils/constants";
-import { WS_CONNECTION_START } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT } from "../../services/actions/orders";
 
 import AnimatedLoader from "../../components/animated-loader";
 import ErrorNotification from "../../components/error-notification/error-notification";
@@ -19,7 +19,7 @@ const OrderFeed = () => {
   const fetchingFailed = useSelector((store) => store.feed.error);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: WS_URL.feed });
+    dispatch({ type: WS_CONNECTION_INIT, payload: WS_URL.feed });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -39,7 +39,7 @@ const OrderFeed = () => {
               <Stats />
             </>
           ) : (
-            <p className="text text_type_main-default">Заказов не найдено. Попробуйте обновить страницу.</p>
+            !isFetching && <p className="text text_type_main-default">Заказов не найдено. Попробуйте обновить страницу.</p> 
           )}
         </div>
       </div>

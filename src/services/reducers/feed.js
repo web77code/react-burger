@@ -2,12 +2,12 @@ import {
   WS_CONNECTION_FETCHING,
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSE,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDERS,
 } from "../actions/orders";
 
 const initialState = {
-  wsUrl: '',
   isFetching: false,
   wsConnected: false,
   orders: [],
@@ -23,8 +23,8 @@ export const feedReducer = (state = initialState, action) => {
     case WS_CONNECTION_FETCHING: {
       return {
         ...state,
+        orders: [],
         isFetching: true,
-        wsConnected: false,
         error: undefined,
       };
     }
@@ -48,11 +48,19 @@ export const feedReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        orders: [],
         wsConnected: false,
+        error: undefined,
+      };
+    }
+    case WS_CONNECTION_CLOSE: {
+      return {
+        ...state,
+        orders: [],
       };
     }
     case WS_GET_ORDERS: {
-      const { orders, total, totalToday } = JSON.parse(payload);
+      const { orders, total, totalToday } = payload;
       const filteredOrders = orders.filter((item) => {
         return item.ingredients.every((el) => el !== null);
       });
