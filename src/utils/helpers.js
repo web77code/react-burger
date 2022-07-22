@@ -7,3 +7,13 @@ export function calculateOrderCost(orderIdList, ingredientsData) {
 
   return res;
 };
+
+export function compareOrdersDate(a, b) {
+
+  const x = new Date(a.updatedAt);
+  const y = new Date(b.updatedAt);
+
+  if (x.getTime() > y.getTime()) return -1;
+  if (x.getTime() === y.getTime()) return 0;
+  if (x.getTime() < y.getTime()) return 1;
+}

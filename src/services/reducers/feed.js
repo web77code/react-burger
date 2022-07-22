@@ -7,6 +7,8 @@ import {
   WS_GET_ORDERS,
 } from "../actions/orders";
 
+import { compareOrdersDate } from "../../utils/helpers";
+
 const initialState = {
   isFetching: false,
   wsConnected: false,
@@ -61,9 +63,11 @@ export const feedReducer = (state = initialState, action) => {
     }
     case WS_GET_ORDERS: {
       const { orders, total, totalToday } = payload;
+
       const filteredOrders = orders.filter((item) => {
         return item.ingredients.every((el) => el !== null);
       });
+      filteredOrders.sort(compareOrdersDate);
 
       return {
         ...state,
