@@ -8,7 +8,7 @@ import { WS_URL } from "../../utils/constants";
 
 import { WS_CONNECTION_INIT } from "../../services/actions/orders";
 import { getData } from "../../services/actions/burger-ingredients";
-import { calculateOrderCost } from '../../utils/helpers';
+import { calculateOrderCost } from "../../utils/helpers";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedStatus from "../feed-status";
@@ -27,16 +27,25 @@ const FeedDetails = () => {
   const [state, setState] = useState(null);
 
   const getIngredientsList = (ingredients) => {
-    const res = ingredients.map((item) => {
-      const current = ingredientsList.find((el) => el._id === item);
+    const res = [];
 
-      return {
-        id: current._id,
-        name: current.name,
-        image: current.image_mobile,
-        count: 1,
-        price: current.price,
-      };
+    ingredients.forEach((item) => {
+      const itemIndex = res.findIndex(resEl => resEl.id === item);
+      
+      if (itemIndex === -1) {
+        const current = ingredientsList.find((el) => el._id === item);
+        
+        res.push({
+          id: current._id,
+          name: current.name,
+          image: current.image_mobile,
+          count: 1,
+          price: current.price,
+        });
+      } else {
+        const newCount = res[itemIndex].count + 1;
+        res[itemIndex] = { ...res[itemIndex], count: newCount };
+      }
     });
 
     return res;
@@ -44,15 +53,15 @@ const FeedDetails = () => {
 
   useEffect(() => {
     if (!location.state) {
-      if(match) {
+      if (match) {
         dispatch({ type: WS_CONNECTION_INIT, payload: WS_URL.feed });
       } else {
         const accessToken = getCookie("token");
         const wsUrl = `${WS_URL.personalFeed}?token=${accessToken}`;
-    
+
         dispatch({ type: WS_CONNECTION_INIT, payload: wsUrl });
       }
-      
+
       if (!ingredientsList.length) {
         dispatch(getData());
       }
@@ -67,8 +76,12 @@ const FeedDetails = () => {
       if (currentOrder) {
         const { number, name, status } = currentOrder;
         const updateAt = styledDate(currentOrder.updatedAt);
-        const price = calculateOrderCost(currentOrder.ingredients,ingredientsList);
+        const price = calculateOrderCost(
+          currentOrder.ingredients,
+          ingredientsList
+        );
         const ingredients = getIngredientsList(currentOrder.ingredients);
+        // console.log(ingredients);
 
         setState({
           number,
