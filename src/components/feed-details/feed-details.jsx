@@ -112,7 +112,7 @@ const FeedDetails = ({noModal}) => {
                 state.ingredients.map(({ id, name, image, count, price }) => {
                   return (
                     <li key={id} className={styles.item}>
-                      <FeedImage image={image} overlap="1" />
+                      <FeedImage image={image} overlap={1} />
                       <p className="text text_type_main-default ml-4">{name}</p>
                       <div className={styles.summary}>
                         <div className="mr-2">

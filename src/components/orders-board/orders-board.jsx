@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from './orders-board.module.css';
 
 const OrdersBoard = (props) => {
@@ -30,5 +32,10 @@ const OrdersBoard = (props) => {
     </div>
   );
 }
+
+OrdersBoard.propTypes = {
+  completeOrders: PropTypes.arrayOf(PropTypes.object).isRequired, 
+  pendingOrders: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default OrdersBoard;

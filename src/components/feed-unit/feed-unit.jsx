@@ -1,4 +1,5 @@
 import { useHistory, useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedStatus from "../feed-status";
@@ -68,6 +69,16 @@ const FeedUnit = (props) => {
       </div>
     </li>
   );
+};
+
+FeedUnit.propTypes = {
+  id: PropTypes.string.isRequired, 
+  number: PropTypes.number.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  previews: PropTypes.arrayOf(PropTypes.string).isRequired,
+  status: PropTypes.string,
 };
 
 export default FeedUnit;

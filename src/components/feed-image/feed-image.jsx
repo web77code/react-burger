@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from "./feed-image.module.css";
 
 const FeedImage = (props) => {
@@ -14,6 +16,12 @@ const FeedImage = (props) => {
       )}
     </div>
   );
+};
+
+FeedImage.propTypes = {
+  image: PropTypes.string.isRequired, 
+  more: PropTypes.number,
+  overlap: PropTypes.number.isRequired,
 };
 
 export default FeedImage;
