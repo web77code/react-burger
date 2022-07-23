@@ -22,6 +22,7 @@
 - Redux-thunk
 - React D&D
 - JWT authorization
+- WebSocket
 - HTML5 & CSS3
 - Flexbox
 - Grid layout
