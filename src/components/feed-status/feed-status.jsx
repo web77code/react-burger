@@ -23,6 +23,11 @@ const FeedStatus = ({ status }) => {
         statusColor = "#00CCCC";
         break;
       }
+      case "cancelled": {
+        statusText = "Отменен";
+        statusColor = "#d43e2b";
+        break;
+      }
       default:
         statusText = "";
     }
