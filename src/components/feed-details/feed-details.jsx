@@ -82,7 +82,6 @@ const FeedDetails = ({noModal}) => {
           ingredientsList
         );
         const ingredients = getIngredientsList(currentOrder.ingredients);
-        // console.log(ingredients);
 
         setState({
           number,
