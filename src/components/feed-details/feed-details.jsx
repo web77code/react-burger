@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import PropTypes from 'prop-types';
 
 import { getCookie } from "../../utils/cookies";
 import styledDate from "../../utils/date";
@@ -16,7 +17,7 @@ import FeedImage from "../feed-image";
 
 import styles from "./feed-details.module.css";
 
-const FeedDetails = () => {
+const FeedDetails = ({noModal}) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const match = useRouteMatch("/feed/:id");
@@ -97,7 +98,7 @@ const FeedDetails = () => {
   }, [orders, ingredientsList]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${noModal && "mt-30"}`}>
       {state && (
         <>
           <p className="text text_type_digits-default mb-10">#{state.number}</p>
@@ -142,6 +143,10 @@ const FeedDetails = () => {
       )}
     </div>
   );
+};
+
+FeedDetails.propTypes = {
+  noModal: PropTypes.bool,
 };
 
 export default FeedDetails;

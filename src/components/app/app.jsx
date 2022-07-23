@@ -57,7 +57,7 @@ const App = () => {
             <OrderFeedPage />
           </Route>
 
-          <Route path="/feed/:id" children={<FeedDetails />} />
+          <Route path="/feed/:id" children={<FeedDetails noModal />} />
 
           <ProtectedRoute path="/login" anonymousOnly exact>
             <LoginPage />
@@ -90,7 +90,7 @@ const App = () => {
 
           <ProtectedRoute
             path="/profile/orders/:id"
-            children={<FeedDetails />}
+            children={<FeedDetails noModal />}
             authOnly
             exact
           />

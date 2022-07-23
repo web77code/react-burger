@@ -28,7 +28,7 @@ const Modal = (props) => {
       <ModalOverlay closeModal={closeModal} />
       <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
         <button className={styles.closeButton} onClick={closeModal}></button>
-        {header?.length && <h2 className="text text_type_main-large">{header}</h2>}
+        {header?.length && <h2 className={"text text_type_main-large " + styles.header}>{header}</h2>}
         {children}
       </div>
     </div>

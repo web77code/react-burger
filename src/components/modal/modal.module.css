@@ -20,14 +20,8 @@
   border-radius: 40px;
 }
 
-.modalHeader {
-  width: 100%;
-  min-height: 64px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
+.header {
+  max-width: 580px;
 }
 
 .closeButton {
