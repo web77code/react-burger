@@ -28,7 +28,7 @@ const ProfileFeed = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={"mt-10 " + styles.container}>
       <ul className={styles.list}>
         {orders.length > 0 &&
           ingredientsList.length > 0 &&

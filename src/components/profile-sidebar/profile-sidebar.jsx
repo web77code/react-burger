@@ -16,7 +16,7 @@ const ProfileSidebar = ({ description }) => {
   };
 
   return (
-    <div className={"mr-15 " + styles.navigation}>
+    <div className={"mr-15 mt-30 " + styles.navigation}>
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
           <NavLink

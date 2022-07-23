@@ -30,7 +30,7 @@ const ProfileOrders = () => {
     <>
       {(sendRequest || isFetching) && <AnimatedLoader />}
 
-      <div className={"mt-30 " + styles.container}>
+      <div className={styles.container}>
         <ProfileSidebar description="В этом разделе вы можете посмотреть свою историю заказов" />
         {orders.length > 0 && <ProfileFeed />}
       </div>
