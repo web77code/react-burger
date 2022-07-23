@@ -7,7 +7,7 @@ import { getCookie } from "../../utils/cookies";
 import styledDate from "../../utils/date";
 import { WS_URL } from "../../utils/constants";
 
-import { WS_CONNECTION_INIT } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT, WS_CONNECTION_CLOSE } from "../../services/actions/orders";
 import { getData } from "../../services/actions/burger-ingredients";
 import { calculateOrderCost } from "../../utils/helpers";
 
@@ -65,6 +65,12 @@ const FeedDetails = ({noModal}) => {
 
       if (!ingredientsList.length) {
         dispatch(getData());
+      }
+    }
+
+    return function cleanup () {
+      if (!location.state) {
+        dispatch({ type: WS_CONNECTION_CLOSE });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
