@@ -84,7 +84,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} className={"mt-30 " + styles.form}>
       <div className={"mb-6 " + styles.input}>
         <Input
           ref={nameRef}

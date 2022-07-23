@@ -8,7 +8,7 @@ const OrderDetails = () => {
   const { number, sendRequest, requestFailed } = useSelector((state) => state.order);
 
   return (
-    <div className={styles.container + ' mt-4 mb-15'}>
+    <div className={styles.container + ' mt-20 mb-15'}>
       {sendRequest && !requestFailed && (
         <h3 className="text text_type_main-medium mb-15">
           Отправляем заказ...

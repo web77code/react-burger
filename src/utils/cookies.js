@@ -1,4 +1,4 @@
-const setCookie = (name, value) => document.cookie = `${name}=${value}`;
+const setCookie = (name, value) => document.cookie = `${name}=${value}; path=/`;
 
 const getCookie = (name) => {
   const matches = document.cookie.match(
@@ -7,6 +7,6 @@ const getCookie = (name) => {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-const removeCookie = (name) => document.cookie = `${name}=;expires=${new Date(0)}`;
+const removeCookie = (name) => document.cookie = `${name}=;expires=${new Date(0)}; path=/`;
 
 export { setCookie, getCookie, removeCookie };

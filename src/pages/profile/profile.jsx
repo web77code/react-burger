@@ -24,7 +24,7 @@ const Profile = () => {
     <>
       {sendRequest && <AnimatedLoader />}
 
-      <div className={"mt-30 " + styles.container}>
+      <div className={styles.container}>
         <ProfileSidebar description="В этом разделе вы можете изменить свои персональные данные" />
         <ProfileForm />
       </div>

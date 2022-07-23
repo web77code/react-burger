@@ -69,3 +69,16 @@ async function getNewToken() {
 
   return checkResponse(res);
 }
+
+export async function refreshToken() {
+  const renewTokens = await getNewToken();
+
+  if (!renewTokens.success) {
+    return Promise.reject(renewTokens);
+  } else {
+    localStorage.setItem("refreshToken", renewTokens.refreshToken);
+    setCookie("token", renewTokens.accessToken.split("Bearer ")[1]);
+
+    return Promise.resolve(renewTokens);
+  }
+}

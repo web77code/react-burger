@@ -7,6 +7,7 @@ import { checkAuthUser } from "../../services/actions/auth";
 
 import AppHeader from "../app-header";
 import IngredientDetails from "../ingredient-details";
+import FeedDetails from "../feed-details";
 import Modal from "../modal";
 
 import {
@@ -15,9 +16,10 @@ import {
   RegistrationPage,
   ForgotPasswordPage,
   ResetPasswordPage,
+  OrderFeedPage,
   ProfilePage,
+  ProfileOrdersPage,
   NotFoundPage,
-  OrdersPage,
 } from "../../pages";
 
 import styles from "./app.module.css";
@@ -51,6 +53,12 @@ const App = () => {
             children={<IngredientDetails header="Детали ингредиента" />}
           />
 
+          <Route path="/feed" exact>
+            <OrderFeedPage />
+          </Route>
+
+          <Route path="/feed/:id" children={<FeedDetails noModal />} />
+
           <ProtectedRoute path="/login" anonymousOnly exact>
             <LoginPage />
           </ProtectedRoute>
@@ -77,8 +85,15 @@ const App = () => {
           </ProtectedRoute>
 
           <ProtectedRoute path="/profile/orders" authOnly exact>
-            <OrdersPage />
+            <ProfileOrdersPage />
           </ProtectedRoute>
+
+          <ProtectedRoute
+            path="/profile/orders/:id"
+            children={<FeedDetails noModal />}
+            authOnly
+            exact
+          />
 
           <Route path="*">
             <NotFoundPage />
@@ -94,6 +109,28 @@ const App = () => {
                 header="Детали ингредиента"
               >
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+        )}
+
+        {background && (
+          <Route
+            path="/feed/:id"
+            children={
+              <Modal closeModal={() => history.goBack()}>
+                <FeedDetails />
+              </Modal>
+            }
+          />
+        )}
+
+        {background && (
+          <Route
+            path="/profile/orders/:id"
+            children={
+              <Modal closeModal={() => history.goBack()}>
+                <FeedDetails />
               </Modal>
             }
           />

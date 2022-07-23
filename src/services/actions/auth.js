@@ -90,8 +90,8 @@ export function sendLogoutRequest() {
     api.logoutFromAccount(data)
       .then((res) => {
         if (res.success) {
-          localStorage.removeItem("refreshToken");
           removeCookie("token");
+          localStorage.removeItem("refreshToken");
 
           dispatch({
             type: LOGOUT_SUCCESSED,
