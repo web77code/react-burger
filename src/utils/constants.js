@@ -23,3 +23,5 @@ export const WS_URL = {
   feed: 'wss://norma.nomoreparties.space/orders/all',
   personalFeed: 'wss://norma.nomoreparties.space/orders',
 }
+
+export const DAY_FORM = ['дней', 'день', 'дня', 'дня', 'дня', 'дней', 'дней', 'дней', 'дней', 'дней'];

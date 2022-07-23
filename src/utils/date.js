@@ -1,19 +1,30 @@
+import { DAY_FORM } from "./constants";
+
 export default function styledDate(data) {
   const orderDate = new Date(data);
   const currentDate = new Date();
+  let day = "";
 
-  let day;
-  const dayDelay = Math.abs(currentDate.getDay() - orderDate.getDay());
+  const dayDelay = currentDate.getDate() - orderDate.getDate();
 
-  switch (dayDelay) {
-    case 0:
-      day = "Сегодня";
-      break;
-    case 1:
-      day = "Вчера";
-      break;
-    default:
-      day = `${dayDelay} дня назад`;
+  if (dayDelay === 0) {
+    day = "Сегодня";
+
+  } else if (dayDelay === 1) {
+    day = "Вчера";
+
+  } else if (dayDelay >= 2 && dayDelay <= 4) {
+    day = `${dayDelay} дня назад`;
+
+  } else if (dayDelay >= 5 && dayDelay <= 19) {
+    day = `${dayDelay} дней назад`;
+
+  } else if (dayDelay > 19) {
+    const dayDelayToString = dayDelay.toString();
+    const lastSymbol = dayDelayToString[dayDelayToString.length - 1];
+    const dayForm = DAY_FORM[lastSymbol];
+
+    day = `${dayDelay} ${dayForm} назад`;
   }
 
   const orderTimezone = -orderDate.getTimezoneOffset() / 60;
