@@ -4,7 +4,6 @@ const socketMiddleware = (wsActions) => {
   return (store) => {
     let socket = null;
     let isConnected = false;
-    let hasOldConnection = false;
     let reconnectTimer = 0;
     let url = "";
 
@@ -24,19 +23,14 @@ const socketMiddleware = (wsActions) => {
       if (type === wsInit) {
         dispatch({ type: wsFetching });
 
-        if (isConnected) {
-          hasOldConnection = true;
-          socket.close();
-        }
-
         url = action.payload;
         socket = new WebSocket(url);
         isConnected = true;
       }
 
       if (socket) {
+
         socket.onopen = (event) => {
-          hasOldConnection = false;
           dispatch({ type: onOpen, payload: event });
         };
 
@@ -70,7 +64,7 @@ const socketMiddleware = (wsActions) => {
         socket.onclose = (event) => {
           dispatch({ type: onClose, payload: event });
 
-          if (isConnected && !hasOldConnection) {
+          if (isConnected) {
             reconnectTimer = setTimeout(() => {
               dispatch({ type: wsInit, payload: url });
             }, 5000);

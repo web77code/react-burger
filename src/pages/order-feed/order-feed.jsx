@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { WS_URL } from "../../utils/constants";
-import { WS_CONNECTION_INIT } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT, WS_CONNECTION_CLOSE } from "../../services/actions/orders";
 
 import AnimatedLoader from "../../components/animated-loader";
 import ErrorNotification from "../../components/error-notification/error-notification";
@@ -20,6 +20,10 @@ const OrderFeed = () => {
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_INIT, payload: WS_URL.feed });
+
+    return function cleanup() {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

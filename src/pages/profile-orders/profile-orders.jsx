@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "../../utils/cookies";
 
 import { WS_URL } from "../../utils/constants";
-import { WS_CONNECTION_INIT } from "../../services/actions/orders";
+import { WS_CONNECTION_INIT, WS_CONNECTION_CLOSE } from "../../services/actions/orders";
 
 import ProfileSidebar from "../../components/profile-sidebar";
 import ProfileFeed from "../../components/profile-feed";
@@ -23,6 +23,10 @@ const ProfileOrders = () => {
     const wsUrl = `${WS_URL.personalFeed}?token=${accessToken}`;
 
     dispatch({ type: WS_CONNECTION_INIT, payload: wsUrl });
+
+    return function cleanup() {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
